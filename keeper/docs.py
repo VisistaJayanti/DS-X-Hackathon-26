@@ -23,6 +23,8 @@ def find_line(text, quote):
         return None
     lines = text.splitlines()
     for i, line in enumerate(lines):
+        if not line.strip():  # a blank line followed by the quote would otherwise match first
+            continue
         window = normalize(" ".join(lines[i:i + 6]))
         if window.startswith(q[: max(8, min(len(q), 40))]) or q in normalize(line):
             if q in window:

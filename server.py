@@ -1,5 +1,6 @@
 """Coverage Keeper web app. Run: python server.py  (then open http://127.0.0.1:8000)"""
 import json
+import mimetypes
 import os
 import queue
 import threading
@@ -8,7 +9,7 @@ from pathlib import Path
 
 import uvicorn
 from fastapi import FastAPI, File, HTTPException, UploadFile
-from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
+from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
@@ -18,7 +19,23 @@ from keeper.llm import LLMUnavailable
 ROOT = Path(__file__).resolve().parent
 CASES = ROOT / "data" / "cases"
 CUSTOM = ROOT / "data" / "custom"  # navigator-entered cases; git-ignored
+RUNS = config.CACHE_DIR / "runs"  # last pipeline trace per case, so UI pages survive a refresh; git-ignored
+# The Windows registry can map .js to text/plain, which browsers refuse for ES modules.
+mimetypes.add_type("application/javascript", ".js")
+mimetypes.add_type("font/woff2", ".woff2")
 app = FastAPI(title="Coverage Keeper")
+
+
+@app.middleware("http")
+async def revalidate_ui(request, call_next):
+    """Browsers otherwise reuse cached UI modules after an update; a stale main.js that imports a removed page
+    module breaks the whole app. "no-cache" still uses the cache, but checks the ETag first (a cheap 304)."""
+    resp = await call_next(request)
+    if request.url.path in ("/", "/classic") or request.url.path.startswith("/static/"):
+        resp.headers["Cache-Control"] = "no-cache"
+    return resp
+
+
 app.mount("/static", StaticFiles(directory=ROOT / "static"), name="static")
 (ROOT / "data" / "documents").mkdir(parents=True, exist_ok=True)
 app.mount("/documents", StaticFiles(directory=ROOT / "data" / "documents"), name="documents")  # rendered synthetic PDFs/PNGs
@@ -35,6 +52,12 @@ def load_case(cid):
 @app.get("/")
 def index():
     return FileResponse(ROOT / "static" / "index.html")
+
+
+@app.get("/classic")
+def classic():
+    """The original single-page UI (scripts/record_demo.py drives it)."""
+    return FileResponse(ROOT / "static" / "classic.html")
 
 
 @app.get("/api/status")
@@ -117,6 +140,8 @@ def run(cid: str, lang: str = "", verifier: int = 1, engine: str = "auto", pack:
     def work():
         try:
             trace = pipeline.run(c, use_llm=use_llm, use_verifier=bool(verifier), lang=lang or None, on_event=q.put)
+            RUNS.mkdir(parents=True, exist_ok=True)
+            (RUNS / f"{cid}.json").write_text(json.dumps(trace, ensure_ascii=False, default=str), encoding="utf-8")
             q.put({"event": "trace", "trace": trace})
         except Exception as e:  # surface errors to the UI instead of hanging the stream
             q.put({"event": "error", "error": f"{type(e).__name__}: {e}"})
@@ -132,6 +157,14 @@ def run(cid: str, lang: str = "", verifier: int = 1, engine: str = "auto", pack:
             yield f"data: {json.dumps(ev, ensure_ascii=False, default=str)}\n\n"
 
     return StreamingResponse(stream(), media_type="text/event-stream")
+
+
+@app.get("/api/cases/{cid}/last-run")
+def last_run(cid: str):
+    p = RUNS / f"{cid}.json"
+    if not p.exists():
+        raise HTTPException(404, "no saved run for this case")
+    return json.loads(p.read_text(encoding="utf-8"))
 
 
 @app.get("/api/packs")
@@ -150,14 +183,6 @@ def get_pack(pack_id: str):
 @app.get("/api/plan")
 def get_plan(top_k: int = 40):
     return plan.plan(top_k)
-
-
-@app.get("/api/eval")
-def get_eval():
-    p = ROOT / "eval" / "results.json"
-    if not p.exists():
-        return JSONResponse({"available": False})
-    return json.loads(p.read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":

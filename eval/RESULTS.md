@@ -1,13 +1,13 @@
 # Coverage Keeper evaluation results
 
-Generated 2026-10-24 16:06 · as-of date 2026-10-24 · pack `masshealth_ce_2027`
+Generated 2026-10-24 18:35 · as-of date 2026-10-24 · pack `masshealth_ce_2027`
 
 54 synthetic cases (27 dev / 27 test); headline numbers on the 'test' split. The deterministic engine was written alongside the synthetic document templates (all splits), so its scores are an upper bound on template-like documents, not evidence of generalisation. Small n: one case = ~4 points.
 
-| Run | Split | n | Top-1 | Top-2 | Sufficiency | Gap P | Gap R | Outcome (R/R/T) | Key date | Transition told eligible | Unsupported claims | Latency/case | Cost/case |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Deterministic - verifier OFF | test | 27 | 100% | 100% | 100% | 100% | 100% | 100% | 100% (n=4) | 0% (n=4) | 0/429 (0%) | 3 ms | $0.0000 |
-| Deterministic - verifier ON | test | 27 | 100% | 100% | 100% | 100% | 100% | 100% | 100% (n=4) | 0% (n=4) | 0/429 (0%) | 3 ms | $0.0000 |
+| Run | Split | n | Top-1 | Top-2 | Sufficiency | Gap P | Gap R | Outcome (R/R/T) | Key date | Transition told eligible | Eligible told to move | Unsupported claims | Latency/case | Cost/case |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Deterministic - verifier OFF | test | 27 | 100% | 100% | 100% | 100% | 100% | 100% | 100% (n=4) | 0% (n=4) | 0% (n=23) | 0/429 (0%) | 1 ms | $0.0000 |
+| Deterministic - verifier ON | test | 27 | 100% | 100% | 100% | 100% | 100% | 100% | 100% (n=4) | 0% (n=4) | 0% (n=23) | 0/429 (0%) | 1 ms | $0.0000 |
 
 **Verifier ablation:** Deterministic: unsupported claims 0/429 (0.0%) without the verifier vs 0/429 (0.0%) with it, judged by grounding checks. Deterministic drafts are template-built from grounded facts, so they are supported by construction; the ablation is meaningful for the LLM drafter (run with --llm).
 

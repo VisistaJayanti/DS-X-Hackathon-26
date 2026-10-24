@@ -119,7 +119,7 @@ python server.py                   # http://127.0.0.1:8000
   - To use Claude instead, set `ANTHROPIC_API_KEY`, or `PP_MODELS=anthropic`.
   - Without any key the app runs in `replay` mode: cached responses if present, otherwise deterministic engines.
 - **Free-tier limits:** requests are paced per provider (`PP_RPM_<PROVIDER>`), and Groq's completion budget is capped to fit its tokens-per-minute limit (`PP_MAX_TOKENS_<PROVIDER>`). If a provider's daily quota runs out mid-run, the affected stages fall back to deterministic. Responses are cached, so re-running `--llm` the next day resumes where it stopped. Free tiers may retain prompts, so use them with synthetic data only.
-- **Evaluation (one command):** `python eval/run_eval.py` (deterministic) or `python eval/run_eval.py --llm` (LLM agents + independent judge; cached, so re-runs are free). Results go to `eval/RESULTS.md` and the UI's Evaluation tab.
+- **Evaluation (one command):** `python eval/run_eval.py` (deterministic) or `python eval/run_eval.py --llm` (LLM agents + independent judge; cached, so re-runs are free). Results go to `eval/RESULTS.md` (the website has no evaluation tab).
 - **Demo safety:** after one `--llm` run, every response is cached in `cache/`, so `PP_MODE=replay python server.py` replays the demo without network.
 - **Check the rulebook quotes:** `python scripts/check_rulebook_quotes.py` confirms every "fetched_verbatim" quote appears in the downloaded Federal Register / SHVS text.
 
@@ -213,7 +213,8 @@ The calibration also shows where the product needs to grow. In Lowell, 9% of res
 
 ```
 server.py                 FastAPI app + SSE pipeline stream
-static/                   UI (plan view, case view, evaluation, packs, responsible AI)
+static/                   UI: Today, Members, case pages (Summary, Documents, Letters, Evidence,
+                          How it was decided), Policy packs, Safeguards; original UI at /classic
 keeper/                   core agents (program-agnostic)
   pipeline.py             orchestrator + trace
   risk.py  plan.py        risk flagging, plan view

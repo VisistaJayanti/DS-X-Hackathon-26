@@ -10,6 +10,7 @@ import re
 from .. import config, rulebook
 from .. import docs as D
 from ..llm import LLMUnavailable, call_json
+from .intake import classify_rules
 from ..textutil import add_months, age_on, find_dates, find_month, first_date, guess_language, money
 
 FACT_TYPES = [
@@ -391,19 +392,63 @@ def _ground(facts, docs_by_id):
     return kept, dropped
 
 
+# ------------------------------------------------------------------ cross-check: the LLM must not miss what the rules find
+# Fact types whose value is a judgement (the LLM's reading is preferred when it gives one): coverage is per document.
+INTERPRETIVE = {"work_impact", "care_recipient_condition", "recovery", "doc_language", "diagnosis"}
+_VALUE_KEYS = ("hours", "amount", "date", "status", "percent", "part", "credits", "relation")
+
+
+def _value(f):
+    v = next((f.get(k) for k in _VALUE_KEYS if f.get(k) not in (None, "")), None)
+    return f"{float(v):g}" if isinstance(v, (int, float)) and not isinstance(v, bool) else str(v).lower() if v is not None else None
+
+
+def _uncovered(facts, reference, hard_only=False):
+    """Facts in `reference` (the rules engine's) that `facts` (the LLM's) do not cover: same document and type, and the
+    same line or the same value. hard_only limits this to plain facts the rules read reliably (hours, money, dates)."""
+    out = []
+    for r in reference:
+        if hard_only and r["type"] in INTERPRETIVE:
+            continue
+        same = [f for f in facts if f["doc_id"] == r["doc_id"] and f["type"] == r["type"]]
+        if r["type"] in INTERPRETIVE:
+            # A judgement the AI gave counts; one it left without its status (e.g. work impact) does not.
+            hit = any(f.get("status") or not r.get("status") for f in same)
+        else:
+            hit = any(f.get("line") == r.get("line") or (_value(f) is not None and _value(f) == _value(r)) for f in same)
+        if not hit:
+            out.append(r)
+    return out
+
+
 def run(case, intake_out, meter, use_llm=True):
     types = {d["doc_id"]: d["doc_type"] for d in intake_out["documents"]}
     docs_by_id = {d["doc_id"]: d for d in case["documents"]}
     facts, engine, note = None, "deterministic", None
     if use_llm:
+        # The rules engine reads the same documents in milliseconds, classifying them itself so an LLM intake slip
+        # can't mislead it. Its plain facts (hours, earnings, birth dates...) are a floor the LLM reading must reach.
+        reference = []
+        for d in case["documents"]:
+            reference.extend(extract_rules(d, classify_rules(d), case["member"]))
+        reference, _ = _ground(reference, docs_by_id)
+        clean = lambda data: _ground([{k: v for k, v in f.items() if v is not None} for f in data["facts"]], docs_by_id)[0]
         user = (f"Member basics (from navigator intake): age {case['member'].get('age')}, "
                 f"household: {case['member'].get('household', '')}\n\n" +
                 "\n\n".join(f"<document id=\"{d['doc_id']}\" type=\"{types[d['doc_id']]}\">\n{D.numbered(d['text'])}\n</document>"
                             for d in case["documents"]))
         try:
-            data, _ = call_json("extract", SYSTEM.replace("{context}", rulebook.program()["domain_context"]), user, SCHEMA, meter=meter)
+            data, info = call_json("extract", SYSTEM.replace("{context}", rulebook.program()["domain_context"]), user, SCHEMA, meter=meter,
+                                   accept=lambda d: not _uncovered(clean(d), reference, hard_only=True))
             facts = [{k: v for k, v in f.items() if v is not None} for f in data["facts"]]
             engine = "llm"
+            missed = _uncovered(_ground([dict(f) for f in facts], docs_by_id)[0], reference)
+            if missed:
+                facts += [dict(r) for r in missed]
+                engine = "llm+rules"
+                what = ", ".join(sorted({f"{r['type'].replace('_', ' ')} in {r['doc_id']}" for r in missed}))
+                again = "" if info.get("accepted", True) else " (in a saved reply)" if info.get("cached") else " even after asking again"
+                note = f"The AI reading missed {len(missed)} fact(s) the rules found ({what}){again}; added them from the rules."
         except LLMUnavailable as e:
             note = str(e)
     if facts is None:

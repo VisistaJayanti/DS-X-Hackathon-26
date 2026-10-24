@@ -10,7 +10,6 @@ const PSTAT = { met: ["ok", "supported"], insufficient: ["warn", "needs evidence
 function tab(name) {
   document.querySelectorAll("#tabs button").forEach((b) => b.classList.toggle("active", b.dataset.tab === name));
   document.querySelectorAll(".tab").forEach((t) => t.classList.toggle("active", t.id === "tab-" + name));
-  if (name === "eval") loadEval();
   if (name === "packs") renderPacks();
 }
 document.querySelectorAll("#tabs button").forEach((b) => (b.onclick = () => tab(b.dataset.tab)));
@@ -264,7 +263,7 @@ function renderResults() {
     h += `<div class="card ${fin.request ? "" : "full"}"><h2>Verifier log</h2><p>${ver.stats.claims} claims checked · <b>${ver.stats.removed} removed</b> · ${ver.stats.flagged} flagged</p>
       ${ver.removed.map((r) => `<div class="removed"><b>Removed</b> [${r.where}] ${esc(r.text)}<div>${r.reasons.map(esc).join("; ")}</div></div>`).join("")}
       ${ver.flagged.map((r) => `<div class="flagged"><b>Flagged</b> [${r.where}] ${esc(r.text)}<div>${r.reasons.map(esc).join("; ")}</div></div>`).join("")}
-      ${!ver.removed.length && !ver.flagged.length ? '<p class="muted">Every claim had an exact quote and/or a valid rule. (Deterministic drafts are grounded by construction; LLM drafts are where the verifier earns its keep — see Evaluation.)</p>' : ""}
+      ${!ver.removed.length && !ver.flagged.length ? '<p class="muted">Every claim had an exact quote and/or a valid rule. (Deterministic drafts are grounded by construction; LLM drafts are where the verifier earns its keep.)</p>' : ""}
       <p class="muted small">Checks: quote present verbatim · rule exists · numbers appear in the support · no eligibility-decision language${t.mode === "live" || stageOut("verify") && t.stages.find((s) => s.key === "verify").engine.includes("llm") ? " · LLM entailment" : ""}.</p></div>`;
   } else {
     h += `<div class="card"><h2>Verifier log</h2><p><span class="badge bad">Verifier OFF</span> Drafts are shown unchecked (ablation mode).</p></div>`;
@@ -277,35 +276,6 @@ function msgHTML(m) {
   const body = m.channel === "sms" ? `<div class="bubble">${esc(m.lines.join(" "))}</div>` : m.lines.map((l) => `<div>${esc(l)}</div>`).join("");
   const ch = { sms: "Text message", phone: "Phone / voice-agent script", mail: "Mail: notice helper", chw_visit: "Community health worker visit" }[m.channel];
   return `<div class="msg ${m.channel}"><div class="ch">${ch} <span class="muted small" style="text-transform:none">· ${esc(m.why)}${m.engine !== "template" ? " · " + m.engine : ""}</span></div>${body}</div>`;
-}
-
-// ------------------------------------------------------------------ evaluation
-async function loadEval() {
-  const e = await api("/api/eval");
-  if (e.available === false) { $("#eval").innerHTML = '<div class="card">No results yet. Run <code>python eval/run_eval.py</code>.</div>'; return; }
-  const pct = (x) => (x == null ? "–" : (100 * x).toFixed(0) + "%");
-  const runs = e.runs;
-  let h = `<div class="card"><h2>Evaluation</h2><p class="muted">${esc(e.note)}</p>
-    <table class="tbl"><tr><th>Run</th><th>Split</th><th>n</th><th>Pathway top-1</th><th>Pathway top-2</th><th>Sufficiency acc.</th><th>Gap precision</th><th>Gap recall</th><th>Retain/Recover/Transition</th><th>Key date</th><th>Transition told "still eligible"</th><th>Unsupported claims</th><th>Latency / case</th><th>Cost / case</th></tr>
-    ${runs.map((r) => `<tr><td><b>${esc(r.name)}</b></td><td>${r.split}</td><td>${r.n}</td><td>${pct(r.top1)}</td><td>${pct(r.top2)}</td><td>${pct(r.sufficiency_acc)}</td>
-      <td>${pct(r.gap_precision)}</td><td>${pct(r.gap_recall)}</td><td>${pct(r.outcome_acc)}</td><td>${pct(r.key_date_acc)} <span class="muted small">n=${r.key_date_n}</span></td>
-      <td>${pct(r.transition_told_eligible_rate)} <span class="muted small">n=${r.transition_n}</span></td><td>${r.unsupported_rate == null ? "–" : pct(r.unsupported_rate) + ` <span class="muted small">(${r.unsupported}/${r.claims})</span>`}</td>
-      <td>${r.latency_ms_mean} ms</td><td>$${r.cost_usd_mean.toFixed(4)}</td></tr>`).join("")}</table></div>`;
-  if (e.ablation) h += `<div class="card"><h2>Verifier ablation (headline)</h2><p>${esc(e.ablation.summary)}</p></div>`;
-  if (e.risk) {
-    h += `<div class="card"><h2>Risk flagging (roster of ${e.risk.n}, ${e.risk.positives} labelled would-lose-for-paperwork)</h2>
-      <table class="tbl"><tr><th>Method</th>${e.risk.ks.map((k) => `<th>P@${k}</th><th>R@${k}</th>`).join("")}</tr>
-      ${e.risk.methods.map((m) => `<tr><td>${esc(m.name)}</td>${m.at.map((a) => `<td>${pct(a.precision)}</td><td>${pct(a.recall)}</td>`).join("")}</tr>`).join("")}</table>
-      <p class="muted small">${esc(e.risk.note)}</p></div>`;
-  }
-  if (e.fairness) {
-    for (const [dim, rows] of Object.entries(e.fairness)) {
-      h += `<div class="card"><h2>Fairness: by ${dim.replace("_", " ")}</h2><table class="tbl"><tr><th>${dim}</th><th>n</th><th>Top-1</th><th>Gap recall</th><th>Gap precision</th></tr>
-        ${rows.map((r) => `<tr><td>${esc(r.group)}</td><td>${r.n}</td><td>${pct(r.top1)}</td><td>${pct(r.gap_recall)}</td><td>${pct(r.gap_precision)}</td></tr>`).join("")}</table></div>`;
-    }
-  }
-  if (e.errors?.length) h += `<div class="card"><h2>Errors (test split, primary run)</h2>${e.errors.map((x) => `<div class="claim"><b>${x.case_id}</b> ${esc(x.title)}<div class="muted small">${esc(x.detail)}</div></div>`).join("")}</div>`;
-  $("#eval").innerHTML = h;
 }
 
 // ------------------------------------------------------------------ packs

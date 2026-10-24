@@ -45,7 +45,15 @@ On Windows use `PYTHONIOENCODING=utf-8` when printing non-English output to the 
 
 ```
 server.py                  FastAPI; /api/run/{case} streams stage events over SSE
-static/                    vanilla JS UI, no build step (index.html, app.js, style.css)
+static/                    vanilla JS UI, no build step, ES modules with a hash router (one URL per page)
+  index.html               shell: sidebar + <main id="view">
+  js/main.js               router: #/ today, #/members, #/case/<id>[/documents|letters|evidence|agents],
+                           #/policies, #/safeguards (legacy #autorun=<id> still works); no evaluation page,
+                           results live in eval/RESULTS.md
+  js/store.js js/ui.js     state, API cache, SSE runs; plain-language labels, window bar, provenance notes
+  js/pages/*.js            one module per page; each exports render(el, args, params)
+  css/app.css fonts/       design tokens at the top of app.css; fonts vendored (OFL) so it works offline
+  classic.html/.js/.css    the original single-page UI at /classic (scripts/record_demo.py drives it)
 keeper/
   pipeline.py              orchestrator: risk -> outreach -> intake -> extract -> rules -> gaps -> outcome
                            -> followup -> draft -> verify -> translate; records a per-stage trace
@@ -80,6 +88,13 @@ Key design points:
   - Free models don't all enforce schemas, so every stage output goes through `llm._conform`, and stage code can rely on the schema shape.
   - The `anthropic` preset uses Haiku 5.5 for intake; Sonnet 5.5 for extraction, drafting, translation and the verifier; and Opus 5.5 for interpretation and the eval judge. Opus/Sonnet 5.5 reject forced `tool_choice` and disabled thinking, so we use `output_config.format` JSON schemas and don't send temperature.
 - Changing a prompt or schema changes the cache key, so re-run `--llm` to refill the cache before a demo.
+- **UI keeps model output visibly separate from rule output.** Case pages split by what produced them: Summary and Evidence are rules (`provenance("rules", ...)`), Letters are AI- or template-drafted and verified (`provenance("ai" | "template", ...)`, serif "sheets"), and "How it was decided" is the trace. Keep each new section labelled by how it was produced, and use plain language (`ui.js` label maps) rather than codes or IDs in headings. The server saves each case's last trace to `cache/runs/` so pages survive a refresh.
+- **The rules engine is a floor for LLM extraction.**
+  - `extract.run` reads every document with the rules engine too (milliseconds) and checks the LLM facts against it.
+  - A reply missing a plain fact the rules found (hours, earnings, a birth date) is never cached; a cached one is deleted and re-asked once (`call_json(accept=...)`).
+  - Anything still missing is added from the rules, with engine `llm+rules` and a note.
+  - Why: one bad Nemotron sample read 1 of 5 facts on C15, and the response cache replayed it until the fix, telling a member with three valid pathways to move to new coverage.
+  - The eval's "Eligible told to move" column tracks that error.
 - **LLM prompts must define every enum they use.** Bare type names in a prompt led an open model to file a member's own caregiving statement as the care recipient's condition, and to read "weakness" as a stated disability. `extract.FACT_DESC` defines each fact type, and intake shows each document type's label from the pack. Interpretive fields must say what counts as "explicit".
 
 ## Data and evaluation conventions

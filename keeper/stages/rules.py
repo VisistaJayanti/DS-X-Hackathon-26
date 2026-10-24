@@ -264,7 +264,7 @@ def interpret_letters(case, facts, types, meter, use_llm, stable_years=5):
             cats = {f.get("category") for f in diag}
             rec = _of(dfacts, "recovery")
             stable = bool(rec) and max(f.get("years", 0) for f in rec) >= stable_years
-            imp = _of(dfacts, "work_impact")
+            imp = [f for f in _of(dfacts, "work_impact") if f.get("status")]  # an AI reading may omit the status
             impact = imp[0]["status"] if imp else "absent"
             qual = ("serious_or_complex" if "serious_complex" in cats else "disabling_mental_disorder" if "mental" in cats
                     else "substance_use_disorder" if ("sud" in cats and not stable) else "adl_impairing_disability" if "physical" in cats

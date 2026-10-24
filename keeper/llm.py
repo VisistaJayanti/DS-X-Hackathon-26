@@ -236,43 +236,57 @@ def _ready(spec):
     return provider, model
 
 
-def call_json(stage, system, user, schema, max_tokens=16000, effort="low", meter=None):
-    """Return (parsed_json, info). info has model, cached, usage, cost, ms.
+def call_json(stage, system, user, schema, max_tokens=16000, effort="low", meter=None, accept=None):
+    """Return (parsed_json, info). info has model, cached, usage, cost, ms, accepted.
 
+    accept(data) -> bool is an optional sanity check. Models are not deterministic, and one bad sample must not
+    be replayed from the cache forever: a response that fails the check is never cached, a cached one that fails
+    it is deleted and asked again (live mode), and a live call is retried once. If every attempt fails, the last
+    response is returned with info["accepted"] = False so the stage can repair it.
     Raises LLMUnavailable if the mode/cache/network/response does not allow a result.
     """
     model = config.MODELS[stage]
     payload = {"model": model, "system": system, "user": user, "schema": schema, "effort": effort}
     key = hashlib.sha256(json.dumps(payload, sort_keys=True).encode("utf-8")).hexdigest()[:32]
     path = _cache_path(key)
+    check = accept or (lambda d: True)
 
     if path.exists():
         rec = json.loads(path.read_text(encoding="utf-8"))
-        info = {"model": model, "cached": True, "usage": rec["usage"], "cost": cost_usd(model, rec["usage"]),
-                "ms": rec.get("ms", 0)}
-        if meter is not None:
-            meter.append(info)
-        return rec["data"], info
+        ok = check(rec["data"])
+        if ok or config.MODE != "live":
+            info = {"model": model, "cached": True, "usage": rec["usage"], "cost": cost_usd(model, rec["usage"]),
+                    "ms": rec.get("ms", 0), "accepted": ok}
+            if meter is not None:
+                meter.append(info)
+            return rec["data"], info
+        path.unlink(missing_ok=True)
 
     if config.MODE != "live":
         raise LLMUnavailable(f"{config.MODE} mode and no cached response")
     provider, model_id = _ready(model)
 
-    t0 = time.time()
-    try:
-        if provider == "anthropic":
-            data, usage = _anthropic(model_id, system, user, schema, max_tokens, effort)
-        else:
-            data, usage = _openai_compat(provider, model_id, system, user, schema, max_tokens, effort)
-    except LLMUnavailable:
-        raise
-    except Exception as e:  # network, auth, rate limit, missing SDK: the pipeline degrades to deterministic
-        raise LLMUnavailable(f"API error: {type(e).__name__}: {e}")
+    t0, usage = time.time(), {"input_tokens": 0, "output_tokens": 0}
+    for _attempt in range(2 if accept else 1):
+        try:
+            if provider == "anthropic":
+                data, u = _anthropic(model_id, system, user, schema, max_tokens, effort)
+            else:
+                data, u = _openai_compat(provider, model_id, system, user, schema, max_tokens, effort)
+        except LLMUnavailable:
+            raise
+        except Exception as e:  # network, auth, rate limit, missing SDK: the pipeline degrades to deterministic
+            raise LLMUnavailable(f"API error: {type(e).__name__}: {e}")
+        usage = {k: usage[k] + u.get(k, 0) for k in usage}
+        ok = check(data)
+        if ok:
+            break
     ms = int((time.time() - t0) * 1000)
 
-    with _lock:
-        path.write_text(json.dumps({"data": data, "usage": usage, "ms": ms, "model": model}), encoding="utf-8")
-    info = {"model": model, "cached": False, "usage": usage, "cost": cost_usd(model, usage), "ms": ms}
+    if ok:
+        with _lock:
+            path.write_text(json.dumps({"data": data, "usage": usage, "ms": ms, "model": model}), encoding="utf-8")
+    info = {"model": model, "cached": False, "usage": usage, "cost": cost_usd(model, usage), "ms": ms, "accepted": ok}
     if meter is not None:
         meter.append(info)
     return data, info

@@ -92,6 +92,8 @@ def score_case(c, trace):
         "outcome": s.get("outcome"), "want_outcome": want_oc, "outcome_ok": s.get("outcome") == want_oc,
         "key_date_ok": (s.get("key_date") == lab["key_date"]) if lab.get("key_date") else None,
         "told_eligible": told_still_eligible(trace) if want_oc == "transition" else None,
+        # The costlier error in the other direction: someone who can keep coverage is routed to new coverage.
+        "told_to_move": (s.get("outcome") == "transition") if want_oc != "transition" else None,
     }
 
 
@@ -110,10 +112,12 @@ def aggregate(rows):
 def outcome_metrics(rows):
     keyed = [r for r in rows if r.get("key_date_ok") is not None]
     trans = [r for r in rows if r.get("told_eligible") is not None]
+    stay = [r for r in rows if r.get("told_to_move") is not None]
     return {"outcome_acc": sum(r["outcome_ok"] for r in rows) / len(rows) if rows else None,
             "key_date_acc": sum(r["key_date_ok"] for r in keyed) / len(keyed) if keyed else None, "key_date_n": len(keyed),
             "transition_told_eligible_rate": sum(r["told_eligible"] for r in trans) / len(trans) if trans else None,
-            "transition_n": len(trans)}
+            "transition_n": len(trans),
+            "eligible_told_to_move_rate": sum(r["told_to_move"] for r in stay) / len(stay) if stay else None, "eligible_n": len(stay)}
 
 
 def run_engine(cases, name, use_llm, split):
@@ -217,13 +221,14 @@ def main():
 
     (ROOT / "eval" / "results.json").write_text(json.dumps(results, indent=1, ensure_ascii=False), encoding="utf-8")
     md = ["# Coverage Keeper evaluation results", "", f"Generated {results['generated']} · as-of date {results['as_of']} · pack `{results['pack']}`", "",
-          results["note"], "", "| Run | Split | n | Top-1 | Top-2 | Sufficiency | Gap P | Gap R | Outcome (R/R/T) | Key date | Transition told eligible | Unsupported claims | Latency/case | Cost/case |",
-          "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
+          results["note"], "", "| Run | Split | n | Top-1 | Top-2 | Sufficiency | Gap P | Gap R | Outcome (R/R/T) | Key date | Transition told eligible | Eligible told to move | Unsupported claims | Latency/case | Cost/case |",
+          "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
     pct = lambda x: "–" if x is None else f"{100 * x:.0f}%"
     for r in results["runs"]:
         md.append(f"| {r['name']} | {r['split']} | {r['n']} | {pct(r['top1'])} | {pct(r['top2'])} | {pct(r['sufficiency_acc'])} | "
                   f"{pct(r['gap_precision'])} | {pct(r['gap_recall'])} | {pct(r['outcome_acc'])} | {pct(r['key_date_acc'])} (n={r['key_date_n']}) | "
-                  f"{pct(r['transition_told_eligible_rate'])} (n={r['transition_n']}) | {r['unsupported']}/{r['claims']} ({pct(r['unsupported_rate'])}) | "
+                  f"{pct(r['transition_told_eligible_rate'])} (n={r['transition_n']}) | "
+                  f"{pct(r.get('eligible_told_to_move_rate'))} (n={r.get('eligible_n', 0)}) | {r['unsupported']}/{r['claims']} ({pct(r['unsupported_rate'])}) | "
                   f"{r['latency_ms_mean']} ms | ${r['cost_usd_mean']:.4f} |")
     md += ["", "**Verifier ablation:** " + results["ablation"]["summary"], "", "## Risk flagging", "",
            "| Method | " + " | ".join(f"P@{k} | R@{k}" for k in results["risk"]["ks"]) + " |", "|---|" + "---|---|" * len(results["risk"]["ks"])]

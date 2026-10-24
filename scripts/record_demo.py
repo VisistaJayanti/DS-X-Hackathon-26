@@ -13,7 +13,7 @@ from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "demo_video"
-URL = "http://127.0.0.1:8000/"
+URL = "http://127.0.0.1:8000/classic"  # the original single-page UI this script drives
 W, H = 1440, 900
 
 CAPTION_JS = """(t) => {
@@ -138,11 +138,7 @@ def main():
         time.sleep(1.2)
         cap("Options listed neutrally, the enrol-by date from the federal special-enrollment rule, and a warm hand-off to a navigator.", 7)
 
-        # ---- Evaluation, packs, responsible AI
-        page.click("nav button[data-tab='eval']")
-        time.sleep(1.5)
-        cap("Evaluated on 54 labelled synthetic cases with a held-out split: pathways, gaps, outcomes, deadlines.", 5)
-        cap("Risk flags: 80% precision in the top 20, vs 15% deadline-first — on a roster calibrated to real CMS and Census data.", 6)
+        # ---- Policy packs, responsible AI
         page.click("nav button[data-tab='packs']")
         time.sleep(1.5)
         cap("Nothing is hard-coded to Massachusetts: every rule lives in a swappable policy pack, quoted from its source.", 6)
