@@ -1,9 +1,33 @@
 """Runtime configuration. Everything is overridable by environment variable."""
 import os
+import re
 from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+
+
+def _load_dotenv(path):
+    """Read KEY=value lines from the local, git-ignored .env (template: .env.example). Variables already set
+    in the environment win, and empty values are skipped so the template's blank placeholders do nothing."""
+    if not path.exists():
+        return
+    for line in path.read_text(encoding="utf-8-sig").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        k, v = line.split("=", 1)
+        k = k.strip().removeprefix("export ").strip()
+        v = v.strip()
+        if v[:1] in ('"', "'"):
+            v = v[1:].split(v[0], 1)[0]
+        else:
+            v = re.sub(r"(^|\s)#.*$", "", v).strip()  # inline comment
+        if k and v and k not in os.environ:
+            os.environ[k] = v
+
+
+_load_dotenv(ROOT / ".env")
 CACHE_DIR = Path(os.environ.get("PP_CACHE_DIR", ROOT / "cache"))
 
 # Fixed "today" so deadlines in the demo and the evaluation are reproducible.

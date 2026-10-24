@@ -81,7 +81,16 @@ python server.py                   # http://127.0.0.1:8000
 
 `python data/fetch_calibration.py` re-downloads the public CMS and Census data and rewrites `data/calibration/ma_calibration.json`. You only need it to refresh the data: the JSON is committed, so the roster generator runs offline.
 
-- **Live LLM mode (free APIs):** set `GROQ_API_KEY`, `GEMINI_API_KEY` and `CEREBRAS_API_KEY` as environment variables, never in a file in the repo. All three have free tiers and no local model is needed. A stage whose provider has no key falls back to its deterministic engine, so one key is enough to start.
+- **Live LLM mode (free APIs):** each person uses their own keys. Copy the template and fill in your keys:
+
+  ```bash
+  cp .env.example .env              # Windows PowerShell: Copy-Item .env.example .env
+  # then edit .env: GROQ_API_KEY=..., GEMINI_API_KEY=..., CEREBRAS_API_KEY=...
+  ```
+
+  - `.env` is git-ignored and never committed. Keys already set as system environment variables take precedence over it.
+  - All three providers have free tiers, and no local model is needed.
+  - A stage whose provider has no key falls back to its deterministic engine, so one key is enough to start.
   - Override any stage with `PP_MODEL_<STAGE>=provider:model`. Providers: `groq`, `gemini`, `cerebras`, `openrouter` (free models end in `:free`), and `custom` for any other OpenAI-compatible endpoint via `PP_CUSTOM_BASE_URL` and `PP_CUSTOM_API_KEY`.
   - To use Claude instead, set `ANTHROPIC_API_KEY`, or `PP_MODELS=anthropic`.
   - Without any key the app runs in `replay` mode: cached responses if present, otherwise deterministic engines.
