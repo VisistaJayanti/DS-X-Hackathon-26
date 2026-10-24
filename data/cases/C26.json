@@ -1,0 +1,36 @@
+{
+  "case_id": "C26",
+  "title": "Gig income just below $580",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Kayla M. (synthetic)",
+    "age": 25,
+    "language": "en",
+    "household": "Lives with sister",
+    "notice_received_date": "2026-10-15"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "gig.txt",
+      "text": "QuickCart Shopper - Monthly Statement\nShopper: Kayla M.\nStatement month: September 2026\nTotal earnings (incl. tips): $571.40\nOrders completed: 64"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "NONE"
+    ],
+    "evidence_sufficient": false,
+    "gaps": [
+      "INCOME_SHORT",
+      "NO_QUALIFYING_PATHWAY"
+    ],
+    "notes": ""
+  },
+  "split": "test"
+}

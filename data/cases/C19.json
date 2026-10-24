@@ -1,0 +1,33 @@
+{
+  "case_id": "C19",
+  "title": "Currently pregnant (prenatal letter with due date)",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Nadia E. (synthetic)",
+    "age": 22,
+    "language": "en",
+    "household": "Lives with mother",
+    "notice_received_date": "2026-10-18"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "prenatal.txt",
+      "text": "Codman Square Health Center - OB/GYN\n10/02/2026\n\nTo Whom It May Concern:\n\nRE: Nadia E.   DOB: 01/05/2004\n\nThis letter confirms that Ms. E. is currently pregnant and receiving prenatal care at our health center.\nEstimated due date: 03/22/2027.\n\nSincerely,\nSarah Kim, CNM\nCodman Square Health Center - OB/GYN"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "EX_PREGNANT_POSTPARTUM"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": ""
+  },
+  "split": "dev"
+}

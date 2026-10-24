@@ -1,0 +1,38 @@
+{
+  "case_id": "C30",
+  "title": "Job training (MassHire) 60 hrs + volunteering 25 hrs",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Derek W. (synthetic)",
+    "age": 49,
+    "language": "en",
+    "household": "Lives alone",
+    "notice_received_date": "2026-10-05"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "masshire.txt",
+      "text": "MASSHIRE BOSTON CAREER CENTER\nWIOA Training Participation Record\nParticipant: Derek W.\nProgram: CDL Class B training\nSeptember 2026 attendance: 60 hours"
+    },
+    {
+      "doc_id": "D2",
+      "filename": "vol.txt",
+      "text": "Habitat for Humanity Greater Boston - Volunteer Record\nDerek W.\nSept 2026: 25 hours"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "WORK_80"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": ""
+  },
+  "split": "test"
+}

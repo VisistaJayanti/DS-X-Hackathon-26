@@ -1,0 +1,36 @@
+{
+  "case_id": "C17",
+  "title": "Postpartum near the 12-month boundary",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Camila V. (synthetic)",
+    "age": 30,
+    "language": "es",
+    "household": "Self + infant",
+    "notice_received_date": "2026-10-14"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "discharge.txt",
+      "text": "MERCY MEDICAL CENTER SPRINGFIELD\nDischarge Summary - Obstetrics\nPatient name: Camila V.\nDelivered: 11/10/2025 (cesarean section)\nInfant: male, 7 lb 2 oz"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "EX_PREGNANT_POSTPARTUM",
+      "EX_CAREGIVER_CHILD"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [
+      "POSTPARTUM_ENDING"
+    ],
+    "notes": "Delivery 2025-11-10: postpartum placeholder window ends 2026-11-10, within 30 days of today."
+  },
+  "split": "dev"
+}

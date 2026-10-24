@@ -1,0 +1,38 @@
+{
+  "case_id": "C20",
+  "title": "75 hrs work + 3-credit class (combination meets 80)",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Andre L. (synthetic)",
+    "age": 23,
+    "language": "en",
+    "household": "Lives with roommates",
+    "notice_received_date": "2026-10-09"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "volunteer_log.txt",
+      "text": "GREATER BOSTON FOOD BANK - VOLUNTEER HOURS VERIFICATION\nVolunteer: Andre L.\nMonth: September 2026\nTotal hours: 75\nSupervisor: Dana Whitfield, Volunteer Manager (617-555-0142)"
+    },
+    {
+      "doc_id": "D2",
+      "filename": "enrollment.txt",
+      "text": "BUNKER HILL COMMUNITY COLLEGE - OFFICE OF THE REGISTRAR\nEnrollment Verification\nStudent: Andre L.\nTerm: Fall 2026 (09/02/2026 - 12/18/2026)\nCredit hours: 3\nEnrollment status: Less than half-time"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "COMBINATION"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": "75 volunteer + 3 credits x 3 x 4.33 = 39 -> 114 hrs."
+  },
+  "split": "test"
+}

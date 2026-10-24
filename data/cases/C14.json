@@ -1,0 +1,35 @@
+{
+  "case_id": "C14",
+  "title": "Caregiver attestation but no evidence the person cared for has a disability",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Gary B. (synthetic)",
+    "age": 55,
+    "language": "en",
+    "household": "Self + brother",
+    "notice_received_date": "2026-10-16"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "attest.txt",
+      "text": "Statement of care\nMy name is Gary B. I live with my brother Steve and take care of him most days.\nI drive him to appointments and help with cooking and cleaning.\nGary B., 10/10/2026"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "EX_CAREGIVER_DISABLED"
+    ],
+    "evidence_sufficient": false,
+    "gaps": [
+      "CAREGIVER_DISABILITY_PROOF"
+    ],
+    "notes": ""
+  },
+  "split": "test"
+}

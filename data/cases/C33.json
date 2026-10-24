@@ -1,0 +1,34 @@
+{
+  "case_id": "C33",
+  "title": "Haitian Creole speaker, English pay stubs, 88 hours",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Jean-Baptiste P. (synthetic)",
+    "age": 46,
+    "language": "ht",
+    "household": "Self + wife",
+    "notice_received_date": "2026-10-02"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "stubs.txt",
+      "text": "MATTAPAN HOME HEALTH\nEARNINGS STATEMENT\nEmployee: Jean-Baptiste P.\nPay period: 09/01/2026 - 09/15/2026\nPay date: 09/15/2026\nRate: $17.50/hr\nRegular Hours worked: 44.0\nGross pay: $770.00\nNet pay: $677.60\nYTD gross: $10,780.00\n\n- - - - - - - - - - - - - - -\n\nMATTAPAN HOME HEALTH\nEARNINGS STATEMENT\nEmployee: Jean-Baptiste P.\nPay period: 09/16/2026 - 09/30/2026\nPay date: 09/30/2026\nRate: $17.50/hr\nRegular Hours worked: 44.0\nGross pay: $770.00\nNet pay: $677.60\nYTD gross: $10,780.00"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "WORK_80",
+      "INCOME_580"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": ""
+  },
+  "split": "dev"
+}

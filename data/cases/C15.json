@@ -1,0 +1,40 @@
+{
+  "case_id": "C15",
+  "title": "Works 90 hrs AND parent of a 5-year-old (two valid pathways)",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Fatima A. (synthetic)",
+    "age": 27,
+    "language": "en",
+    "household": "Self + daughter (5)",
+    "notice_received_date": "2026-10-11"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "stubs.txt",
+      "text": "QUINCY MARKET GROCERS\nEARNINGS STATEMENT\nEmployee: Fatima A.\nPay period: 09/01/2026 - 09/14/2026\nPay date: 09/14/2026\nRate: $16.00/hr\nRegular Hours worked: 44.0\nGross pay: $704.00\nNet pay: $619.52\nYTD gross: $9,856.00\n\n- - - - - - - - - - - - - - -\n\nQUINCY MARKET GROCERS\nEARNINGS STATEMENT\nEmployee: Fatima A.\nPay period: 09/15/2026 - 09/28/2026\nPay date: 09/28/2026\nRate: $16.00/hr\nRegular Hours worked: 46.0\nGross pay: $736.00\nNet pay: $647.68\nYTD gross: $10,304.00"
+    },
+    {
+      "doc_id": "D2",
+      "filename": "birth.txt",
+      "text": "BIRTH CERTIFICATE (copy)\nName of child: Amira A.\nDate of Birth: May 9, 2021\nMother: Fatima A."
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "EX_CAREGIVER_CHILD",
+      "WORK_80",
+      "INCOME_580"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": ""
+  },
+  "split": "dev"
+}

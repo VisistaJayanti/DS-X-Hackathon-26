@@ -1,0 +1,36 @@
+{
+  "case_id": "C34",
+  "title": "Pay stubs only from March 2026 (outside lookback)",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Robert N. (synthetic)",
+    "age": 53,
+    "language": "en",
+    "household": "Lives alone",
+    "notice_received_date": "2026-10-14"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "old_stubs.txt",
+      "text": "SPRINGFIELD WAREHOUSE INC\nEARNINGS STATEMENT\nEmployee: Robert N.\nPay period: 03/01/2026 - 03/14/2026\nPay date: 03/14/2026\nRate: $16.00/hr\nRegular Hours worked: 45.0\nGross pay: $720.00\nNet pay: $633.60\nYTD gross: $10,080.00\n\n- - - - - - - - - - - - - - -\n\nSPRINGFIELD WAREHOUSE INC\nEARNINGS STATEMENT\nEmployee: Robert N.\nPay period: 03/15/2026 - 03/28/2026\nPay date: 03/28/2026\nRate: $16.00/hr\nRegular Hours worked: 45.0\nGross pay: $720.00\nNet pay: $633.60\nYTD gross: $10,080.00"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "WORK_80",
+      "INCOME_580"
+    ],
+    "evidence_sufficient": false,
+    "gaps": [
+      "OUTSIDE_LOOKBACK"
+    ],
+    "notes": ""
+  },
+  "split": "test"
+}

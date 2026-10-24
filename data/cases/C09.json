@@ -1,0 +1,33 @@
+{
+  "case_id": "C09",
+  "title": "Chinese-speaking member: oncology letter, on chemotherapy, cannot work",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Wei L. (synthetic)",
+    "age": 61,
+    "language": "zh",
+    "household": "Lives with spouse",
+    "notice_received_date": "2026-10-10"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "onc_letter.txt",
+      "text": "Chinatown Community Oncology Clinic\nOctober 7, 2026\n\nTo Whom It May Concern:\n\nRE: Wei L.   DOB: 04/18/1965\n\nMr. L. is receiving chemotherapy every two weeks for stage III colon cancer.\nTreatment side effects include severe fatigue and neuropathy.\nHe is not able to work during treatment, which is expected to continue through at least March 2027.\n\nSincerely,\nDr. Helen Zhou, MD\nChinatown Community Oncology Clinic"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "EX_MEDICALLY_FRAIL"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": ""
+  },
+  "split": "dev"
+}

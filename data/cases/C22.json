@@ -1,0 +1,33 @@
+{
+  "case_id": "C22",
+  "title": "Full-time university student",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Minh T. (synthetic)",
+    "age": 20,
+    "language": "vi",
+    "household": "Lives in dorm",
+    "notice_received_date": "2026-10-06"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "enroll.txt",
+      "text": "UNIVERSITY OF MASSACHUSETTS LOWELL\nENROLLMENT VERIFICATION CERTIFICATE\nStudent: Minh T.\nTerm: Fall 2026, 09/03/2026 - 12/20/2026\nEnrollment status: Full-time (15 credits)"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "EDUCATION"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": ""
+  },
+  "split": "test"
+}

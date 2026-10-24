@@ -1,0 +1,33 @@
+{
+  "case_id": "C31",
+  "title": "Restaurant server, 82 hours on stubs (tipped wage)",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Jenny P. (synthetic)",
+    "age": 32,
+    "language": "en",
+    "household": "Self + roommate",
+    "notice_received_date": "2026-10-11"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "stubs.txt",
+      "text": "HARBOR GRILLE\nEARNINGS STATEMENT\nEmployee: Jenny P.\nPay period: 08/31/2026 - 09/13/2026\nPay date: 09/13/2026\nRate: $6.75/hr\nRegular Hcurs worked: 40.0\nGross pay: $270.00\nNet pay: $237.60\nYTD gross: $3,780.00\n\n- - - - - - - - - - - - - - -\n\nHARBOR GRILLE\nEARNINGS STATEMENT\nEmployee: Jenny P.\nPay period: 09/14/2026 - 09/27/2026\nPay date: 09/27/2026\nRate: $6.75/hr\nRegular Hcurs worked: 42.0\nGross pay: $283.50\nNet pay: $249.48\nYTD gross: $3,969.00"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "WORK_80"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": "Messy OCR ('Hcurs'). 82 hrs x $6.75 tipped base = $553.50, so income pathway is NOT met."
+  },
+  "split": "dev"
+}

@@ -1,0 +1,35 @@
+{
+  "case_id": "C23",
+  "title": "Letter says 'part-time' without half-time determination",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Grace O. (synthetic)",
+    "age": 34,
+    "language": "en",
+    "household": "Self + spouse",
+    "notice_received_date": "2026-10-13"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "enroll.txt",
+      "text": "Quinsigamond Community College\nDear Student Services,\nGrace O. is enrolled as a part-time student for the Fall 2026 term.\nRegistrar"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "EDUCATION"
+    ],
+    "evidence_sufficient": false,
+    "gaps": [
+      "ENROLLMENT_STATUS_UNSTATED"
+    ],
+    "notes": ""
+  },
+  "split": "dev"
+}

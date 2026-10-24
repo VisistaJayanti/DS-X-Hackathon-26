@@ -1,0 +1,38 @@
+{
+  "case_id": "C10",
+  "title": "Parent of a 13-year-old (exempt)",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Keisha R. (synthetic)",
+    "age": 38,
+    "language": "en",
+    "household": "Self + son (13)",
+    "notice_received_date": "2026-10-05"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "birth_cert.txt",
+      "text": "COMMONWEALTH OF MASSACHUSETTS\nCERTIFIED COPY OF BIRTH RECORD\nChild's name: Malik R.\nDate of birth: 02/03/2013\nMother: Keisha R.\nPlace of birth: Brockton, MA"
+    },
+    {
+      "doc_id": "D2",
+      "filename": "attest.txt",
+      "text": "Caregiver statement\nI, Keisha R., live with my son Malik R. and I am his primary caregiver.\nSigned: Keisha R.   Date: 10/07/2026"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "EX_CAREGIVER_CHILD"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": "Child born 2013-02-03 is 13 as of Oct 2026."
+  },
+  "split": "test"
+}

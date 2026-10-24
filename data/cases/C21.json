@@ -1,0 +1,41 @@
+{
+  "case_id": "C21",
+  "title": "75 hrs volunteering + school letter with no credits or status",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Sofia D. (synthetic)",
+    "age": 21,
+    "language": "pt",
+    "household": "Lives with family",
+    "notice_received_date": "2026-10-19"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "volunteer.txt",
+      "text": "Cape Verdean Community Center\nVolunteer hours - September 2026\nSofia D. ......... 75 hours\nCoordinator: Paulo Andrade"
+    },
+    {
+      "doc_id": "D2",
+      "filename": "school.txt",
+      "text": "ROXBURY COMMUNITY COLLEGE\nTo whom it may concern,\nThis is to confirm that Sofia D. is registered for courses this fall semester.\nRegistrar's Office"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "COMBINATION",
+      "EDUCATION"
+    ],
+    "evidence_sufficient": false,
+    "gaps": [
+      "ENROLLMENT_STATUS_UNSTATED"
+    ],
+    "notes": ""
+  },
+  "split": "dev"
+}

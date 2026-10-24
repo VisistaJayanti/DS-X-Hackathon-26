@@ -1,0 +1,33 @@
+{
+  "case_id": "C27",
+  "title": "Earnings exactly $580.00",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Ibrahim S. (synthetic)",
+    "age": 42,
+    "language": "en",
+    "household": "Lives with family",
+    "notice_received_date": "2026-10-07"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "stub.txt",
+      "text": "LOWELL LAUNDROMAT\nEARNINGS STATEMENT\nEmployee: Ibrahim S.\nPay period: 09/01/2026 - 09/30/2026\nPay date: 09/30/2026\nRate: $14.50/hr\nRegular Hours worked: 40.0\nGross pay: $580.00\nNet pay: $510.40\nYTD gross: $8,120.00"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "INCOME_580"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": ""
+  },
+  "split": "dev"
+}

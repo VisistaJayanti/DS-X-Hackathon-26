@@ -1,0 +1,37 @@
+{
+  "case_id": "C35",
+  "title": "No qualifying pathway (10 hrs/month, no exemptions)",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Chris D. (synthetic)",
+    "age": 30,
+    "language": "en",
+    "household": "Lives with friends",
+    "notice_received_date": "2026-10-09"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "stub.txt",
+      "text": "CORNER COFFEE ROASTERS\nEARNINGS STATEMENT\nEmployee: Chris D.\nPay period: 09/01/2026 - 09/30/2026\nPay date: 09/30/2026\nRate: $15.00/hr\nRegular Hours worked: 10.0\nGross pay: $150.00\nNet pay: $132.00\nYTD gross: $2,100.00"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "NONE"
+    ],
+    "evidence_sufficient": false,
+    "gaps": [
+      "HOURS_SHORT",
+      "INCOME_SHORT",
+      "NO_QUALIFYING_PATHWAY"
+    ],
+    "notes": ""
+  },
+  "split": "dev"
+}

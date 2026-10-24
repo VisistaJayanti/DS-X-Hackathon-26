@@ -1,0 +1,38 @@
+{
+  "case_id": "C41",
+  "title": "SNAP notice says EXEMPT from SNAP work rules (caring for child) + birth cert",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Lena B. (synthetic)",
+    "age": 29,
+    "language": "en",
+    "household": "Self + son (9)",
+    "notice_received_date": "2026-10-03"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "snap.txt",
+      "text": "DEPARTMENT OF TRANSITIONAL ASSISTANCE\nSNAP Notice\nClient: Lena B.\nYou are exempt from SNAP work requirements because you are caring for a child under age 14."
+    },
+    {
+      "doc_id": "D2",
+      "filename": "birth.txt",
+      "text": "BIRTH RECORD - CITY OF LYNN\nChild: Noah B.\nDate of birth: 04/11/2017\nMother: Lena B."
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "EX_CAREGIVER_CHILD"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": "SNAP-exempt is not the SNAP exemption; caregiving applies."
+  },
+  "split": "dev"
+}

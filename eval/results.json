@@ -1,0 +1,1388 @@
+{
+ "generated": "2026-10-24 14:31",
+ "as_of": "2026-10-24",
+ "pack": "masshealth_ce_2027",
+ "split": "test",
+ "n_cases": 46,
+ "runs": [
+  {
+   "n": 23,
+   "top1": 1.0,
+   "top2": 1.0,
+   "sufficiency_acc": 1.0,
+   "gap_precision": 1.0,
+   "gap_recall": 1.0,
+   "latency_ms_mean": 2,
+   "cost_usd_mean": 0.0,
+   "split": "test",
+   "name": "Deterministic - verifier OFF",
+   "unsupported": 0,
+   "claims": 376,
+   "unsupported_rate": 0.0
+  },
+  {
+   "n": 23,
+   "top1": 1.0,
+   "top2": 1.0,
+   "sufficiency_acc": 1.0,
+   "gap_precision": 1.0,
+   "gap_recall": 1.0,
+   "latency_ms_mean": 2,
+   "cost_usd_mean": 0.0,
+   "split": "test",
+   "name": "Deterministic - verifier ON",
+   "unsupported": 0,
+   "claims": 376,
+   "unsupported_rate": 0.0
+  }
+ ],
+ "ablation": {
+  "engine": "Deterministic",
+  "without_verifier": 0.0,
+  "with_verifier": 0.0,
+  "summary": "Deterministic: unsupported claims 0/376 (0.0%) without the verifier vs 0/376 (0.0%) with it, judged by grounding checks. Deterministic drafts are template-built from grounded facts, so they are supported by construction; the ablation is meaningful for the LLM drafter (run with --llm).",
+  "judge_cost_usd": 0.0
+ },
+ "fairness": {
+  "language": [
+   {
+    "group": "en",
+    "n": 30,
+    "top1": 1.0,
+    "gap_precision": 1.0,
+    "gap_recall": 1.0
+   },
+   {
+    "group": "es",
+    "n": 7,
+    "top1": 1.0,
+    "gap_precision": 1.0,
+    "gap_recall": 1.0
+   },
+   {
+    "group": "ht",
+    "n": 2,
+    "top1": 1.0,
+    "gap_precision": 1.0,
+    "gap_recall": 1.0
+   },
+   {
+    "group": "pt",
+    "n": 3,
+    "top1": 1.0,
+    "gap_precision": 1.0,
+    "gap_recall": 1.0
+   },
+   {
+    "group": "vi",
+    "n": 3,
+    "top1": 1.0,
+    "gap_precision": 1.0,
+    "gap_recall": 1.0
+   },
+   {
+    "group": "zh",
+    "n": 1,
+    "top1": 1.0,
+    "gap_precision": 1.0,
+    "gap_recall": 1.0
+   }
+  ],
+  "case_type": [
+   {
+    "group": "caregiving",
+    "n": 7,
+    "top1": 1.0,
+    "gap_precision": 1.0,
+    "gap_recall": 1.0
+   },
+   {
+    "group": "education",
+    "n": 5,
+    "top1": 1.0,
+    "gap_precision": 1.0,
+    "gap_recall": 1.0
+   },
+   {
+    "group": "medical frailty",
+    "n": 9,
+    "top1": 1.0,
+    "gap_precision": 1.0,
+    "gap_recall": 1.0
+   },
+   {
+    "group": "no pathway",
+    "n": 3,
+    "top1": 1.0,
+    "gap_precision": 1.0,
+    "gap_recall": 1.0
+   },
+   {
+    "group": "other exemption",
+    "n": 5,
+    "top1": 1.0,
+    "gap_precision": 1.0,
+    "gap_recall": 1.0
+   },
+   {
+    "group": "out of scope",
+    "n": 2,
+    "top1": 1.0,
+    "gap_precision": 1.0,
+    "gap_recall": 1.0
+   },
+   {
+    "group": "pregnancy/postpartum",
+    "n": 3,
+    "top1": 1.0,
+    "gap_precision": 1.0,
+    "gap_recall": 1.0
+   },
+   {
+    "group": "work/income",
+    "n": 12,
+    "top1": 1.0,
+    "gap_precision": 1.0,
+    "gap_recall": 1.0
+   }
+  ]
+ },
+ "risk": {
+  "n": 200,
+  "positives": 74,
+  "ks": [
+   20,
+   40,
+   60
+  ],
+  "methods": [
+   {
+    "name": "Coverage Keeper risk points",
+    "at": [
+     {
+      "k": 20,
+      "precision": 0.8,
+      "recall": 0.21621621621621623
+     },
+     {
+      "k": 40,
+      "precision": 0.675,
+      "recall": 0.36486486486486486
+     },
+     {
+      "k": 60,
+      "precision": 0.6166666666666667,
+      "recall": 0.5
+     }
+    ]
+   },
+   {
+    "name": "Baseline: soonest deadline first",
+    "at": [
+     {
+      "k": 20,
+      "precision": 0.55,
+      "recall": 0.14864864864864866
+     },
+     {
+      "k": 40,
+      "precision": 0.45,
+      "recall": 0.24324324324324326
+     },
+     {
+      "k": 60,
+      "precision": 0.5,
+      "recall": 0.40540540540540543
+     }
+    ]
+   },
+   {
+    "name": "Baseline: random order",
+    "at": [
+     {
+      "k": 20,
+      "precision": 0.3,
+      "recall": 0.08108108108108109
+     },
+     {
+      "k": 40,
+      "precision": 0.2,
+      "recall": 0.10810810810810811
+     },
+     {
+      "k": 60,
+      "precision": 0.3,
+      "recall": 0.24324324324324326
+     }
+    ]
+   }
+  ],
+  "note": "Labels come from a synthetic latent model (with noise and unobserved factors) using the same feature families; the hand-set points were not fit to these labels. This tests ranking under assumed dynamics, not real-world accuracy."
+ },
+ "errors": [],
+ "per_case": [
+  {
+   "case_id": "C01",
+   "title": "Medical frailty: letter names diagnoses but not work impact (DEMO)",
+   "split": "dev",
+   "language": "es",
+   "case_type": "medical frailty",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 1,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 15,
+   "cost": 0,
+   "ranking": [
+    "EX_MEDICALLY_FRAIL"
+   ],
+   "gaps": [
+    "FRAILTY_NO_WORK_IMPACT"
+   ],
+   "want_gaps": [
+    "FRAILTY_NO_WORK_IMPACT"
+   ],
+   "want": [
+    "EX_MEDICALLY_FRAIL"
+   ]
+  },
+  {
+   "case_id": "C02",
+   "title": "Medical frailty: letter explicitly states condition prevents work",
+   "split": "test",
+   "language": "en",
+   "case_type": "medical frailty",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 3,
+   "cost": 0,
+   "ranking": [
+    "EX_MEDICALLY_FRAIL"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "EX_MEDICALLY_FRAIL"
+   ]
+  },
+  {
+   "case_id": "C03",
+   "title": "Behavioral health frailty: psychiatrist letter states inability to work",
+   "split": "dev",
+   "language": "en",
+   "case_type": "medical frailty",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 3,
+   "cost": 0,
+   "ranking": [
+    "EX_MEDICALLY_FRAIL"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "EX_MEDICALLY_FRAIL"
+   ]
+  },
+  {
+   "case_id": "C04",
+   "title": "SUD frailty + treatment program (opioid use disorder, early recovery)",
+   "split": "test",
+   "language": "en",
+   "case_type": "medical frailty",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 5,
+   "cost": 0,
+   "ranking": [
+    "EX_MEDICALLY_FRAIL",
+    "EX_SUD_TREATMENT"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "EX_MEDICALLY_FRAIL",
+    "EX_SUD_TREATMENT"
+   ]
+  },
+  {
+   "case_id": "C05",
+   "title": "SUD in stable recovery (6 yrs) - not frail, but works 90+ hours",
+   "split": "dev",
+   "language": "en",
+   "case_type": "work/income",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 6,
+   "cost": 0,
+   "ranking": [
+    "WORK_80",
+    "INCOME_580"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "WORK_80",
+    "INCOME_580"
+   ]
+  },
+  {
+   "case_id": "C06",
+   "title": "Behavioral health frailty: vague letter ('may have difficulty')",
+   "split": "test",
+   "language": "en",
+   "case_type": "medical frailty",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 1,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 1,
+   "cost": 0,
+   "ranking": [
+    "EX_MEDICALLY_FRAIL"
+   ],
+   "gaps": [
+    "FRAILTY_NO_WORK_IMPACT"
+   ],
+   "want_gaps": [
+    "FRAILTY_NO_WORK_IMPACT"
+   ],
+   "want": [
+    "EX_MEDICALLY_FRAIL"
+   ]
+  },
+  {
+   "case_id": "C07",
+   "title": "Alcohol use disorder: diagnosis only, no program, no impact statement",
+   "split": "dev",
+   "language": "es",
+   "case_type": "medical frailty",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 1,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 1,
+   "cost": 0,
+   "ranking": [
+    "EX_MEDICALLY_FRAIL"
+   ],
+   "gaps": [
+    "FRAILTY_NO_WORK_IMPACT"
+   ],
+   "want_gaps": [
+    "FRAILTY_NO_WORK_IMPACT"
+   ],
+   "want": [
+    "EX_MEDICALLY_FRAIL"
+   ]
+  },
+  {
+   "case_id": "C08",
+   "title": "Spanish-language clinician letter stating inability to work",
+   "split": "test",
+   "language": "es",
+   "case_type": "medical frailty",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 1,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 1,
+   "cost": 0,
+   "ranking": [
+    "EX_MEDICALLY_FRAIL"
+   ],
+   "gaps": [
+    "DOC_TRANSLATION"
+   ],
+   "want_gaps": [
+    "DOC_TRANSLATION"
+   ],
+   "want": [
+    "EX_MEDICALLY_FRAIL"
+   ]
+  },
+  {
+   "case_id": "C09",
+   "title": "Chinese-speaking member: oncology letter, on chemotherapy, cannot work",
+   "split": "dev",
+   "language": "zh",
+   "case_type": "medical frailty",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 0,
+   "cost": 0,
+   "ranking": [
+    "EX_MEDICALLY_FRAIL"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "EX_MEDICALLY_FRAIL"
+   ]
+  },
+  {
+   "case_id": "C10",
+   "title": "Parent of a 13-year-old (exempt)",
+   "split": "test",
+   "language": "en",
+   "case_type": "caregiving",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 6,
+   "cost": 0,
+   "ranking": [
+    "EX_CAREGIVER_CHILD"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "EX_CAREGIVER_CHILD"
+   ]
+  },
+  {
+   "case_id": "C11",
+   "title": "Parent of a 14-year-old (NOT exempt) with part-time low-hour job",
+   "split": "dev",
+   "language": "pt",
+   "case_type": "no pathway",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 3,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 2,
+   "cost": 0,
+   "ranking": [
+    "NONE"
+   ],
+   "gaps": [
+    "HOURS_SHORT",
+    "INCOME_SHORT",
+    "NO_QUALIFYING_PATHWAY"
+   ],
+   "want_gaps": [
+    "HOURS_SHORT",
+    "INCOME_SHORT",
+    "NO_QUALIFYING_PATHWAY"
+   ],
+   "want": [
+    "NONE"
+   ]
+  },
+  {
+   "case_id": "C12",
+   "title": "Claims caregiving for a young child but no proof of child's age",
+   "split": "test",
+   "language": "ht",
+   "case_type": "caregiving",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 1,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 3,
+   "cost": 0,
+   "ranking": [
+    "EX_CAREGIVER_CHILD"
+   ],
+   "gaps": [
+    "CHILD_AGE_PROOF"
+   ],
+   "want_gaps": [
+    "CHILD_AGE_PROOF"
+   ],
+   "want": [
+    "EX_CAREGIVER_CHILD"
+   ]
+  },
+  {
+   "case_id": "C13",
+   "title": "Lives with and cares for disabled mother (attestation + mother's SSDI letter)",
+   "split": "dev",
+   "language": "vi",
+   "case_type": "caregiving",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 1,
+   "cost": 0,
+   "ranking": [
+    "EX_CAREGIVER_DISABLED"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "EX_CAREGIVER_DISABLED"
+   ]
+  },
+  {
+   "case_id": "C14",
+   "title": "Caregiver attestation but no evidence the person cared for has a disability",
+   "split": "test",
+   "language": "en",
+   "case_type": "caregiving",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 1,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 1,
+   "cost": 0,
+   "ranking": [
+    "EX_CAREGIVER_DISABLED"
+   ],
+   "gaps": [
+    "CAREGIVER_DISABILITY_PROOF"
+   ],
+   "want_gaps": [
+    "CAREGIVER_DISABILITY_PROOF"
+   ],
+   "want": [
+    "EX_CAREGIVER_DISABLED"
+   ]
+  },
+  {
+   "case_id": "C15",
+   "title": "Works 90 hrs AND parent of a 5-year-old (two valid pathways)",
+   "split": "dev",
+   "language": "en",
+   "case_type": "caregiving",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 4,
+   "cost": 0,
+   "ranking": [
+    "EX_CAREGIVER_CHILD",
+    "WORK_80",
+    "INCOME_580"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "EX_CAREGIVER_CHILD",
+    "WORK_80",
+    "INCOME_580"
+   ]
+  },
+  {
+   "case_id": "C16",
+   "title": "Postpartum, delivered 7 months ago",
+   "split": "test",
+   "language": "en",
+   "case_type": "pregnancy/postpartum",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 5,
+   "cost": 0,
+   "ranking": [
+    "EX_CAREGIVER_CHILD",
+    "EX_PREGNANT_POSTPARTUM"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "EX_PREGNANT_POSTPARTUM",
+    "EX_CAREGIVER_CHILD"
+   ]
+  },
+  {
+   "case_id": "C17",
+   "title": "Postpartum near the 12-month boundary",
+   "split": "dev",
+   "language": "es",
+   "case_type": "pregnancy/postpartum",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 1,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 2,
+   "cost": 0,
+   "ranking": [
+    "EX_CAREGIVER_CHILD",
+    "EX_PREGNANT_POSTPARTUM"
+   ],
+   "gaps": [
+    "POSTPARTUM_ENDING"
+   ],
+   "want_gaps": [
+    "POSTPARTUM_ENDING"
+   ],
+   "want": [
+    "EX_PREGNANT_POSTPARTUM",
+    "EX_CAREGIVER_CHILD"
+   ]
+  },
+  {
+   "case_id": "C18",
+   "title": "Postpartum window over (delivered 13+ months ago, no child proof) but works 85 hrs",
+   "split": "test",
+   "language": "en",
+   "case_type": "work/income",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 4,
+   "cost": 0,
+   "ranking": [
+    "WORK_80",
+    "INCOME_580"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "WORK_80",
+    "INCOME_580"
+   ]
+  },
+  {
+   "case_id": "C19",
+   "title": "Currently pregnant (prenatal letter with due date)",
+   "split": "dev",
+   "language": "en",
+   "case_type": "pregnancy/postpartum",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 0,
+   "cost": 0,
+   "ranking": [
+    "EX_PREGNANT_POSTPARTUM"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "EX_PREGNANT_POSTPARTUM"
+   ]
+  },
+  {
+   "case_id": "C20",
+   "title": "75 hrs work + 3-credit class (combination meets 80)",
+   "split": "test",
+   "language": "en",
+   "case_type": "education",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 0,
+   "cost": 0,
+   "ranking": [
+    "COMBINATION"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "COMBINATION"
+   ]
+  },
+  {
+   "case_id": "C21",
+   "title": "75 hrs volunteering + school letter with no credits or status",
+   "split": "dev",
+   "language": "pt",
+   "case_type": "education",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 1,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 1,
+   "cost": 0,
+   "ranking": [
+    "EDUCATION",
+    "COMBINATION"
+   ],
+   "gaps": [
+    "ENROLLMENT_STATUS_UNSTATED"
+   ],
+   "want_gaps": [
+    "ENROLLMENT_STATUS_UNSTATED"
+   ],
+   "want": [
+    "COMBINATION",
+    "EDUCATION"
+   ]
+  },
+  {
+   "case_id": "C22",
+   "title": "Full-time university student",
+   "split": "test",
+   "language": "vi",
+   "case_type": "education",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 0,
+   "cost": 0,
+   "ranking": [
+    "EDUCATION"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "EDUCATION"
+   ]
+  },
+  {
+   "case_id": "C23",
+   "title": "Letter says 'part-time' without half-time determination",
+   "split": "dev",
+   "language": "en",
+   "case_type": "education",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 1,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 1,
+   "cost": 0,
+   "ranking": [
+    "EDUCATION"
+   ],
+   "gaps": [
+    "ENROLLMENT_STATUS_UNSTATED"
+   ],
+   "want_gaps": [
+    "ENROLLMENT_STATUS_UNSTATED"
+   ],
+   "want": [
+    "EDUCATION"
+   ]
+  },
+  {
+   "case_id": "C24",
+   "title": "Half-time graduate student",
+   "split": "test",
+   "language": "en",
+   "case_type": "education",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 2,
+   "cost": 0,
+   "ranking": [
+    "EDUCATION"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "EDUCATION"
+   ]
+  },
+  {
+   "case_id": "C25",
+   "title": "Gig income just above $580 (irregular weekly payouts)",
+   "split": "dev",
+   "language": "en",
+   "case_type": "work/income",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 1,
+   "cost": 0,
+   "ranking": [
+    "INCOME_580"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "INCOME_580"
+   ]
+  },
+  {
+   "case_id": "C26",
+   "title": "Gig income just below $580",
+   "split": "test",
+   "language": "en",
+   "case_type": "no pathway",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 2,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 0,
+   "cost": 0,
+   "ranking": [
+    "NONE"
+   ],
+   "gaps": [
+    "INCOME_SHORT",
+    "NO_QUALIFYING_PATHWAY"
+   ],
+   "want_gaps": [
+    "INCOME_SHORT",
+    "NO_QUALIFYING_PATHWAY"
+   ],
+   "want": [
+    "NONE"
+   ]
+  },
+  {
+   "case_id": "C27",
+   "title": "Earnings exactly $580.00",
+   "split": "dev",
+   "language": "en",
+   "case_type": "work/income",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 7,
+   "cost": 0,
+   "ranking": [
+    "INCOME_580"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "INCOME_580"
+   ]
+  },
+  {
+   "case_id": "C28",
+   "title": "Conflicting volunteer hours: log vs coordinator letter",
+   "split": "test",
+   "language": "en",
+   "case_type": "work/income",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 1,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 6,
+   "cost": 0,
+   "ranking": [
+    "WORK_80"
+   ],
+   "gaps": [
+    "DOC_CONFLICT"
+   ],
+   "want_gaps": [
+    "DOC_CONFLICT"
+   ],
+   "want": [
+    "WORK_80"
+   ]
+  },
+  {
+   "case_id": "C29",
+   "title": "Pay stubs vs employer letter conflict on earnings",
+   "split": "dev",
+   "language": "es",
+   "case_type": "work/income",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 1,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 9,
+   "cost": 0,
+   "ranking": [
+    "WORK_80",
+    "INCOME_580"
+   ],
+   "gaps": [
+    "DOC_CONFLICT"
+   ],
+   "want_gaps": [
+    "DOC_CONFLICT"
+   ],
+   "want": [
+    "INCOME_580",
+    "WORK_80"
+   ]
+  },
+  {
+   "case_id": "C30",
+   "title": "Job training (MassHire) 60 hrs + volunteering 25 hrs",
+   "split": "test",
+   "language": "en",
+   "case_type": "work/income",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 1,
+   "cost": 0,
+   "ranking": [
+    "WORK_80"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "WORK_80"
+   ]
+  },
+  {
+   "case_id": "C31",
+   "title": "Restaurant server, 82 hours on stubs (tipped wage)",
+   "split": "dev",
+   "language": "en",
+   "case_type": "work/income",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 2,
+   "cost": 0,
+   "ranking": [
+    "WORK_80"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "WORK_80"
+   ]
+  },
+  {
+   "case_id": "C32",
+   "title": "Portuguese-language employer declaration, 96 hours",
+   "split": "test",
+   "language": "pt",
+   "case_type": "work/income",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 1,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 2,
+   "cost": 0,
+   "ranking": [
+    "WORK_80"
+   ],
+   "gaps": [
+    "DOC_TRANSLATION"
+   ],
+   "want_gaps": [
+    "DOC_TRANSLATION"
+   ],
+   "want": [
+    "WORK_80"
+   ]
+  },
+  {
+   "case_id": "C33",
+   "title": "Haitian Creole speaker, English pay stubs, 88 hours",
+   "split": "dev",
+   "language": "ht",
+   "case_type": "work/income",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 3,
+   "cost": 0,
+   "ranking": [
+    "WORK_80",
+    "INCOME_580"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "WORK_80",
+    "INCOME_580"
+   ]
+  },
+  {
+   "case_id": "C34",
+   "title": "Pay stubs only from March 2026 (outside lookback)",
+   "split": "test",
+   "language": "en",
+   "case_type": "work/income",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 1,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 1,
+   "cost": 0,
+   "ranking": [
+    "WORK_80",
+    "INCOME_580"
+   ],
+   "gaps": [
+    "OUTSIDE_LOOKBACK"
+   ],
+   "want_gaps": [
+    "OUTSIDE_LOOKBACK"
+   ],
+   "want": [
+    "WORK_80",
+    "INCOME_580"
+   ]
+  },
+  {
+   "case_id": "C35",
+   "title": "No qualifying pathway (10 hrs/month, no exemptions)",
+   "split": "dev",
+   "language": "en",
+   "case_type": "no pathway",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 3,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 0,
+   "cost": 0,
+   "ranking": [
+    "NONE"
+   ],
+   "gaps": [
+    "HOURS_SHORT",
+    "INCOME_SHORT",
+    "NO_QUALIFYING_PATHWAY"
+   ],
+   "want_gaps": [
+    "HOURS_SHORT",
+    "INCOME_SHORT",
+    "NO_QUALIFYING_PATHWAY"
+   ],
+   "want": [
+    "NONE"
+   ]
+  },
+  {
+   "case_id": "C36",
+   "title": "Member is 65 (out of scope)",
+   "split": "test",
+   "language": "es",
+   "case_type": "out of scope",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 1,
+   "cost": 0,
+   "ranking": [
+    "OUT_OF_SCOPE_AGE"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "OUT_OF_SCOPE_AGE"
+   ]
+  },
+  {
+   "case_id": "C37",
+   "title": "On Medicare (SSDI) - out of scope",
+   "split": "dev",
+   "language": "en",
+   "case_type": "out of scope",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 5,
+   "cost": 0,
+   "ranking": [
+    "OUT_OF_SCOPE_MEDICARE",
+    "EX_DISABILITY"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "OUT_OF_SCOPE_MEDICARE",
+    "EX_DISABILITY"
+   ]
+  },
+  {
+   "case_id": "C38",
+   "title": "Veteran with 100% VA rating",
+   "split": "test",
+   "language": "en",
+   "case_type": "other exemption",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 5,
+   "cost": 0,
+   "ranking": [
+    "EX_VETERAN_TOTAL"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "EX_VETERAN_TOTAL"
+   ]
+  },
+  {
+   "case_id": "C39",
+   "title": "Veteran rated 70% (not total) who volunteers 84 hrs",
+   "split": "dev",
+   "language": "en",
+   "case_type": "work/income",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 0,
+   "cost": 0,
+   "ranking": [
+    "WORK_80"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "WORK_80"
+   ]
+  },
+  {
+   "case_id": "C40",
+   "title": "SNAP household subject to SNAP work rules (ABAWD)",
+   "split": "test",
+   "language": "en",
+   "case_type": "other exemption",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 2,
+   "cost": 0,
+   "ranking": [
+    "EX_SNAP_TAFDC"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "EX_SNAP_TAFDC"
+   ]
+  },
+  {
+   "case_id": "C41",
+   "title": "SNAP notice says EXEMPT from SNAP work rules (caring for child) + birth cert",
+   "split": "dev",
+   "language": "en",
+   "case_type": "caregiving",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 8,
+   "cost": 0,
+   "ranking": [
+    "EX_CAREGIVER_CHILD"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "EX_CAREGIVER_CHILD"
+   ]
+  },
+  {
+   "case_id": "C42",
+   "title": "Former foster youth, age 24",
+   "split": "test",
+   "language": "en",
+   "case_type": "other exemption",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 2,
+   "cost": 0,
+   "ranking": [
+    "EX_FORMER_FOSTER"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "EX_FORMER_FOSTER"
+   ]
+  },
+  {
+   "case_id": "C43",
+   "title": "Released from county jail in August 2026",
+   "split": "dev",
+   "language": "en",
+   "case_type": "other exemption",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 0,
+   "cost": 0,
+   "ranking": [
+    "EX_INCARCERATION"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "EX_INCARCERATION"
+   ]
+  },
+  {
+   "case_id": "C44",
+   "title": "Tribal member (Mashpee Wampanoag)",
+   "split": "test",
+   "language": "en",
+   "case_type": "other exemption",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 0,
+   "cost": 0,
+   "ranking": [
+    "EX_AIAN"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "EX_AIAN"
+   ]
+  },
+  {
+   "case_id": "C45",
+   "title": "Vietnamese speaker in outpatient alcohol treatment program",
+   "split": "dev",
+   "language": "vi",
+   "case_type": "medical frailty",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 2,
+   "cost": 0,
+   "ranking": [
+    "EX_SUD_TREATMENT"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "EX_SUD_TREATMENT"
+   ]
+  },
+  {
+   "case_id": "C46",
+   "title": "DEMO - Maria: caregiver of her mother after a stroke; doctor letter doesn't state the disability",
+   "split": "test",
+   "language": "es",
+   "case_type": "caregiving",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 2,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 4,
+   "cost": 0,
+   "ranking": [
+    "EX_CAREGIVER_DISABLED"
+   ],
+   "gaps": [
+    "CAREGIVER_DISABILITY_STATEMENT",
+    "DOC_TRANSLATION"
+   ],
+   "want_gaps": [
+    "CAREGIVER_DISABILITY_STATEMENT",
+    "DOC_TRANSLATION"
+   ],
+   "want": [
+    "EX_CAREGIVER_DISABLED"
+   ]
+  }
+ ],
+ "note": "46 synthetic cases (23 dev / 23 test); headline numbers on the 'test' split. The deterministic engine was written alongside the synthetic document templates (all splits), so its scores are an upper bound on template-like documents, not evidence of generalisation. Small n: one case = ~4 points."
+}

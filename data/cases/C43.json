@@ -1,0 +1,33 @@
+{
+  "case_id": "C43",
+  "title": "Released from county jail in August 2026",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Anthony M. (synthetic)",
+    "age": 31,
+    "language": "en",
+    "household": "Lives with mother",
+    "notice_received_date": "2026-10-06"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "release.txt",
+      "text": "SUFFOLK COUNTY SHERIFF'S DEPARTMENT - HOUSE OF CORRECTION\nCertificate of Release\nName: Anthony M.\nDate of release: 08/20/2026"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "EX_INCARCERATION"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": ""
+  },
+  "split": "dev"
+}

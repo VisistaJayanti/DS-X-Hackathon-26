@@ -1,0 +1,39 @@
+{
+  "case_id": "C05",
+  "title": "SUD in stable recovery (6 yrs) - not frail, but works 90+ hours",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Brian T. (synthetic)",
+    "age": 47,
+    "language": "en",
+    "household": "Lives with partner",
+    "notice_received_date": "2026-10-09"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "pcp_note.txt",
+      "text": "Mill City Family Medicine\nOctober 1, 2026\n\nTo Whom It May Concern:\n\nRE: Brian T.   DOB: 02/11/1979\n\nMr. T. has a history of alcohol use disorder and has been in sustained remission since 2020 (over 6 years).\nHe is doing well and is currently employed full time.\n\nSincerely,\nDr. Ann Kowalski, MD\nMill City Family Medicine"
+    },
+    {
+      "doc_id": "D2",
+      "filename": "stubs.txt",
+      "text": "MERRIMACK VALLEY AUTO PARTS\nEARNINGS STATEMENT\nEmployee: Brian T.\nPay period: 08/31/2026 - 09/13/2026\nPay date: 09/13/2026\nRate: $18.25/hr\nRegular Hours worked: 46.0\nGross pay: $839.50\nNet pay: $738.76\nYTD gross: $11,753.00\n\n- - - - - - - - - - - - - - -\n\nMERRIMACK VALLEY AUTO PARTS\nEARNINGS STATEMENT\nEmployee: Brian T.\nPay period: 09/14/2026 - 09/27/2026\nPay date: 09/27/2026\nRate: $18.25/hr\nRegular Hours worked: 47.5\nGross pay: $866.88\nNet pay: $762.85\nYTD gross: $12,136.32"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "WORK_80",
+      "INCOME_580"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": "Stable recovery (5+ yrs) is excluded from SUD frailty; work pathway applies."
+  },
+  "split": "dev"
+}

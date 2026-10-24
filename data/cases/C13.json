@@ -1,0 +1,38 @@
+{
+  "case_id": "C13",
+  "title": "Lives with and cares for disabled mother (attestation + mother's SSDI letter)",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Hoa N. (synthetic)",
+    "age": 50,
+    "language": "vi",
+    "household": "Self + mother (78)",
+    "notice_received_date": "2026-10-03"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "attest.txt",
+      "text": "CAREGIVER STATEMENT\nI, Hoa N., live with my mother, Lan N. I help her every day with bathing, dressing, meals and medications.\nI provide about 6 hours of care each day.\nSignature: Hoa N.   Date: 09/29/2026"
+    },
+    {
+      "doc_id": "D2",
+      "filename": "ssa_mother.txt",
+      "text": "SOCIAL SECURITY ADMINISTRATION\nNotice of Award\nBeneficiary: Lan N.\nWe found that you became disabled under our rules on March 4, 2019.\nYou are entitled to monthly disability benefits beginning September 2019."
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "EX_CAREGIVER_DISABLED"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": ""
+  },
+  "split": "dev"
+}

@@ -1,0 +1,35 @@
+{
+  "case_id": "C12",
+  "title": "Claims caregiving for a young child but no proof of child's age",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Marie-Claude J. (synthetic)",
+    "age": 31,
+    "language": "ht",
+    "household": "Self + child",
+    "notice_received_date": "2026-10-12"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "attest.txt",
+      "text": "CAREGIVER ATTESTATION\nI take care of my child every day. My child lives with me.\nI am the only person who takes care of my child.\nName: Marie-Claude J.\nDate: October 9, 2026"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "EX_CAREGIVER_CHILD"
+    ],
+    "evidence_sufficient": false,
+    "gaps": [
+      "CHILD_AGE_PROOF"
+    ],
+    "notes": ""
+  },
+  "split": "test"
+}

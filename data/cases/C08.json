@@ -1,0 +1,35 @@
+{
+  "case_id": "C08",
+  "title": "Spanish-language clinician letter stating inability to work",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Ana G. (synthetic)",
+    "age": 58,
+    "language": "es",
+    "household": "Lives with daughter",
+    "notice_received_date": "2026-10-02"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "carta_medica.txt",
+      "text": "Centro de Salud Comunitario Esperanza\nBoston, 5 de octubre de 2026\n\nA quien corresponda:\n\nPaciente: Ana G.   Fecha de nacimiento: 12/01/1968\n\nLa Sra. G. tiene artritis reumatoide severa con daño articular en ambas manos y rodillas,\ny recibe tratamiento con infusiones mensuales.\nSu condición le impide trabajar y limita gravemente sus actividades de la vida diaria.\n\nAtentamente,\nDra. Lucía Fernández, MD"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "EX_MEDICALLY_FRAIL"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [
+      "DOC_TRANSLATION"
+    ],
+    "notes": ""
+  },
+  "split": "test"
+}

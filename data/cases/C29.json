@@ -1,0 +1,41 @@
+{
+  "case_id": "C29",
+  "title": "Pay stubs vs employer letter conflict on earnings",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Victor A. (synthetic)",
+    "age": 37,
+    "language": "es",
+    "household": "Lives with partner",
+    "notice_received_date": "2026-10-16"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "stub.txt",
+      "text": "CHELSEA PRODUCE DISTRIBUTORS\nEARNINGS STATEMENT\nEmployee: Victor A.\nPay period: 09/01/2026 - 09/30/2026\nPay date: 09/30/2026\nRate: $15.00/hr\nRegular Hours worked: 36.0\nGross pay: $540.00\nNet pay: $475.20\nYTD gross: $7,560.00"
+    },
+    {
+      "doc_id": "D2",
+      "filename": "employer.txt",
+      "text": "CHELSEA PRODUCE DISTRIBUTORS\n10/02/2026\nVictor A. is employed with us and works 20 hours per week at $15.00 per hour.\nHR Department"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "INCOME_580",
+      "WORK_80"
+    ],
+    "evidence_sufficient": false,
+    "gaps": [
+      "DOC_CONFLICT"
+    ],
+    "notes": "Stub: 36 hrs/$540. Letter implies ~86.6 hrs / $1,299."
+  },
+  "split": "dev"
+}

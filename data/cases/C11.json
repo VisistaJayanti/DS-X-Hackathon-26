@@ -1,0 +1,42 @@
+{
+  "case_id": "C11",
+  "title": "Parent of a 14-year-old (NOT exempt) with part-time low-hour job",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Paulo S. (synthetic)",
+    "age": 45,
+    "language": "pt",
+    "household": "Self + daughter (14)",
+    "notice_received_date": "2026-10-08"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "birth_cert.txt",
+      "text": "COMMONWEALTH OF MASSACHUSETTS\nBIRTH RECORD\nChild's name: Bianca S.\nDate of birth: 06/21/2012\nFather: Paulo S."
+    },
+    {
+      "doc_id": "D2",
+      "filename": "paystub.txt",
+      "text": "FRAMINGHAM BAKERY CO\nEARNINGS STATEMENT\nEmployee: Paulo S.\nPay period: 09/01/2026 - 09/30/2026\nPay date: 09/30/2026\nRate: $7.00/hr\nRegular Hours worked: 30.0\nGross pay: $210.00\nNet pay: $184.80\nYTD gross: $2,940.00"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "NONE"
+    ],
+    "evidence_sufficient": false,
+    "gaps": [
+      "HOURS_SHORT",
+      "INCOME_SHORT",
+      "NO_QUALIFYING_PATHWAY"
+    ],
+    "notes": "Child is 14 (born June 2012). 30 hrs at a $7.00 tipped base wage = $210."
+  },
+  "split": "dev"
+}

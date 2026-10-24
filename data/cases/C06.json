@@ -1,0 +1,35 @@
+{
+  "case_id": "C06",
+  "title": "Behavioral health frailty: vague letter ('may have difficulty')",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Jordan P. (synthetic)",
+    "age": 33,
+    "language": "en",
+    "household": "Lives with parents",
+    "notice_received_date": "2026-10-17"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "bh_letter.txt",
+      "text": "Pioneer Valley Counseling\nOctober 12, 2026\n\nTo Whom It May Concern:\n\nRE: Jordan P.   DOB: 08/19/1993\n\nJordan has been in counseling with me since January 2025 for bipolar I disorder.\nJordan is engaged in treatment and takes medication as prescribed.\nAt times Jordan may have difficulty with stressful environments.\n\nSincerely,\nRenee Dubois, LICSW\nPioneer Valley Counseling"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "EX_MEDICALLY_FRAIL"
+    ],
+    "evidence_sufficient": false,
+    "gaps": [
+      "FRAILTY_NO_WORK_IMPACT"
+    ],
+    "notes": ""
+  },
+  "split": "test"
+}

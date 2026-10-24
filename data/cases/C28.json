@@ -1,0 +1,40 @@
+{
+  "case_id": "C28",
+  "title": "Conflicting volunteer hours: log vs coordinator letter",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Ellen C. (synthetic)",
+    "age": 60,
+    "language": "en",
+    "household": "Lives alone",
+    "notice_received_date": "2026-10-12"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "log.txt",
+      "text": "Worcester Senior Center - Volunteer Sign-In Totals\nVolunteer: Ellen C.\nSeptember 2026 total: 72 hours"
+    },
+    {
+      "doc_id": "D2",
+      "filename": "letter.txt",
+      "text": "Worcester Senior Center\nOctober 1, 2026\nTo whom it may concern: Ellen C. volunteers with our meals program approximately 25 hours per week.\n- Rita Moreau, Volunteer Coordinator"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "WORK_80"
+    ],
+    "evidence_sufficient": false,
+    "gaps": [
+      "DOC_CONFLICT"
+    ],
+    "notes": "Log 72 hrs vs ~25/wk (108/mo)."
+  },
+  "split": "test"
+}

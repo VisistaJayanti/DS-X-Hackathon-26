@@ -1,0 +1,33 @@
+{
+  "case_id": "C03",
+  "title": "Behavioral health frailty: psychiatrist letter states inability to work",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Tasha W. (synthetic)",
+    "age": 29,
+    "language": "en",
+    "household": "Lives with roommate",
+    "notice_received_date": "2026-10-15"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "psych_letter.txt",
+      "text": "Riverside Behavioral Health\n10/08/2026\n\nTo Whom It May Concern:\n\nRE: Tasha W.   DOB: 1997-05-02\n\nI am writing at the request of my patient, Ms. W., who is in treatment for major depressive disorder, recurrent, severe,\nand post-traumatic stress disorder. She had a psychiatric hospitalization in June 2026 and attends weekly therapy.\nIn my clinical opinion her symptoms currently prevent her from maintaining employment or a regular schedule of 80 hours per month.\n\nSincerely,\nMarcus Lee, PMHNP-BC\nRiverside Behavioral Health"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "EX_MEDICALLY_FRAIL"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": ""
+  },
+  "split": "dev"
+}

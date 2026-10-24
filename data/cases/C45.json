@@ -1,0 +1,33 @@
+{
+  "case_id": "C45",
+  "title": "Vietnamese speaker in outpatient alcohol treatment program",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Thanh P. (synthetic)",
+    "age": 48,
+    "language": "vi",
+    "household": "Lives with son",
+    "notice_received_date": "2026-09-30"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "program.txt",
+      "text": "DORCHESTER RECOVERY CENTER - Intensive Outpatient Program\nParticipation Letter\nClient: Thanh P.\nThanh P. is currently participating in our alcohol treatment and rehabilitation program\n(3 sessions per week) since 08/04/2026.\nClinical Director: Maria Santos, LMHC"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "EX_SUD_TREATMENT"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": ""
+  },
+  "split": "dev"
+}

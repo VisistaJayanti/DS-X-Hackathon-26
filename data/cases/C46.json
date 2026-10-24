@@ -1,0 +1,49 @@
+{
+  "case_id": "C46",
+  "title": "DEMO - Maria: caregiver of her mother after a stroke; doctor letter doesn't state the disability",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Maria L. (illustrative composite)",
+    "age": 34,
+    "language": "es",
+    "city": "Lawrence",
+    "household": "Lives with her mother (70), who had a stroke",
+    "notice_received_date": "2026-10-12",
+    "roster_id": "M0001",
+    "notes": "Has type 2 diabetes; coverage loss would stop her prescriptions. Renewal letter arrived in English."
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "masshealth_rfi_notice.txt",
+      "text": "MASSHEALTH\nRequest for Information\nNotice date: October 9, 2026\nTo: Maria L.\n\nWe need more information to decide if you meet the new work and community engagement requirement,\nor if you qualify for an exemption.\nPlease send us proof within 30 days of receiving this notice.\nIf you do not send proof, your MassHealth coverage may end."
+    },
+    {
+      "doc_id": "D2",
+      "filename": "declaracion_cuidadora_foto.txt",
+      "text": "Declaración de cuidadora\nYo, Maria L., vivo con mi madre, Carmen L., en Lawrence.\nDesde su derrame cerebral en marzo, la ayudo todos los días a bañarse, vestirse, comer y tomar sus medicinas.\nFirma: Maria L.   Fecha: 21/10/2026"
+    },
+    {
+      "doc_id": "D3",
+      "filename": "carta_neurologia_madre.txt",
+      "text": "Lawrence General Hospital - Neurology Clinic\nOctober 20, 2026\n\nTo Whom It May Concern:\n\nRE: Carmen L.   DOB: 05/02/1956\n\nMrs. L. was hospitalized for an ischemic stroke on March 3, 2026.\nShe has residual left-sided weakness and is followed in our neurology clinic every 3 months.\nHer medications include apixaban and atorvastatin.\n\nSincerely,\nDr. Robert Chen, MD\nLawrence General Hospital - Neurology Clinic"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "EX_CAREGIVER_DISABLED"
+    ],
+    "evidence_sufficient": false,
+    "gaps": [
+      "CAREGIVER_DISABILITY_STATEMENT",
+      "DOC_TRANSLATION"
+    ],
+    "notes": "Caregiver exemption applies but the mother's doctor letter names the stroke without stating a disability or daily-care need."
+  },
+  "split": "test"
+}

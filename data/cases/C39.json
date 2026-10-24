@@ -1,0 +1,38 @@
+{
+  "case_id": "C39",
+  "title": "Veteran rated 70% (not total) who volunteers 84 hrs",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Tony R. (synthetic)",
+    "age": 51,
+    "language": "en",
+    "household": "Lives with wife",
+    "notice_received_date": "2026-10-10"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "va.txt",
+      "text": "DEPARTMENT OF VETERANS AFFAIRS\nVeteran: Tony R.\nYour combined service-connected evaluation is 70 percent."
+    },
+    {
+      "doc_id": "D2",
+      "filename": "vol.txt",
+      "text": "VFW Post 1234 - Volunteer Hours\nTony R. - September 2026 - 84 hours\nPost Commander: Bill Sanders"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "WORK_80"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": ""
+  },
+  "split": "dev"
+}

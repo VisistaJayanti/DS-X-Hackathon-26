@@ -1,0 +1,35 @@
+{
+  "case_id": "C32",
+  "title": "Portuguese-language employer declaration, 96 hours",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Joana R. (synthetic)",
+    "age": 35,
+    "language": "pt",
+    "household": "Lives with husband",
+    "notice_received_date": "2026-10-08"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "declaracao.txt",
+      "text": "LIMPEZA BRILHANTE LTDA - Framingham, MA\nDeclaração de Trabalho\n\nDeclaramos que Joana R. trabalha em nossa empresa como auxiliar de limpeza.\nEm setembro de 2026, trabalhou um total de 96 horas.\n\nFramingham, 2 de outubro de 2026\nCarlos Mendes, Gerente"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "WORK_80"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [
+      "DOC_TRANSLATION"
+    ],
+    "notes": ""
+  },
+  "split": "test"
+}

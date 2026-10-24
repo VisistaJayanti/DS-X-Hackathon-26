@@ -1,0 +1,39 @@
+{
+  "case_id": "C37",
+  "title": "On Medicare (SSDI) - out of scope",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Steven G. (synthetic)",
+    "age": 52,
+    "language": "en",
+    "household": "Lives with brother",
+    "notice_received_date": "2026-10-13"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "medicare.txt",
+      "text": "MEDICARE HEALTH INSURANCE\nName: Steven G.\nMedicare Number: 1EG4-TE5-MK72 (synthetic)\nEntitled to: HOSPITAL (PART A) 01-01-2022   MEDICAL (PART B) 01-01-2022"
+    },
+    {
+      "doc_id": "D2",
+      "filename": "ssdi.txt",
+      "text": "SOCIAL SECURITY ADMINISTRATION\nNotice of Award\nBeneficiary: Steven G.\nWe found that you became disabled under our rules on July 1, 2019."
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "OUT_OF_SCOPE_MEDICARE",
+      "EX_DISABILITY"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": ""
+  },
+  "split": "dev"
+}

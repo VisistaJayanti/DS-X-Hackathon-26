@@ -1,0 +1,35 @@
+{
+  "case_id": "C07",
+  "title": "Alcohol use disorder: diagnosis only, no program, no impact statement",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Luis F. (synthetic)",
+    "age": 44,
+    "language": "es",
+    "household": "Lives alone",
+    "notice_received_date": "2026-10-20"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "pcp_aud.txt",
+      "text": "Lawrence Family Health\n10/14/2026\n\nTo Whom It May Concern:\n\nRE: Luis F.   DOB: 06/06/1982\n\nMr. F. was seen today. He meets criteria for alcohol use disorder, moderate.\nHe would benefit from a referral to outpatient treatment, which we discussed.\nHe also has hypertension, which is controlled.\n\nSincerely,\nDr. Carmen Ruiz, MD\nLawrence Family Health"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "EX_MEDICALLY_FRAIL"
+    ],
+    "evidence_sufficient": false,
+    "gaps": [
+      "FRAILTY_NO_WORK_IMPACT"
+    ],
+    "notes": ""
+  },
+  "split": "dev"
+}

@@ -1,0 +1,33 @@
+{
+  "case_id": "C42",
+  "title": "Former foster youth, age 24",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Destiny W. (synthetic)",
+    "age": 24,
+    "language": "en",
+    "household": "Lives with roommate",
+    "notice_received_date": "2026-10-11"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "dcf.txt",
+      "text": "MASSACHUSETTS DEPARTMENT OF CHILDREN AND FAMILIES\nVerification of Foster Care\nThis letter verifies that Destiny W. (DOB 01/30/2002) was in the care and custody of DCF\nand in foster care on her 18th birthday, January 30, 2020."
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "EX_FORMER_FOSTER"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": ""
+  },
+  "split": "test"
+}

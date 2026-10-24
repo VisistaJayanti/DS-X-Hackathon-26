@@ -1,0 +1,39 @@
+{
+  "case_id": "C04",
+  "title": "SUD frailty + treatment program (opioid use disorder, early recovery)",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Kevin O. (synthetic)",
+    "age": 36,
+    "language": "en",
+    "household": "Sober house",
+    "notice_received_date": "2026-10-01"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "otp_letter.txt",
+      "text": "BAYSIDE RECOVERY SERVICES - OPIOID TREATMENT PROGRAM\nDate: 9/30/2026\nPatient: Kevin O.\n\nThis letter confirms that the above patient has been enrolled in our opioid treatment program since 02/10/2026\nand is currently receiving daily methadone dosing and weekly counseling.\nDiagnosis: Opioid use disorder, severe, in early remission (8 months).\n\nProgram coordinator: Janelle Ortiz, LADC I"
+    },
+    {
+      "doc_id": "D2",
+      "filename": "pcp_letter.txt",
+      "text": "Bayside Primary Care\nOctober 3, 2026\n\nTo Whom It May Concern:\n\nRE: Kevin O.   DOB: 11/30/1989\n\nMr. O. is my patient and is in active treatment for opioid use disorder.\nHis daily treatment schedule and early recovery significantly limit his ability to work at this time;\nattempting 80 hours of work per month would put his recovery at serious risk.\n\nSincerely,\nDr. Samuel Greene, DO\nBayside Primary Care"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "EX_MEDICALLY_FRAIL",
+      "EX_SUD_TREATMENT"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": ""
+  },
+  "split": "test"
+}

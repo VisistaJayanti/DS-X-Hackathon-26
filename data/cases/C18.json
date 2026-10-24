@@ -1,0 +1,39 @@
+{
+  "case_id": "C18",
+  "title": "Postpartum window over (delivered 13+ months ago, no child proof) but works 85 hrs",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Brianna H. (synthetic)",
+    "age": 26,
+    "language": "en",
+    "household": "Lives with partner",
+    "notice_received_date": "2026-10-04"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "discharge.txt",
+      "text": "ST. LUKE'S HOSPITAL NEW BEDFORD\nPatient: Brianna H.\nDate of delivery: 2025-09-01\nOutcome: stillbirth at 36 weeks. Bereavement services offered."
+    },
+    {
+      "doc_id": "D2",
+      "filename": "stubs.txt",
+      "text": "NEW BEDFORD SEAFOOD PROCESSING\nEARNINGS STATEMENT\nEmployee: Brianna H.\nPay period: 09/01/2026 - 09/15/2026\nPay date: 09/15/2026\nRate: $17.00/hr\nRegular Hours worked: 41.0\nGross pay: $697.00\nNet pay: $613.36\nYTD gross: $9,758.00\n\n- - - - - - - - - - - - - - -\n\nNEW BEDFORD SEAFOOD PROCESSING\nEARNINGS STATEMENT\nEmployee: Brianna H.\nPay period: 09/16/2026 - 09/30/2026\nPay date: 09/30/2026\nRate: $17.00/hr\nRegular Hours worked: 44.0\nGross pay: $748.00\nNet pay: $658.24\nYTD gross: $10,472.00"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "WORK_80",
+      "INCOME_580"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": ""
+  },
+  "split": "test"
+}

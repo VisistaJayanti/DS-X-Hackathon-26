@@ -1,0 +1,390 @@
+{
+ "id": "employer_dependent_audit_demo",
+ "name": "ILLUSTRATIVE: Employer plan dependent eligibility audit",
+ "line_of_business": "Employer / commercial health plan",
+ "jurisdiction": "Any (illustrative)",
+ "illustrative": true,
+ "summary": "Made-up rules for demonstration only: an employer plan re-verifies dependents; families lose dependent coverage when documents are not returned in time.",
+ "program": {
+  "agency": "the plan administrator",
+  "payer_type": "Employer plan",
+  "notice_name": "Dependent Eligibility Verification letter",
+  "notice_conventions": [
+   "The letter comes from the plan's benefits administrator, not from a government agency."
+  ],
+  "contact_line": "the benefits phone number on the back of your insurance card",
+  "response_window_days": 60,
+  "deadline_rule": "IR-PROC-60DAY",
+  "review_months_default": 3,
+  "currency": "USD",
+  "domain_context": "ILLUSTRATIVE employer-plan dependent eligibility audit: each dependent stays covered if documents show they are a child under 26, or a disabled adult family member living with the employee.",
+  "frailty_definition": ""
+ },
+ "languages": [
+  "en",
+  "es"
+ ],
+ "doc_types": [
+  "pay_stub",
+  "employer_letter",
+  "gig_earnings_statement",
+  "volunteer_record",
+  "job_training_record",
+  "school_enrollment_letter",
+  "clinician_letter",
+  "treatment_program_letter",
+  "caregiver_attestation",
+  "birth_record",
+  "hospital_discharge_or_prenatal",
+  "snap_notice",
+  "tafdc_notice",
+  "va_rating_letter",
+  "medicare_card",
+  "ssa_disability_letter",
+  "foster_care_letter",
+  "release_paperwork",
+  "tribal_enrollment",
+  "id_card",
+  "insurer_notice",
+  "other"
+ ],
+ "doc_labels": {
+  "pay_stub": "Pay stub",
+  "employer_letter": "Employer letter",
+  "gig_earnings_statement": "Gig earnings statement",
+  "volunteer_record": "Volunteer record",
+  "job_training_record": "Job training record",
+  "school_enrollment_letter": "School enrollment letter",
+  "clinician_letter": "Clinician letter",
+  "treatment_program_letter": "Treatment program letter",
+  "caregiver_attestation": "Caregiver statement",
+  "birth_record": "Birth record",
+  "hospital_discharge_or_prenatal": "Hospital / prenatal record",
+  "snap_notice": "SNAP notice",
+  "tafdc_notice": "TAFDC notice",
+  "va_rating_letter": "VA rating letter",
+  "medicare_card": "Medicare card",
+  "ssa_disability_letter": "SSA award letter",
+  "foster_care_letter": "DCF foster care letter",
+  "release_paperwork": "Release certificate",
+  "tribal_enrollment": "Tribal enrollment letter",
+  "id_card": "ID card",
+  "other": "Document",
+  "insurer_notice": "MassHealth notice"
+ },
+ "doc_keywords": [
+  [
+   "insurer_notice",
+   "request for information|renewal notice|we need more information"
+  ],
+  [
+   "medicare_card",
+   "\\bmedicare\\b"
+  ],
+  [
+   "va_rating_letter",
+   "veterans affairs|service-connected"
+  ],
+  [
+   "snap_notice",
+   "\\bsnap\\b|transitional assistance"
+  ],
+  [
+   "ssa_disability_letter",
+   "social security administration"
+  ],
+  [
+   "foster_care_letter",
+   "children and families|foster care"
+  ],
+  [
+   "release_paperwork",
+   "house of correction|certificate of release|date of release|sheriff"
+  ],
+  [
+   "tribal_enrollment",
+   "\\btribe\\b|tribal enrollment"
+  ],
+  [
+   "treatment_program_letter",
+   "treatment program|outpatient program|rehabilitation program|recovery services"
+  ],
+  [
+   "hospital_discharge_or_prenatal",
+   "discharge summary|date of delivery|delivered:|prenatal|due date|obstetric"
+  ],
+  [
+   "clinician_letter",
+   "\\bpatient\\b|\\bpaciente\\b|diagnos|\\bdra?\\. |disorder|counseling|,\\s*(md|do|np|cnm|licsw|lmhc|pmhnp-bc)\\b"
+  ],
+  [
+   "school_enrollment_letter",
+   "registrar|enrollment verification|enrolled as a|certification of enrollment|community college|university"
+  ],
+  [
+   "job_training_record",
+   "masshire|wioa|training participation"
+  ],
+  [
+   "volunteer_record",
+   "volunteer"
+  ],
+  [
+   "gig_earnings_statement",
+   "driver earnings|shopper|payouts?\\b|orders completed"
+  ],
+  [
+   "pay_stub",
+   "earnings statement|pay period|gross pay"
+  ],
+  [
+   "birth_record",
+   "birth (record|certificate)|child's name|name of child"
+  ],
+  [
+   "caregiver_attestation",
+   "caregiver|statement of care|take care of|cuidador|cuido a mi|declaraci\\w+ de cuidad"
+  ],
+  [
+   "employer_letter",
+   "employed with us|declara\\w+ de trabalho|trabalha em nossa|hr department|hours per week"
+  ],
+  [
+   "id_card",
+   "identification card"
+  ]
+ ],
+ "pathways": [
+  {
+   "id": "DEP_CHILD_UNDER_26",
+   "rule_id": "IR-DEP-CHILD",
+   "kind": "compliance",
+   "evaluator": "dependent_child",
+   "params": {
+    "max_age": 25
+   },
+   "member_name": {
+    "en": "keeping your child on your plan (under 26)",
+    "es": "mantener a su hijo/a en su plan (menor de 26 años)"
+   }
+  },
+  {
+   "id": "DEP_DISABLED_ADULT",
+   "rule_id": "IR-DEP-DISABLED",
+   "kind": "exemption",
+   "evaluator": "caregiver_disabled",
+   "params": {},
+   "member_name": {
+    "en": "keeping a disabled adult family member on your plan",
+    "es": "mantener en su plan a un familiar adulto con discapacidad"
+   }
+  },
+  {
+   "id": "OUT_OF_SCOPE_AGE",
+   "rule_id": "IR-EMPLOYEE-AGE",
+   "kind": "out_of_scope",
+   "evaluator": "age_scope",
+   "params": {
+    "min_age": 18,
+    "max_age": 70
+   },
+   "member_name": {
+    "en": "the audit applies only to employees aged 18 to 70",
+    "es": "la auditoría solo aplica a empleados de 18 a 70 años"
+   }
+  }
+ ],
+ "gap_codes": {
+  "FRAILTY_NO_WORK_IMPACT": {
+   "ask": "clinician",
+   "fix": "Ask the clinician for an updated letter that (1) names the diagnosis and (2) states in plain words that the condition significantly impairs the member's ability to work 80 hours a month (and for how long). A diagnosis list alone is usually not enough.",
+   "member_text": {
+    "en": "A new letter from your doctor that says how your health condition makes it hard for you to work.",
+    "es": "Una nueva carta de su médico que diga cómo su condición de salud le dificulta trabajar.",
+    "pt": "Uma nova carta do seu médico dizendo como sua condição de saúde dificulta o seu trabalho.",
+    "ht": "Yon nouvo lèt doktè w ki di kijan pwoblèm sante w la fè li difisil pou w travay.",
+    "vi": "Một thư mới từ bác sĩ nói rõ tình trạng sức khỏe khiến quý vị khó làm việc như thế nào.",
+    "zh": "一封医生的新信，说明您的健康状况如何使您难以工作。"
+   },
+   "requests": [
+    "Please state whether {first}'s condition(s) significantly impair their ability to work, volunteer or attend job training for 80 hours per month.",
+    "If so, please state how long you expect this to last.",
+    "Please keep the diagnosis names and include your signature, credentials and the date."
+   ]
+  },
+  "FRAILTY_NO_DIAGNOSIS": {
+   "ask": "clinician",
+   "fix": "Ask the clinician to add the specific diagnosis or condition to the letter.",
+   "member_text": {
+    "en": "Your doctor's letter needs to name your health condition.",
+    "es": "La carta de su médico debe nombrar su condición de salud.",
+    "pt": "A carta do seu médico precisa citar sua condição de saúde.",
+    "ht": "Lèt doktè w la bezwen bay non pwoblèm sante w la.",
+    "vi": "Thư của bác sĩ cần ghi rõ tên bệnh của quý vị.",
+    "zh": "医生的信需要写明您的病症名称。"
+   },
+   "requests": [
+    "Please add the specific diagnosis or condition to your letter."
+   ]
+  },
+  "CHILD_AGE_PROOF": {
+   "ask": "member",
+   "fix": "Get a document showing the child's date of birth (birth certificate, school record, or MassHealth/DTA notice listing the child).",
+   "member_text": {
+    "en": "A paper that shows your child's date of birth, like a birth certificate.",
+    "es": "Un documento que muestre la fecha de nacimiento de su hijo/a, como el acta de nacimiento.",
+    "pt": "Um documento com a data de nascimento do seu filho/a, como a certidão de nascimento.",
+    "ht": "Yon papye ki montre dat nesans pitit ou, tankou yon batistè.",
+    "vi": "Giấy tờ ghi ngày sinh của con quý vị, ví dụ giấy khai sinh.",
+    "zh": "能证明您孩子出生日期的文件，例如出生证明。"
+   },
+   "requests": []
+  },
+  "CAREGIVER_DISABILITY_PROOF": {
+   "ask": "member",
+   "fix": "Get proof of the care recipient's disability: an SSA/SSI award letter or a clinician letter about the person being cared for.",
+   "member_text": {
+    "en": "A paper that shows the person you care for has a disability (for example, a Social Security letter or a doctor's letter).",
+    "es": "Un documento que muestre que la persona que usted cuida tiene una discapacidad (por ejemplo, una carta del Seguro Social o de un médico).",
+    "pt": "Um documento que mostre que a pessoa de quem você cuida tem uma deficiência (por exemplo, uma carta da Previdência Social ou de um médico).",
+    "ht": "Yon papye ki montre moun w ap okipe a gen yon andikap (pa egzanp, yon lèt Sekirite Sosyal oswa yon lèt doktè).",
+    "vi": "Giấy tờ cho thấy người quý vị chăm sóc bị khuyết tật (ví dụ thư của Sở An sinh Xã hội hoặc của bác sĩ).",
+    "zh": "能证明您照顾的人有残障的文件（例如社会安全局的信或医生的信）。"
+   },
+   "requests": []
+  },
+  "ENROLLMENT_STATUS_UNSTATED": {
+   "ask": "school",
+   "fix": "Ask the registrar for an enrollment verification that states the enrollment status (full-time / half-time / less than half-time) and credit hours for the term.",
+   "member_text": {
+    "en": "A letter from your school that says if you are full-time, half-time or less, and how many credits you take.",
+    "es": "Una carta de su escuela que diga si estudia tiempo completo, medio tiempo o menos, y cuántos créditos toma.",
+    "pt": "Uma carta da sua escola dizendo se você estuda em tempo integral, meio período ou menos, e quantos créditos faz.",
+    "ht": "Yon lèt lekòl ou ki di si w ale aplentan, mwatye tan oswa mwens, ak konbyen kredi w ap pran.",
+    "vi": "Thư của trường ghi rõ quý vị học toàn thời gian, bán thời gian hay ít hơn, và số tín chỉ.",
+    "zh": "学校的信，说明您是全日制、半日制还是更少，以及修读的学分。"
+   },
+   "requests": [
+    "Please provide an enrollment verification for the current term stating the enrollment status as determined by the school (full-time, half-time, or less than half-time).",
+    "Please include the number of credit hours and the term start and end dates."
+   ]
+  },
+  "DOC_CONFLICT": {
+   "ask": "employer",
+   "fix": "Documents disagree. Ask the employer/organisation for one signed record of the actual hours (and pay) for a single month, or submit the record that covers the full month with a short explanation.",
+   "member_text": {
+    "en": "Your papers show different hours or pay. We need one clear record for one month from your employer or organization.",
+    "es": "Sus documentos muestran horas o pagos diferentes. Necesitamos un registro claro de un mes de su empleador u organización.",
+    "pt": "Seus documentos mostram horas ou pagamentos diferentes. Precisamos de um registro claro de um mês do seu empregador ou organização.",
+    "ht": "Papye w yo montre èdtan oswa peman ki diferan. Nou bezwen yon dosye klè pou yon mwa nan men patwon w oswa òganizasyon an.",
+    "vi": "Giấy tờ của quý vị ghi số giờ hoặc tiền lương khác nhau. Cần một bản ghi rõ ràng cho một tháng từ chủ lao động hoặc tổ chức.",
+    "zh": "您的文件显示的工时或收入不一致。需要雇主或机构提供一个月的明确记录。"
+   },
+   "requests": [
+    "Please provide one signed statement of the actual hours worked (and gross pay) for a single recent month.",
+    "If hours vary week to week, please list each week."
+   ]
+  },
+  "OUTSIDE_LOOKBACK": {
+   "ask": "member",
+   "fix": "Collect pay stubs or records for one of the review months listed on the notice.",
+   "member_text": {
+    "en": "Pay stubs or records from one of the months listed on your MassHealth letter.",
+    "es": "Talones de pago o registros de uno de los meses que aparecen en su carta de MassHealth.",
+    "pt": "Contracheques ou registros de um dos meses indicados na sua carta do MassHealth.",
+    "ht": "Souch chèk oswa dosye pou youn nan mwa ki ekri sou lèt MassHealth ou a.",
+    "vi": "Phiếu lương hoặc hồ sơ của một trong các tháng ghi trong thư MassHealth.",
+    "zh": "MassHealth 信中所列月份之一的工资单或记录。"
+   },
+   "requests": []
+  },
+  "HOURS_SHORT": {
+   "ask": "member",
+   "fix": "Hours are below 80. Add any other qualifying hours for the same month (second job, volunteering, job training, classes) or check whether an exemption applies.",
+   "member_text": {
+    "en": "More hours in the same month (another job, volunteering, job training or classes all count).",
+    "es": "Más horas en el mismo mes (otro trabajo, voluntariado, capacitación o clases cuentan).",
+    "pt": "Mais horas no mesmo mês (outro emprego, voluntariado, treinamento ou aulas contam).",
+    "ht": "Plis èdtan nan menm mwa a (yon lòt travay, volontarya, fòmasyon oswa kou konte).",
+    "vi": "Thêm giờ trong cùng tháng (việc làm khác, tình nguyện, học nghề hoặc lớp học đều được tính).",
+    "zh": "同一个月内更多的时数（其他工作、志愿服务、职业培训或课程都算）。"
+   },
+   "requests": []
+  },
+  "INCOME_SHORT": {
+   "ask": "member",
+   "fix": "Earnings are below $580. Check other earnings in the same month (all employers, tips, gig apps) or whether an exemption applies.",
+   "member_text": {
+    "en": "Proof of any other pay in the same month (other jobs, tips, apps).",
+    "es": "Prueba de cualquier otro pago en el mismo mes (otros trabajos, propinas, aplicaciones).",
+    "pt": "Comprovante de qualquer outro pagamento no mesmo mês (outros empregos, gorjetas, aplicativos).",
+    "ht": "Prèv nenpòt lòt peman nan menm mwa a (lòt travay, poubwa, aplikasyon).",
+    "vi": "Bằng chứng về các khoản thu nhập khác trong cùng tháng (việc khác, tiền boa, ứng dụng).",
+    "zh": "同月其他收入的证明（其他工作、小费、应用平台）。"
+   },
+   "requests": []
+  },
+  "POSTPARTUM_ENDING": {
+   "ask": "navigator",
+   "fix": "Submit before the postpartum window closes and identify the pathway that will apply afterwards (e.g. caregiver of a child 13 or under).",
+   "member_text": {
+    "en": "Your after-birth exemption may end soon, so please respond quickly.",
+    "es": "Su exención por posparto puede terminar pronto; por favor responda rápido.",
+    "pt": "Sua isenção pós-parto pode terminar em breve; por favor responda rápido.",
+    "ht": "Egzanpsyon apre akouchman w lan ka fini byento, tanpri reponn vit.",
+    "vi": "Miễn trừ sau sinh của quý vị có thể sắp hết, vui lòng trả lời sớm.",
+    "zh": "您的产后豁免可能即将结束，请尽快回复。"
+   },
+   "requests": []
+  },
+  "DOC_TRANSLATION": {
+   "ask": "navigator",
+   "fix": "Document is not in English. Check whether MassHealth needs a translation and attach one if so (needs confirmation).",
+   "member_text": {
+    "en": "Your navigator will check if a translation of your document is needed.",
+    "es": "Su navegador verificará si se necesita una traducción de su documento.",
+    "pt": "Seu navegador vai verificar se é necessária uma tradução do seu documento.",
+    "ht": "Navigatè w la ap tcheke si yo bezwen yon tradiksyon dokiman w lan.",
+    "vi": "Người hướng dẫn sẽ kiểm tra xem có cần dịch giấy tờ của quý vị không.",
+    "zh": "您的导航员会确认是否需要翻译您的文件。"
+   },
+   "requests": []
+  },
+  "NO_QUALIFYING_PATHWAY": {
+   "ask": "navigator",
+   "fix": "No pathway is supported by the current documents. Do not invent one: review exemptions with the member (screener), and refer to resources (MassHealth Customer Service, Health Care For All HelpLine, MassHire career centers for job training hours).",
+   "member_text": {
+    "en": "Let's talk about other options, including exemptions that might fit you.",
+    "es": "Hablemos de otras opciones, incluidas exenciones que podrían aplicarse a usted.",
+    "pt": "Vamos conversar sobre outras opções, incluindo isenções que podem se aplicar a você.",
+    "ht": "Ann pale sou lòt opsyon, tankou egzanpsyon ki ka aplike pou ou.",
+    "vi": "Hãy cùng trao đổi các lựa chọn khác, kể cả các trường hợp miễn trừ có thể phù hợp.",
+    "zh": "我们来谈谈其他选择，包括可能适用于您的豁免。"
+   },
+   "requests": []
+  },
+  "CAREGIVER_DISABILITY_STATEMENT": {
+   "ask": "clinician",
+   "fix": "Ask the care recipient's clinician for a letter that states the person has a disability (a physical or mental impairment that substantially limits one or more major life activities) and what daily help they need, and that the member provides that care.",
+   "member_text": {
+    "en": "A letter from your family member's doctor that says they have a disability and need your help every day.",
+    "es": "Una carta del médico de su familiar que diga que tiene una discapacidad y necesita su ayuda todos los días.",
+    "pt": "Uma carta do médico do seu familiar dizendo que ele tem uma deficiência e precisa da sua ajuda todos os dias.",
+    "ht": "Yon lèt doktè fanmi w lan ki di li gen yon andikap epi li bezwen èd ou chak jou.",
+    "vi": "Thư của bác sĩ của người thân nói rằng họ bị khuyết tật và cần quý vị giúp đỡ hằng ngày.",
+    "zh": "您家人的医生写的信，说明他们有残障，每天需要您的帮助。"
+   },
+   "requests": [
+    "Please state whether {recipient} has a physical or mental impairment that substantially limits one or more major life activities (for example walking, bathing, dressing or managing medications).",
+    "Please describe the daily help {recipient} needs and state that {first} provides this care.",
+    "Please include the diagnosis, your signature, credentials and the date."
+   ]
+  }
+ },
+ "resources": [
+  {
+   "name": "Your plan's benefits office (illustrative)",
+   "url": "https://example.org/illustrative-pack"
+  }
+ ]
+}

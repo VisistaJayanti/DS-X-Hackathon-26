@@ -1,0 +1,33 @@
+{
+  "case_id": "C02",
+  "title": "Medical frailty: letter explicitly states condition prevents work",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Daniel K. (synthetic)",
+    "age": 52,
+    "language": "en",
+    "household": "Lives with spouse",
+    "notice_received_date": "2026-10-06"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "letter_pulm.txt",
+      "text": "North Shore Pulmonary Associates\nSeptember 28, 2026\n\nTo Whom It May Concern:\n\nRE: Daniel K.   DOB: 07/22/1974\n\nMr. K. has idiopathic pulmonary fibrosis diagnosed in 2023 and is on continuous supplemental oxygen.\nDue to this condition he is unable to work or participate in job training or volunteer activities.\nHis condition significantly impairs his ability to meet any work requirement, and I expect this to continue for at least 12 months.\n\nSincerely,\nDr. Priya Raman, MD\nNorth Shore Pulmonary Associates"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "EX_MEDICALLY_FRAIL"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": ""
+  },
+  "split": "test"
+}

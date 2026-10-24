@@ -1,0 +1,685 @@
+{
+ "id": "masshealth_ce_2027",
+ "name": "MassHealth community engagement requirement (Jan 2027)",
+ "line_of_business": "Medicaid (MassHealth expansion adults, 19-64)",
+ "jurisdiction": "Massachusetts, USA",
+ "illustrative": false,
+ "summary": "From January 1, 2027, Medicaid expansion adults in Massachusetts must show 80 hours of work/volunteering/job training, half-time school, or $580 monthly income in one month between six-month renewals, unless exempt.",
+ "program": {
+  "agency": "MassHealth",
+  "payer_type": "Medicaid",
+  "notice_name": "Request for Information (RFI)",
+  "notice_conventions": [
+   "MassHealth mail usually comes in a blue envelope (team brief; needs confirmation).",
+   "The notice lists the review months and the date to respond by."
+  ],
+  "contact_line": {
+   "en": "MassHealth Customer Service (the phone number is printed on your notice)",
+   "es": "Servicio al Cliente de MassHealth (el número de teléfono está en su carta)",
+   "pt": "Atendimento ao Cliente do MassHealth (o número de telefone está na sua carta)",
+   "ht": "Sèvis Kliyan MassHealth (nimewo telefòn nan ekri sou lèt ou a)",
+   "vi": "Dịch vụ Khách hàng MassHealth (số điện thoại có trong thư của quý vị)",
+   "zh": "MassHealth 客户服务（电话号码印在您的信上）"
+  },
+  "response_window_days": 30,
+  "deadline_rule": "R-PROC-30DAY",
+  "review_months_default": 3,
+  "currency": "USD",
+  "domain_context": "MassHealth (Massachusetts Medicaid) community engagement requirement under 42 CFR 435.550-435.563: expansion adults 19-64 must demonstrate 80 hours/month of work, community service or a work program, half-time education, a combination, or monthly income of at least $580, unless a specified exclusion or exception applies (e.g. medically frail, parent/caregiver of a child 13 or under or of a disabled individual, pregnant/postpartum, Medicare, SNAP work rules, former foster youth, 100% VA rating, recent incarceration, American Indian/Alaska Native).",
+  "frailty_definition": "An individual who is medically frail or otherwise has special medical needs is defined as an individual whose physical, mental, or other behavioral health condition significantly impairs the individual's ability to comply with the community engagement requirement"
+ },
+ "languages": [
+  "en",
+  "es",
+  "pt",
+  "ht",
+  "vi",
+  "zh"
+ ],
+ "doc_types": [
+  "pay_stub",
+  "employer_letter",
+  "gig_earnings_statement",
+  "volunteer_record",
+  "job_training_record",
+  "school_enrollment_letter",
+  "clinician_letter",
+  "treatment_program_letter",
+  "caregiver_attestation",
+  "birth_record",
+  "hospital_discharge_or_prenatal",
+  "snap_notice",
+  "tafdc_notice",
+  "va_rating_letter",
+  "medicare_card",
+  "ssa_disability_letter",
+  "foster_care_letter",
+  "release_paperwork",
+  "tribal_enrollment",
+  "id_card",
+  "insurer_notice",
+  "other"
+ ],
+ "doc_labels": {
+  "pay_stub": "Pay stub",
+  "employer_letter": "Employer letter",
+  "gig_earnings_statement": "Gig earnings statement",
+  "volunteer_record": "Volunteer record",
+  "job_training_record": "Job training record",
+  "school_enrollment_letter": "School enrollment letter",
+  "clinician_letter": "Clinician letter",
+  "treatment_program_letter": "Treatment program letter",
+  "caregiver_attestation": "Caregiver statement",
+  "birth_record": "Birth record",
+  "hospital_discharge_or_prenatal": "Hospital / prenatal record",
+  "snap_notice": "SNAP notice",
+  "tafdc_notice": "TAFDC notice",
+  "va_rating_letter": "VA rating letter",
+  "medicare_card": "Medicare card",
+  "ssa_disability_letter": "SSA award letter",
+  "foster_care_letter": "DCF foster care letter",
+  "release_paperwork": "Release certificate",
+  "tribal_enrollment": "Tribal enrollment letter",
+  "id_card": "ID card",
+  "other": "Document",
+  "insurer_notice": "MassHealth notice"
+ },
+ "doc_keywords": [
+  [
+   "insurer_notice",
+   "request for information|renewal notice|we need more information"
+  ],
+  [
+   "medicare_card",
+   "\\bmedicare\\b"
+  ],
+  [
+   "va_rating_letter",
+   "veterans affairs|service-connected"
+  ],
+  [
+   "snap_notice",
+   "\\bsnap\\b|transitional assistance"
+  ],
+  [
+   "ssa_disability_letter",
+   "social security administration"
+  ],
+  [
+   "foster_care_letter",
+   "children and families|foster care"
+  ],
+  [
+   "release_paperwork",
+   "house of correction|certificate of release|date of release|sheriff"
+  ],
+  [
+   "tribal_enrollment",
+   "\\btribe\\b|tribal enrollment"
+  ],
+  [
+   "treatment_program_letter",
+   "treatment program|outpatient program|rehabilitation program|recovery services"
+  ],
+  [
+   "hospital_discharge_or_prenatal",
+   "discharge summary|date of delivery|delivered:|prenatal|due date|obstetric"
+  ],
+  [
+   "clinician_letter",
+   "\\bpatient\\b|\\bpaciente\\b|diagnos|\\bdra?\\. |disorder|counseling|,\\s*(md|do|np|cnm|licsw|lmhc|pmhnp-bc)\\b"
+  ],
+  [
+   "school_enrollment_letter",
+   "registrar|enrollment verification|enrolled as a|certification of enrollment|community college|university"
+  ],
+  [
+   "job_training_record",
+   "masshire|wioa|training participation"
+  ],
+  [
+   "volunteer_record",
+   "volunteer"
+  ],
+  [
+   "gig_earnings_statement",
+   "driver earnings|shopper|payouts?\\b|orders completed"
+  ],
+  [
+   "pay_stub",
+   "earnings statement|pay period|gross pay"
+  ],
+  [
+   "birth_record",
+   "birth (record|certificate)|child's name|name of child"
+  ],
+  [
+   "caregiver_attestation",
+   "caregiver|statement of care|take care of|cuidador|cuido a mi|declaraci\\w+ de cuidad"
+  ],
+  [
+   "employer_letter",
+   "employed with us|declara\\w+ de trabalho|trabalha em nossa|hr department|hours per week"
+  ],
+  [
+   "id_card",
+   "identification card"
+  ]
+ ],
+ "pathways": [
+  {
+   "id": "OUT_OF_SCOPE_AGE",
+   "rule_id": "R-SCOPE-AGE",
+   "kind": "out_of_scope",
+   "evaluator": "age_scope",
+   "params": {
+    "min_age": 19,
+    "max_age": 64
+   },
+   "member_name": {
+    "en": "the rules apply only to ages 19 to 64",
+    "es": "las reglas solo se aplican a personas de 19 a 64 años",
+    "pt": "as regras só se aplicam a pessoas de 19 a 64 anos",
+    "ht": "règ yo aplike sèlman pou moun ki gen 19 a 64 an",
+    "vi": "quy định chỉ áp dụng cho người từ 19 đến 64 tuổi",
+    "zh": "该规定仅适用于 19 至 64 岁人士"
+   }
+  },
+  {
+   "id": "OUT_OF_SCOPE_MEDICARE",
+   "rule_id": "R-SCOPE-MEDICARE",
+   "kind": "out_of_scope",
+   "evaluator": "fact_present",
+   "params": {
+    "fact_type": "medicare",
+    "reason": "Medicare Part A/B enrollment documented."
+   },
+   "member_name": {
+    "en": "people with Medicare Part A or B do not have to meet them",
+    "es": "las personas con Medicare Parte A o B no tienen que cumplirlas",
+    "pt": "pessoas com Medicare Parte A ou B não precisam cumpri-las",
+    "ht": "moun ki gen Medicare Pati A oswa B pa oblije satisfè yo",
+    "vi": "người có Medicare Phần A hoặc B không cần đáp ứng",
+    "zh": "拥有 Medicare A 部分或 B 部分的人无需满足这些要求"
+   }
+  },
+  {
+   "id": "WORK_80",
+   "rule_id": "R-WORK-80",
+   "kind": "compliance",
+   "evaluator": "threshold",
+   "params": {
+    "fact_type": "work_hours",
+    "key": "hours",
+    "threshold": 80,
+    "unit": "hours",
+    "short_gap": "HOURS_SHORT",
+    "weekly_multiplier": 4.33,
+    "conflict_tolerance": 0.15
+   },
+   "member_name": {
+    "en": "working, volunteering or job training at least 80 hours in a month",
+    "es": "trabajar, hacer voluntariado o capacitación laboral al menos 80 horas en un mes",
+    "pt": "trabalhar, fazer voluntariado ou treinamento profissional pelo menos 80 horas em um mês",
+    "ht": "travay, fè volontarya oswa fòmasyon pou travay omwen 80 èdtan nan yon mwa",
+    "vi": "làm việc, tình nguyện hoặc học nghề ít nhất 80 giờ trong một tháng",
+    "zh": "一个月内工作、志愿服务或职业培训至少 80 小时"
+   }
+  },
+  {
+   "id": "INCOME_580",
+   "rule_id": "R-INCOME-580",
+   "kind": "compliance",
+   "evaluator": "threshold",
+   "params": {
+    "fact_type": "earnings",
+    "key": "amount",
+    "threshold": 580,
+    "unit": "money",
+    "short_gap": "INCOME_SHORT",
+    "conflict_tolerance": 0.15
+   },
+   "member_name": {
+    "en": "earning at least $580 in a month",
+    "es": "ganar al menos $580 en un mes",
+    "pt": "ganhar pelo menos $580 em um mês",
+    "ht": "touche omwen $580 nan yon mwa",
+    "vi": "có thu nhập ít nhất $580 trong một tháng",
+    "zh": "一个月收入至少 $580"
+   }
+  },
+  {
+   "id": "EDUCATION",
+   "rule_id": "R-EDU-HALF",
+   "kind": "compliance",
+   "evaluator": "enrollment",
+   "params": {
+    "accepted": [
+     "full_time",
+     "half_time"
+    ],
+    "combine_with": "COMBINATION"
+   },
+   "member_name": {
+    "en": "being in school at least half-time",
+    "es": "estudiar al menos medio tiempo",
+    "pt": "estudar pelo menos meio período",
+    "ht": "ale lekòl omwen mwatye tan",
+    "vi": "đi học ít nhất bán thời gian",
+    "zh": "至少半日制在读"
+   }
+  },
+  {
+   "id": "COMBINATION",
+   "rule_id": "R-COMBO",
+   "kind": "compliance",
+   "evaluator": "combination",
+   "params": {
+    "threshold": 80,
+    "hours_per_credit_per_week": 3,
+    "weeks_per_month": 4.33,
+    "accepted_alone": [
+     "full_time",
+     "half_time"
+    ]
+   },
+   "member_name": {
+    "en": "a combination of work/volunteer hours and classes that adds up to 80 hours",
+    "es": "una combinación de horas de trabajo/voluntariado y clases que suma 80 horas",
+    "pt": "uma combinação de horas de trabalho/voluntariado e aulas que soma 80 horas",
+    "ht": "yon konbinezon èdtan travay/volontarya ak kou ki fè 80 èdtan",
+    "vi": "kết hợp giờ làm việc/tình nguyện và giờ học, tổng cộng 80 giờ",
+    "zh": "工作/志愿时间与上课时间合计达到 80 小时"
+   }
+  },
+  {
+   "id": "EX_CAREGIVER_CHILD",
+   "rule_id": "R-EX-CARE-CHILD",
+   "kind": "exemption",
+   "evaluator": "dependent_child",
+   "params": {
+    "max_age": 13
+   },
+   "member_name": {
+    "en": "an exemption for parents or caregivers of a child 13 or younger",
+    "es": "una exención para padres o cuidadores de un niño de 13 años o menos",
+    "pt": "uma isenção para pais ou cuidadores de uma criança de 13 anos ou menos",
+    "ht": "yon egzanpsyon pou paran oswa moun k ap okipe yon timoun 13 an oswa mwens",
+    "vi": "miễn trừ cho cha mẹ hoặc người chăm sóc trẻ từ 13 tuổi trở xuống",
+    "zh": "13 岁及以下儿童的父母或照顾者豁免"
+   }
+  },
+  {
+   "id": "EX_CAREGIVER_DISABLED",
+   "rule_id": "R-EX-CARE-DISABLED",
+   "kind": "exemption",
+   "evaluator": "caregiver_disabled",
+   "params": {},
+   "member_name": {
+    "en": "an exemption for caregivers of a person with a disability",
+    "es": "una exención para cuidadores de una persona con discapacidad",
+    "pt": "uma isenção para cuidadores de uma pessoa com deficiência",
+    "ht": "yon egzanpsyon pou moun k ap okipe yon moun ki gen andikap",
+    "vi": "miễn trừ cho người chăm sóc người khuyết tật",
+    "zh": "残障人士照顾者豁免"
+   }
+  },
+  {
+   "id": "EX_MEDICALLY_FRAIL",
+   "rule_id": "R-EX-MEDFRAIL",
+   "kind": "exemption",
+   "evaluator": "clinician_interpretation",
+   "params": {
+    "stable_recovery_years": 5
+   },
+   "member_name": {
+    "en": "an exemption for a serious health condition that makes it hard to work",
+    "es": "una exención por una condición de salud grave que le dificulta trabajar",
+    "pt": "uma isenção por uma condição de saúde grave que dificulta o trabalho",
+    "ht": "yon egzanpsyon pou yon pwoblèm sante grav ki fè li difisil pou w travay",
+    "vi": "miễn trừ vì tình trạng sức khỏe nghiêm trọng khiến quý vị khó làm việc",
+    "zh": "因严重健康状况难以工作而获得的豁免"
+   }
+  },
+  {
+   "id": "EX_SUD_TREATMENT",
+   "rule_id": "R-EX-SUD-TX",
+   "kind": "exemption",
+   "evaluator": "fact_present",
+   "params": {
+    "fact_type": "sud_treatment",
+    "reason": "Program confirms current participation in substance use treatment."
+   },
+   "member_name": {
+    "en": "an exemption for people in a drug or alcohol treatment program",
+    "es": "una exención para personas en un programa de tratamiento de drogas o alcohol",
+    "pt": "uma isenção para pessoas em um programa de tratamento de drogas ou álcool",
+    "ht": "yon egzanpsyon pou moun ki nan yon pwogram tretman pou dwòg oswa alkòl",
+    "vi": "miễn trừ cho người đang tham gia chương trình điều trị nghiện ma túy hoặc rượu",
+    "zh": "正在参加戒毒或戒酒治疗项目人员豁免"
+   }
+  },
+  {
+   "id": "EX_PREGNANT_POSTPARTUM",
+   "rule_id": "R-EX-PREG",
+   "kind": "exemption",
+   "evaluator": "pregnancy_postpartum",
+   "params": {
+    "postpartum_months": 12,
+    "boundary_warning_days": 30
+   },
+   "member_name": {
+    "en": "an exemption for pregnancy or after giving birth",
+    "es": "una exención por embarazo o después del parto",
+    "pt": "uma isenção por gravidez ou pós-parto",
+    "ht": "yon egzanpsyon pou gwosès oswa apre akouchman",
+    "vi": "miễn trừ khi mang thai hoặc sau khi sinh",
+    "zh": "怀孕或产后豁免"
+   }
+  },
+  {
+   "id": "EX_SNAP_TAFDC",
+   "rule_id": "R-EX-SNAP",
+   "kind": "exemption",
+   "evaluator": "other_program_work_rule",
+   "params": {
+    "fact_type": "snap",
+    "program": "SNAP"
+   },
+   "member_name": {
+    "en": "an exemption because you already follow SNAP or TAFDC work rules",
+    "es": "una exención porque usted ya cumple las reglas de trabajo de SNAP o TAFDC",
+    "pt": "uma isenção porque você já segue as regras de trabalho do SNAP ou TAFDC",
+    "ht": "yon egzanpsyon paske ou deja suiv règ travay SNAP oswa TAFDC",
+    "vi": "miễn trừ vì quý vị đã tuân theo quy định việc làm của SNAP hoặc TAFDC",
+    "zh": "因您已遵守 SNAP 或 TAFDC 工作规定而获得的豁免"
+   }
+  },
+  {
+   "id": "EX_FORMER_FOSTER",
+   "rule_id": "R-EX-FOSTER",
+   "kind": "exemption",
+   "evaluator": "former_foster",
+   "params": {
+    "max_age": 25
+   },
+   "member_name": {
+    "en": "an exemption for former foster youth under 26",
+    "es": "una exención para jóvenes que estuvieron en hogares de crianza, menores de 26 años",
+    "pt": "uma isenção para jovens que estiveram em lares adotivos temporários, com menos de 26 anos",
+    "ht": "yon egzanpsyon pou jèn ki te nan fwaye daprantisaj (foster care) ki poko gen 26 an",
+    "vi": "miễn trừ cho thanh niên từng ở nhà nuôi dưỡng, dưới 26 tuổi",
+    "zh": "26 岁以下曾受寄养青年豁免"
+   }
+  },
+  {
+   "id": "EX_VETERAN_TOTAL",
+   "rule_id": "R-EX-VET",
+   "kind": "exemption",
+   "evaluator": "va_rating",
+   "params": {
+    "min_percent": 100
+   },
+   "member_name": {
+    "en": "an exemption for veterans with a total (100%) disability rating",
+    "es": "una exención para veteranos con una calificación de discapacidad total (100%)",
+    "pt": "uma isenção para veteranos com classificação de deficiência total (100%)",
+    "ht": "yon egzanpsyon pou ansyen militè ki gen yon nòt andikap total (100%)",
+    "vi": "miễn trừ cho cựu chiến binh có mức khuyết tật toàn phần (100%)",
+    "zh": "完全（100%）残障评级退伍军人豁免"
+   }
+  },
+  {
+   "id": "EX_INCARCERATION",
+   "rule_id": "R-EX-INCARC",
+   "kind": "exemption",
+   "evaluator": "recent_release",
+   "params": {
+    "months": 3
+   },
+   "member_name": {
+    "en": "an exemption for people recently released from jail or prison",
+    "es": "una exención para personas que salieron recientemente de la cárcel o prisión",
+    "pt": "uma isenção para pessoas que saíram recentemente da cadeia ou prisão",
+    "ht": "yon egzanpsyon pou moun ki fèk sot nan prizon",
+    "vi": "miễn trừ cho người mới ra tù",
+    "zh": "近期刑满释放人员豁免"
+   }
+  },
+  {
+   "id": "EX_AIAN",
+   "rule_id": "R-EX-AIAN",
+   "kind": "exemption",
+   "evaluator": "fact_present",
+   "params": {
+    "fact_type": "tribal",
+    "reason": "Tribal enrollment documented."
+   },
+   "member_name": {
+    "en": "an exemption for American Indian and Alaska Native people",
+    "es": "una exención para personas indígenas americanas y nativas de Alaska",
+    "pt": "uma isenção para povos indígenas americanos e nativos do Alasca",
+    "ht": "yon egzanpsyon pou moun Endyen Ameriken ak Natif Alaska",
+    "vi": "miễn trừ cho người Mỹ bản địa và thổ dân Alaska",
+    "zh": "美洲印第安人和阿拉斯加原住民豁免"
+   }
+  },
+  {
+   "id": "EX_DISABILITY",
+   "rule_id": "R-EX-DISABILITY",
+   "kind": "exemption",
+   "evaluator": "member_disability_award",
+   "params": {},
+   "member_name": {
+    "en": "an exemption for people with disabilities",
+    "es": "una exención para personas con discapacidad",
+    "pt": "uma isenção para pessoas com deficiência",
+    "ht": "yon egzanpsyon pou moun ki gen andikap",
+    "vi": "miễn trừ cho người khuyết tật",
+    "zh": "残障人士豁免"
+   }
+  }
+ ],
+ "gap_codes": {
+  "FRAILTY_NO_WORK_IMPACT": {
+   "ask": "clinician",
+   "fix": "Ask the clinician for an updated letter that (1) names the diagnosis and (2) states in plain words that the condition significantly impairs the member's ability to work 80 hours a month (and for how long). A diagnosis list alone is usually not enough.",
+   "member_text": {
+    "en": "A new letter from your doctor that says how your health condition makes it hard for you to work.",
+    "es": "Una nueva carta de su médico que diga cómo su condición de salud le dificulta trabajar.",
+    "pt": "Uma nova carta do seu médico dizendo como sua condição de saúde dificulta o seu trabalho.",
+    "ht": "Yon nouvo lèt doktè w ki di kijan pwoblèm sante w la fè li difisil pou w travay.",
+    "vi": "Một thư mới từ bác sĩ nói rõ tình trạng sức khỏe khiến quý vị khó làm việc như thế nào.",
+    "zh": "一封医生的新信，说明您的健康状况如何使您难以工作。"
+   },
+   "requests": [
+    "Please state whether {first}'s condition(s) significantly impair their ability to work, volunteer or attend job training for 80 hours per month.",
+    "If so, please state how long you expect this to last.",
+    "Please keep the diagnosis names and include your signature, credentials and the date."
+   ]
+  },
+  "FRAILTY_NO_DIAGNOSIS": {
+   "ask": "clinician",
+   "fix": "Ask the clinician to add the specific diagnosis or condition to the letter.",
+   "member_text": {
+    "en": "Your doctor's letter needs to name your health condition.",
+    "es": "La carta de su médico debe nombrar su condición de salud.",
+    "pt": "A carta do seu médico precisa citar sua condição de saúde.",
+    "ht": "Lèt doktè w la bezwen bay non pwoblèm sante w la.",
+    "vi": "Thư của bác sĩ cần ghi rõ tên bệnh của quý vị.",
+    "zh": "医生的信需要写明您的病症名称。"
+   },
+   "requests": [
+    "Please add the specific diagnosis or condition to your letter."
+   ]
+  },
+  "CHILD_AGE_PROOF": {
+   "ask": "member",
+   "fix": "Get a document showing the child's date of birth (birth certificate, school record, or MassHealth/DTA notice listing the child).",
+   "member_text": {
+    "en": "A paper that shows your child's date of birth, like a birth certificate.",
+    "es": "Un documento que muestre la fecha de nacimiento de su hijo/a, como el acta de nacimiento.",
+    "pt": "Um documento com a data de nascimento do seu filho/a, como a certidão de nascimento.",
+    "ht": "Yon papye ki montre dat nesans pitit ou, tankou yon batistè.",
+    "vi": "Giấy tờ ghi ngày sinh của con quý vị, ví dụ giấy khai sinh.",
+    "zh": "能证明您孩子出生日期的文件，例如出生证明。"
+   },
+   "requests": []
+  },
+  "CAREGIVER_DISABILITY_PROOF": {
+   "ask": "member",
+   "fix": "Get proof of the care recipient's disability: an SSA/SSI award letter or a clinician letter about the person being cared for.",
+   "member_text": {
+    "en": "A paper that shows the person you care for has a disability (for example, a Social Security letter or a doctor's letter).",
+    "es": "Un documento que muestre que la persona que usted cuida tiene una discapacidad (por ejemplo, una carta del Seguro Social o de un médico).",
+    "pt": "Um documento que mostre que a pessoa de quem você cuida tem uma deficiência (por exemplo, uma carta da Previdência Social ou de um médico).",
+    "ht": "Yon papye ki montre moun w ap okipe a gen yon andikap (pa egzanp, yon lèt Sekirite Sosyal oswa yon lèt doktè).",
+    "vi": "Giấy tờ cho thấy người quý vị chăm sóc bị khuyết tật (ví dụ thư của Sở An sinh Xã hội hoặc của bác sĩ).",
+    "zh": "能证明您照顾的人有残障的文件（例如社会安全局的信或医生的信）。"
+   },
+   "requests": []
+  },
+  "ENROLLMENT_STATUS_UNSTATED": {
+   "ask": "school",
+   "fix": "Ask the registrar for an enrollment verification that states the enrollment status (full-time / half-time / less than half-time) and credit hours for the term.",
+   "member_text": {
+    "en": "A letter from your school that says if you are full-time, half-time or less, and how many credits you take.",
+    "es": "Una carta de su escuela que diga si estudia tiempo completo, medio tiempo o menos, y cuántos créditos toma.",
+    "pt": "Uma carta da sua escola dizendo se você estuda em tempo integral, meio período ou menos, e quantos créditos faz.",
+    "ht": "Yon lèt lekòl ou ki di si w ale aplentan, mwatye tan oswa mwens, ak konbyen kredi w ap pran.",
+    "vi": "Thư của trường ghi rõ quý vị học toàn thời gian, bán thời gian hay ít hơn, và số tín chỉ.",
+    "zh": "学校的信，说明您是全日制、半日制还是更少，以及修读的学分。"
+   },
+   "requests": [
+    "Please provide an enrollment verification for the current term stating the enrollment status as determined by the school (full-time, half-time, or less than half-time).",
+    "Please include the number of credit hours and the term start and end dates."
+   ]
+  },
+  "DOC_CONFLICT": {
+   "ask": "employer",
+   "fix": "Documents disagree. Ask the employer/organisation for one signed record of the actual hours (and pay) for a single month, or submit the record that covers the full month with a short explanation.",
+   "member_text": {
+    "en": "Your papers show different hours or pay. We need one clear record for one month from your employer or organization.",
+    "es": "Sus documentos muestran horas o pagos diferentes. Necesitamos un registro claro de un mes de su empleador u organización.",
+    "pt": "Seus documentos mostram horas ou pagamentos diferentes. Precisamos de um registro claro de um mês do seu empregador ou organização.",
+    "ht": "Papye w yo montre èdtan oswa peman ki diferan. Nou bezwen yon dosye klè pou yon mwa nan men patwon w oswa òganizasyon an.",
+    "vi": "Giấy tờ của quý vị ghi số giờ hoặc tiền lương khác nhau. Cần một bản ghi rõ ràng cho một tháng từ chủ lao động hoặc tổ chức.",
+    "zh": "您的文件显示的工时或收入不一致。需要雇主或机构提供一个月的明确记录。"
+   },
+   "requests": [
+    "Please provide one signed statement of the actual hours worked (and gross pay) for a single recent month.",
+    "If hours vary week to week, please list each week."
+   ]
+  },
+  "OUTSIDE_LOOKBACK": {
+   "ask": "member",
+   "fix": "Collect pay stubs or records for one of the review months listed on the notice.",
+   "member_text": {
+    "en": "Pay stubs or records from one of the months listed on your MassHealth letter.",
+    "es": "Talones de pago o registros de uno de los meses que aparecen en su carta de MassHealth.",
+    "pt": "Contracheques ou registros de um dos meses indicados na sua carta do MassHealth.",
+    "ht": "Souch chèk oswa dosye pou youn nan mwa ki ekri sou lèt MassHealth ou a.",
+    "vi": "Phiếu lương hoặc hồ sơ của một trong các tháng ghi trong thư MassHealth.",
+    "zh": "MassHealth 信中所列月份之一的工资单或记录。"
+   },
+   "requests": []
+  },
+  "HOURS_SHORT": {
+   "ask": "member",
+   "fix": "Hours are below 80. Add any other qualifying hours for the same month (second job, volunteering, job training, classes) or check whether an exemption applies.",
+   "member_text": {
+    "en": "More hours in the same month (another job, volunteering, job training or classes all count).",
+    "es": "Más horas en el mismo mes (otro trabajo, voluntariado, capacitación o clases cuentan).",
+    "pt": "Mais horas no mesmo mês (outro emprego, voluntariado, treinamento ou aulas contam).",
+    "ht": "Plis èdtan nan menm mwa a (yon lòt travay, volontarya, fòmasyon oswa kou konte).",
+    "vi": "Thêm giờ trong cùng tháng (việc làm khác, tình nguyện, học nghề hoặc lớp học đều được tính).",
+    "zh": "同一个月内更多的时数（其他工作、志愿服务、职业培训或课程都算）。"
+   },
+   "requests": []
+  },
+  "INCOME_SHORT": {
+   "ask": "member",
+   "fix": "Earnings are below $580. Check other earnings in the same month (all employers, tips, gig apps) or whether an exemption applies.",
+   "member_text": {
+    "en": "Proof of any other pay in the same month (other jobs, tips, apps).",
+    "es": "Prueba de cualquier otro pago en el mismo mes (otros trabajos, propinas, aplicaciones).",
+    "pt": "Comprovante de qualquer outro pagamento no mesmo mês (outros empregos, gorjetas, aplicativos).",
+    "ht": "Prèv nenpòt lòt peman nan menm mwa a (lòt travay, poubwa, aplikasyon).",
+    "vi": "Bằng chứng về các khoản thu nhập khác trong cùng tháng (việc khác, tiền boa, ứng dụng).",
+    "zh": "同月其他收入的证明（其他工作、小费、应用平台）。"
+   },
+   "requests": []
+  },
+  "POSTPARTUM_ENDING": {
+   "ask": "navigator",
+   "fix": "Submit before the postpartum window closes and identify the pathway that will apply afterwards (e.g. caregiver of a child 13 or under).",
+   "member_text": {
+    "en": "Your after-birth exemption may end soon, so please respond quickly.",
+    "es": "Su exención por posparto puede terminar pronto; por favor responda rápido.",
+    "pt": "Sua isenção pós-parto pode terminar em breve; por favor responda rápido.",
+    "ht": "Egzanpsyon apre akouchman w lan ka fini byento, tanpri reponn vit.",
+    "vi": "Miễn trừ sau sinh của quý vị có thể sắp hết, vui lòng trả lời sớm.",
+    "zh": "您的产后豁免可能即将结束，请尽快回复。"
+   },
+   "requests": []
+  },
+  "DOC_TRANSLATION": {
+   "ask": "navigator",
+   "fix": "Document is not in English. Check whether MassHealth needs a translation and attach one if so (needs confirmation).",
+   "member_text": {
+    "en": "Your navigator will check if a translation of your document is needed.",
+    "es": "Su navegador verificará si se necesita una traducción de su documento.",
+    "pt": "Seu navegador vai verificar se é necessária uma tradução do seu documento.",
+    "ht": "Navigatè w la ap tcheke si yo bezwen yon tradiksyon dokiman w lan.",
+    "vi": "Người hướng dẫn sẽ kiểm tra xem có cần dịch giấy tờ của quý vị không.",
+    "zh": "您的导航员会确认是否需要翻译您的文件。"
+   },
+   "requests": []
+  },
+  "NO_QUALIFYING_PATHWAY": {
+   "ask": "navigator",
+   "fix": "No pathway is supported by the current documents. Do not invent one: review exemptions with the member (screener), and refer to resources (MassHealth Customer Service, Health Care For All HelpLine, MassHire career centers for job training hours).",
+   "member_text": {
+    "en": "Let's talk about other options, including exemptions that might fit you.",
+    "es": "Hablemos de otras opciones, incluidas exenciones que podrían aplicarse a usted.",
+    "pt": "Vamos conversar sobre outras opções, incluindo isenções que podem se aplicar a você.",
+    "ht": "Ann pale sou lòt opsyon, tankou egzanpsyon ki ka aplike pou ou.",
+    "vi": "Hãy cùng trao đổi các lựa chọn khác, kể cả các trường hợp miễn trừ có thể phù hợp.",
+    "zh": "我们来谈谈其他选择，包括可能适用于您的豁免。"
+   },
+   "requests": []
+  },
+  "CAREGIVER_DISABILITY_STATEMENT": {
+   "ask": "clinician",
+   "fix": "Ask the care recipient's clinician for a letter that states the person has a disability (a physical or mental impairment that substantially limits one or more major life activities) and what daily help they need, and that the member provides that care.",
+   "member_text": {
+    "en": "A letter from your family member's doctor that says they have a disability and need your help every day.",
+    "es": "Una carta del médico de su familiar que diga que tiene una discapacidad y necesita su ayuda todos los días.",
+    "pt": "Uma carta do médico do seu familiar dizendo que ele tem uma deficiência e precisa da sua ajuda todos os dias.",
+    "ht": "Yon lèt doktè fanmi w lan ki di li gen yon andikap epi li bezwen èd ou chak jou.",
+    "vi": "Thư của bác sĩ của người thân nói rằng họ bị khuyết tật và cần quý vị giúp đỡ hằng ngày.",
+    "zh": "您家人的医生写的信，说明他们有残障，每天需要您的帮助。"
+   },
+   "requests": [
+    "Please state whether {recipient} has a physical or mental impairment that substantially limits one or more major life activities (for example walking, bathing, dressing or managing medications).",
+    "Please describe the daily help {recipient} needs and state that {first} provides this care.",
+    "Please include the diagnosis, your signature, credentials and the date."
+   ]
+  }
+ },
+ "resources": [
+  {
+   "name": "MassHealth screener",
+   "url": "https://www.mass.gov/decision-tree/find-out-if-you-need-to-meet-new-work-and-education-requirements-for-masshealth-members"
+  },
+  {
+   "name": "MassHealth work and education requirements",
+   "url": "https://www.mass.gov/info-details/new-work-and-education-requirements-for-masshealth-members"
+  },
+  {
+   "name": "MassHire career centers (job training hours)",
+   "url": "https://www.mass.gov/masshire-career-centers"
+  }
+ ],
+ "rulebook_patch": {}
+}

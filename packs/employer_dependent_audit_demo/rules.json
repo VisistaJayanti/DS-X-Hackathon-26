@@ -1,0 +1,66 @@
+{
+  "_meta": {
+    "description": "ILLUSTRATIVE pack with made-up rules, to show that the agents are program-agnostic.",
+    "sources": {
+      "ILLUSTRATIVE": {
+        "title": "Made-up demo rules (no real source)",
+        "url": "https://example.org/illustrative-pack",
+        "status": "illustrative"
+      }
+    }
+  },
+  "rules": [
+    {
+      "id": "IR-DEP-CHILD",
+      "pathway": "DEP_CHILD_UNDER_26",
+      "kind": "compliance",
+      "name": "Dependent child under 26",
+      "logic": "child's documented age <= 25",
+      "source": "ILLUSTRATIVE",
+      "cite": "Illustrative plan rule 2.1",
+      "quote": "A child of the employee remains an eligible dependent through the end of the month in which the child turns 26.",
+      "source_status": "illustrative",
+      "needs_confirmation": true,
+      "confirmation_note": "ILLUSTRATIVE rule written for this demo; not taken from any real plan document or regulation."
+    },
+    {
+      "id": "IR-DEP-DISABLED",
+      "pathway": "DEP_DISABLED_ADULT",
+      "kind": "exemption",
+      "name": "Disabled adult family member in the employee's care",
+      "logic": "employee cares for a household adult with documented disability",
+      "source": "ILLUSTRATIVE",
+      "cite": "Illustrative plan rule 2.4",
+      "quote": "An adult family member who lives with the employee and cannot support themselves because of a disability may remain covered.",
+      "source_status": "illustrative",
+      "needs_confirmation": true,
+      "confirmation_note": "ILLUSTRATIVE rule written for this demo; not taken from any real plan document or regulation."
+    },
+    {
+      "id": "IR-EMPLOYEE-AGE",
+      "pathway": "OUT_OF_SCOPE_AGE",
+      "kind": "out_of_scope",
+      "name": "Employee is outside the audit population",
+      "logic": "employee age outside 18-70",
+      "source": "ILLUSTRATIVE",
+      "cite": "Illustrative plan rule 1.2",
+      "quote": "The dependent audit applies to employees aged 18 to 70.",
+      "source_status": "illustrative",
+      "needs_confirmation": true,
+      "confirmation_note": "ILLUSTRATIVE rule written for this demo; not taken from any real plan document or regulation."
+    },
+    {
+      "id": "IR-PROC-60DAY",
+      "pathway": null,
+      "kind": "process",
+      "name": "60 days to return dependent documentation",
+      "logic": "deadline = notice received + 60 days",
+      "source": "ILLUSTRATIVE",
+      "cite": "Illustrative plan rule 4.1",
+      "quote": "Employees have 60 days from receipt of the audit letter to provide documentation for each dependent.",
+      "source_status": "illustrative",
+      "needs_confirmation": true,
+      "confirmation_note": "ILLUSTRATIVE rule written for this demo; not taken from any real plan document or regulation."
+    }
+  ]
+}

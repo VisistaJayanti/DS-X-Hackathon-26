@@ -1,0 +1,33 @@
+{
+  "case_id": "C40",
+  "title": "SNAP household subject to SNAP work rules (ABAWD)",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Shawn K. (synthetic)",
+    "age": 35,
+    "language": "en",
+    "household": "Lives alone",
+    "notice_received_date": "2026-10-17"
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "snap.txt",
+      "text": "DEPARTMENT OF TRANSITIONAL ASSISTANCE\nSNAP Notice of Approval\nClient: Shawn K.\nYou are an Able-Bodied Adult Without Dependents (ABAWD).\nYou are subject to SNAP work requirements and must meet them to keep your benefits."
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "EX_SNAP_TAFDC"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": ""
+  },
+  "split": "test"
+}
