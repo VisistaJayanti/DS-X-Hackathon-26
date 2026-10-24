@@ -846,5 +846,42 @@
     "rule_id": "R-TR-MOVE"
    }
   }
- }
+ },
+ "runnable": true,
+ "eligibility": {
+  "tier": "medicaid",
+  "countries": [
+   "US"
+  ],
+  "regions": [
+   "Massachusetts"
+  ],
+  "nationalities": [],
+  "nationality_note": "US citizens and qualified non-citizens can be MassHealth members; immigration status rules are not checked here.",
+  "age_min": 19,
+  "age_max": 64,
+  "age_rule": "R-SCOPE-AGE",
+  "valid_from": "2027-01-01",
+  "valid_to": null,
+  "min_coverage_months": null,
+  "max_coverage_months": 6,
+  "timeline_note": "Expansion adults renew every six months under the new requirement."
+ },
+ "required_documents": [
+  {
+   "id": "notice",
+   "label": "The MassHealth notice (Request for Information or renewal)",
+   "keywords": "request for information|renewal notice|we need more information|masshealth|aviso|notificación",
+   "why": "The notice lists the review months and the response deadline.",
+   "fix": "Upload a photo or scan of the MassHealth letter, including the page with the response date."
+  },
+  {
+   "id": "evidence",
+   "label": "Proof of work, school, income or an exemption",
+   "keywords": "pay stub|pay period|gross pay|employer|hours worked|enrollment|enrolled|credits|volunteer|training|physician|doctor|diagnosis|caregiver|snap|tafdc|veterans|social security|foster|release|tribe|pregnan|treatment program|clinic|hospital|neurolog|\\bdr\\.|cuid|médic|medic|empleador|trabajo|horas|escuela|matrícula|trabalh|declaración|declaração",
+   "why": "At least one document must support a compliance or exemption pathway.",
+   "fix": "Upload pay stubs, a school enrollment letter, a volunteer/training record, or a letter supporting an exemption (doctor, caregiver, SNAP/TAFDC, VA, SSA)."
+  }
+ ],
+ "document_expiry_days": 90
 }

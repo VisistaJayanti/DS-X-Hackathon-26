@@ -386,5 +386,40 @@
    "name": "Your plan's benefits office (illustrative)",
    "url": "https://example.org/illustrative-pack"
   }
- ]
+ ],
+ "runnable": true,
+ "eligibility": {
+  "tier": "commercial",
+  "countries": [
+   "US"
+  ],
+  "regions": [],
+  "nationalities": [],
+  "nationality_note": "Employer plans do not usually restrict nationality.",
+  "age_min": 0,
+  "age_max": 25,
+  "age_rule": "IR-DEP-CHILD",
+  "valid_from": null,
+  "valid_to": null,
+  "min_coverage_months": null,
+  "max_coverage_months": null,
+  "timeline_note": "Dependents are re-verified during the audit window (60 days)."
+ },
+ "required_documents": [
+  {
+   "id": "relationship",
+   "label": "Proof of relationship (birth certificate, adoption or court papers)",
+   "keywords": "birth certificate|certificate of live birth|adoption|guardianship|parent",
+   "why": "The plan needs to see the dependent is the employee's child.",
+   "fix": "Upload the dependent's birth certificate or adoption/guardianship papers."
+  },
+  {
+   "id": "identity",
+   "label": "Dependent's proof of age",
+   "keywords": "date of birth|dob|born|birth certificate|passport",
+   "why": "Dependent children stay covered only up to the age limit.",
+   "fix": "Upload a document that shows the dependent's date of birth."
+  }
+ ],
+ "document_expiry_days": null
 }
