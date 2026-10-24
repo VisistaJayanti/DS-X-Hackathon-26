@@ -46,8 +46,15 @@ flowchart LR
 ```
 
 - **Each stage is inspectable** in the UI: input/output JSON, engine (LLM or deterministic), model, latency and cost.
-- **Models per stage** (`keeper/config.py`, set as `provider:model`). Two presets:
-  - **`free`** (the default when no Anthropic key is set) uses free API tiers spread over three providers:
+- **Models per stage** (`keeper/config.py`, set as `provider:model`). Three presets, picked automatically from the keys you have: an Anthropic key selects `anthropic`, otherwise an NVIDIA key selects `nvidia`, otherwise `free`.
+  - **`nvidia`** runs every stage on open-weight models through NVIDIA NIM with one key (`NVIDIA_API_KEY`, free tier about 40 requests/min):
+    - MiniMax M3.1 Flash for intake and the verifier.
+    - Nemotron 3 Ultra for extraction, interpretation, drafting and translation.
+    - Nemotron 3.5 Super VL for image transcription.
+    - GLM 5.3 as the evaluation judge.
+
+    The verifier and the judge are different model families from the drafter. These models were chosen because they answered a strict JSON-schema probe on 2026-10-24; several other catalog models returned 404 or timed out. Maria's case (C46) matches all its labels on this preset and takes about 3 minutes live.
+  - **`free`** uses free API tiers spread over three providers:
     - Groq gpt-oss-20b for intake.
     - Gemini 3.8 Flash for extraction, translation, the verifier and image transcription.
     - Groq gpt-oss-120b for clinician-letter interpretation.
@@ -85,7 +92,8 @@ python server.py                   # http://127.0.0.1:8000
 
   ```bash
   cp .env.example .env              # Windows PowerShell: Copy-Item .env.example .env
-  # then edit .env: GROQ_API_KEY=..., GEMINI_API_KEY=..., CEREBRAS_API_KEY=...
+  # then edit .env: either NVIDIA_API_KEY=... (all stages, one key)
+  #                 or GROQ_API_KEY=..., GEMINI_API_KEY=..., CEREBRAS_API_KEY=...
   ```
 
   - `.env` is git-ignored and never committed. Keys already set as system environment variables take precedence over it.
