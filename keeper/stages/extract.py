@@ -18,6 +18,32 @@ FACT_TYPES = [
     "va_rating", "foster_care", "release", "tribal", "doc_language", "care_recipient_condition",
 ]
 
+FACT_DESC = {
+    "work_hours": "hours of work, community service or a work program",
+    "earnings": "money earned",
+    "enrollment": "school enrollment status and credits",
+    "medicare": "the member is enrolled in Medicare",
+    "member_dob": "the member's date of birth",
+    "pregnancy": "the member is pregnant (date = due date)",
+    "delivery": "the member gave birth (date = delivery date)",
+    "child": "a child of the member, with the child's date of birth",
+    "care_claim": "the MEMBER says they care for, help or live with someone (child or adult); one fact per statement, "
+                  "even if it also mentions that person's condition",
+    "ssa_disability": "a Social Security disability benefit award (name = beneficiary)",
+    "diagnosis": "a diagnosis of the MEMBER in a clinician or treatment-program letter",
+    "work_impact": "what a clinician letter about the member says about the ability to work",
+    "recovery": "time in remission or recovery",
+    "sud_treatment": "the member currently takes part in a substance-use treatment program",
+    "snap": "SNAP notice: whether the member is subject to its work requirement",
+    "tafdc": "TAFDC notice: whether the member is subject to its work requirement",
+    "va_rating": "VA disability rating",
+    "foster_care": "the member was in foster care at 18",
+    "release": "release from incarceration (date = release date)",
+    "tribal": "the member is an enrolled tribal member",
+    "doc_language": "the language of a non-English document",
+    "care_recipient_condition": "a CLINICIAN letter's statement about the condition of someone other than the member",
+}
+
 FIELDS = {
     "month": "YYYY-MM the activity/earnings belong to, or null if ongoing/unspecified",
     "hours": "hours in that month (for weekly figures give the weekly number and set basis=weekly)",
@@ -34,7 +60,9 @@ FIELDS = {
     "condition": "diagnosis name (diagnosis) or program name (sud_treatment)",
     "category": "diagnosis: physical | mental | sud | developmental | serious_complex",
     "care_recipient_condition": "use this type (not diagnosis) when a clinician letter is about someone OTHER than the member; "
-                                "status explicit if it states a disability or need for help with daily activities, else absent",
+                                "status explicit ONLY if the letter itself says the person is disabled / has a disability or "
+                                "needs help with daily activities; a diagnosis, symptom or impairment alone (e.g. 'weakness') "
+                                "is absent",
     "percent": "VA combined rating percent",
     "subject": "snap/tafdc: true if member is SUBJECT TO (not exempt from) the work requirement",
     "part": "medicare: A, B or AB",
@@ -318,6 +346,10 @@ Rules:
   the ability to work or meet a work requirement; "vague" if it only hints (e.g. 'may have difficulty');
   "absent" if it never addresses work. Emit one work_impact fact per clinician letter that names a diagnosis.
 - Enrollment status must be what the school states; 'part-time' without 'half-time' is part_time_unspecified.
+- A member's own statement that they care for someone is a care_claim, never a care_recipient_condition.
+- Give relation in English (mother, son, ...) whatever the document's language.
+
+Fact types: """ + "; ".join(f"{k}: {v}" for k, v in FACT_DESC.items()) + """
 
 Fields: """ + "; ".join(f"{k}: {v}" for k, v in FIELDS.items())
 

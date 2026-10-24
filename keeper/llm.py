@@ -45,8 +45,8 @@ def _get_client(provider="anthropic"):
                 p = config.PROVIDERS[provider]
                 if not p.get("base_url"):
                     raise LLMUnavailable(f"no base URL configured for provider {provider!r}")
-                _clients[provider] = OpenAI(base_url=p["base_url"], api_key=config.provider_key(provider), max_retries=4,
-                                            timeout=120)
+                _clients[provider] = OpenAI(base_url=p["base_url"], api_key=config.provider_key(provider),
+                                            max_retries=p.get("retries", 3), timeout=p.get("timeout", 120))
         return _clients[provider]
 
 
@@ -151,13 +151,20 @@ def _conform(value, schema, path="$"):
 
 
 def _parse(text):
-    t = (text or "").strip()
+    """JSON from a model reply. Open models sometimes wrap it in <think> blocks, code fences or a sentence."""
+    t = re.sub(r"<think>.*?</think>", "", text or "", flags=re.S).strip()
     m = re.match(r"^```(?:json)?\s*(.*?)\s*```$", t, re.S)
     if m:
         t = m.group(1)
     try:
         return json.loads(t)
     except json.JSONDecodeError as e:
+        a, b = t.find("{"), t.rfind("}")
+        if 0 <= a < b:
+            try:
+                return json.loads(t[a:b + 1])
+            except json.JSONDecodeError:
+                pass
         raise LLMUnavailable(f"invalid JSON: {e}")
 
 
@@ -175,12 +182,13 @@ def _anthropic(model, system, user, schema, max_tokens, effort):
     text = next((b.text for b in resp.content if getattr(b, "type", "") == "text"), None)
     if text is None:
         raise LLMUnavailable("no text block in response")
-    return text, {"input_tokens": resp.usage.input_tokens, "output_tokens": resp.usage.output_tokens}
+    return _conform(_parse(text), schema), {"input_tokens": resp.usage.input_tokens, "output_tokens": resp.usage.output_tokens}
 
 
 def _openai_compat(provider, model, system, user, schema, max_tokens, effort):
-    """Try strict JSON-schema mode; if the provider/model rejects it (HTTP 400), retry in JSON-object mode
-    with the schema in the prompt. _conform() checks the result either way."""
+    """Try strict JSON-schema mode, then JSON-object mode with the schema in the prompt: when the model
+    rejects schema mode (HTTP 400, remembered per model) or its reply doesn't parse or fit the schema.
+    Returns (data checked by _conform, usage summed over attempts)."""
     from openai import BadRequestError
 
     client = _get_client(provider)
@@ -197,7 +205,7 @@ def _openai_compat(provider, model, system, user, schema, max_tokens, effort):
     ]
     if (provider, model) in _no_schema:
         attempts = attempts[1:]
-    last = None
+    last, usage = None, {"input_tokens": 0, "output_tokens": 0}
     for req, sys_text in attempts:
         _wait_turn(provider)
         try:
@@ -208,13 +216,17 @@ def _openai_compat(provider, model, system, user, schema, max_tokens, effort):
             if req is schema_mode:
                 _no_schema.add((provider, model))
             continue
+        u = resp.usage
+        usage["input_tokens"] += getattr(u, "prompt_tokens", 0) or 0
+        usage["output_tokens"] += getattr(u, "completion_tokens", 0) or 0
         choice = resp.choices[0]
         if choice.finish_reason == "length":
             raise LLMUnavailable("finish_reason=length")
-        u = resp.usage
-        return choice.message.content, {"input_tokens": getattr(u, "prompt_tokens", 0) or 0,
-                                        "output_tokens": getattr(u, "completion_tokens", 0) or 0}
-    raise LLMUnavailable(f"API error: {type(last).__name__}: {last}")
+        try:
+            return _conform(_parse(choice.message.content), schema), usage
+        except LLMUnavailable as e:
+            last = e
+    raise LLMUnavailable(str(last) if isinstance(last, LLMUnavailable) else f"API error: {type(last).__name__}: {last}")
 
 
 def _ready(spec):
@@ -249,15 +261,14 @@ def call_json(stage, system, user, schema, max_tokens=16000, effort="low", meter
     t0 = time.time()
     try:
         if provider == "anthropic":
-            text, usage = _anthropic(model_id, system, user, schema, max_tokens, effort)
+            data, usage = _anthropic(model_id, system, user, schema, max_tokens, effort)
         else:
-            text, usage = _openai_compat(provider, model_id, system, user, schema, max_tokens, effort)
+            data, usage = _openai_compat(provider, model_id, system, user, schema, max_tokens, effort)
     except LLMUnavailable:
         raise
     except Exception as e:  # network, auth, rate limit, missing SDK: the pipeline degrades to deterministic
         raise LLMUnavailable(f"API error: {type(e).__name__}: {e}")
     ms = int((time.time() - t0) * 1000)
-    data = _conform(_parse(text), schema)
 
     with _lock:
         path.write_text(json.dumps({"data": data, "usage": usage, "ms": ms, "model": model}), encoding="utf-8")

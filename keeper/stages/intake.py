@@ -13,7 +13,8 @@ def system_prompt():
     prog = rulebook.program()
     return ("You are the intake agent in Coverage Keeper, which helps health-plan care coordinators and navigators keep "
             f"eligible members from losing coverage over paperwork. Program: {prog['domain_context']}\n"
-            "Classify each document into exactly one type. All data is synthetic.\nDocument types: " + ", ".join(doc_types_list()))
+            "Classify each document into exactly one type. All data is synthetic.\nDocument types (id: what it is): " +
+            "; ".join(f"{t}: {rulebook.active()['doc_labels'].get(t, t)}" for t in doc_types_list()))
 
 
 def schema():

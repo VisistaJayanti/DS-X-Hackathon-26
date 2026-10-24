@@ -43,6 +43,10 @@ PROVIDERS = {
     "gemini": {"base_url": "https://generativelanguage.googleapis.com/v1beta/openai/", "key_env": "GEMINI_API_KEY", "rpm": 10},
     "cerebras": {"base_url": "https://api.cerebras.ai/v1", "key_env": "CEREBRAS_API_KEY", "rpm": 5},
     "openrouter": {"base_url": "https://openrouter.ai/api/v1", "key_env": "OPENROUTER_API_KEY", "rpm": 20},
+    # NVIDIA NIM (build.nvidia.com): open-weight models on one key, ~40 requests/min on the free tier. Some
+    # catalog models are listed but not served (404) or hang, hence the short timeout and single retry.
+    "nvidia": {"base_url": "https://integrate.api.nvidia.com/v1", "key_env": "NVIDIA_API_KEY", "rpm": 35, "timeout": 150,
+               "retries": 1},
     # Any other OpenAI-compatible endpoint (GitHub Models, Mistral, NVIDIA NIM, ...).
     "custom": {"base_url": os.environ.get("PP_CUSTOM_BASE_URL", ""), "key_env": "PP_CUSTOM_API_KEY", "rpm": 10},
 }
@@ -59,6 +63,9 @@ for _name, _p in PROVIDERS.items():
 #   anthropic : the original Claude setup (paid API)
 #   free      : free API tiers, spread over three providers so no single daily quota runs out; the
 #               verifier and the eval judge use different model families from the drafter.
+#   nvidia    : open-weight models on NVIDIA NIM, one key. Picked on 2026-10-24 from models that answered
+#               a strict JSON-schema probe (several catalog models returned 404 or timed out). Drafting on
+#               Nemotron; verifier (MiniMax) and judge (GLM) from other model families.
 PRESETS = {
     "anthropic": {
         "intake": "claude-haiku-5-5",
@@ -80,8 +87,19 @@ PRESETS = {
         "judge": "cerebras:qwen-3.8-27b",
         "ocr": "gemini:gemini-3.8-flash",
     },
+    "nvidia": {
+        "intake": "nvidia:minimaxai/minimax-m3.1-flash",
+        "extract": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+        "interpret": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+        "draft": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+        "translate": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+        "verify": "nvidia:minimaxai/minimax-m3.1-flash",
+        "judge": "nvidia:z-ai/glm-5.3",
+        "ocr": "nvidia:nvidia/nemotron-3.5-super-vl-120b-a12b",
+    },
 }
-PRESET = os.environ.get("PP_MODELS") or ("anthropic" if os.environ.get("ANTHROPIC_API_KEY") else "free")
+PRESET = os.environ.get("PP_MODELS") or ("anthropic" if os.environ.get("ANTHROPIC_API_KEY")
+                                         else "nvidia" if os.environ.get("NVIDIA_API_KEY") else "free")
 MODELS = {stage: os.environ.get(f"PP_MODEL_{stage.upper()}", spec) for stage, spec in PRESETS[PRESET].items()}
 
 
