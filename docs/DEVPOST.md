@@ -22,7 +22,7 @@ It never decides eligibility. The agency does, and a coordinator confirms before
 - Ten stages: risk flag → outreach → intake → extraction → rules → gap → follow-up → drafting → verifier → translation. Claude Haiku 5.5, Sonnet 5.5 and Opus 5.5 are assigned per stage by cost and difficulty, with JSON-schema structured outputs between stages.
 - Deterministic code for thresholds, ages, dates and deadlines; the LLM for interpretation (does this letter say the condition impairs the ability to work?), messy extraction, drafting and translation. Every LLM stage has a deterministic fallback and an on-disk cache, so the demo runs offline.
 - **Policy packs:** all program-specific content (rules with verbatim regulatory quotes, thresholds, exemptions, document types, gap fixes, notice conventions, languages) lives in a swappable pack. We ship a MassHealth pack and an explicitly illustrative employer-plan pack to show reuse.
-- A synthetic evaluation set (46 labelled cases with hard edge cases, dev/test split) and a 200-member synthetic roster, with a one-command evaluation script.
+- A synthetic evaluation set (46 labelled cases with hard edge cases, dev/test split) and a 200-member synthetic roster, with a one-command evaluation script. The roster's members are synthetic, but its shape is calibrated to real public data. City mix and preferred language by city come from ACS 2020–2024 (Medicaid-covered adults, and limited-English residents by language). The share of members who must respond (67%) and the paperwork-loss base rate (45% of those) come from CMS's MassHealth renewal outcomes during the unwinding.
 
 ## Challenges
 - mass.gov blocked automated retrieval (HTTP 403), so we encoded rules from the federal interim final rule's full text and wrote a checker that confirms every quote appears verbatim. Anything we couldn't verify is labelled `needs_confirmation` in the UI.
@@ -31,8 +31,8 @@ It never decides eligibility. The agency does, and a coordinator confirms before
 
 ## Accomplishments
 - An end-to-end case, from risk flag to Spanish outreach to a caught evidence gap to a cited packet and doctor request, that runs live or fully offline.
-- A verifier ablation (unsupported claims with vs without the verifier) judged by grounding checks plus an independent Opus judge.
-- Risk flagging that beats "soonest deadline first" at the top-k a coordinator can actually contact (P@20 80% vs 55% on synthetic data).
+- A verifier ablation (unsupported claims with vs without the verifier) judged by grounding checks plus an independent judge from a different model family.
+- Risk flagging that beats "soonest deadline first" at the top-k a coordinator can actually contact (P@20 80% vs 15% on the CMS/ACS-calibrated synthetic roster).
 - Program-agnostic agents: switching packs changes the rules, deadline and language without code changes.
 
 ## What we learned

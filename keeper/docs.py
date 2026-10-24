@@ -1,5 +1,4 @@
 """Document loading and quote grounding helpers."""
-import base64
 import io
 import re
 import unicodedata
@@ -65,20 +64,8 @@ def pdf_to_text(data):
 
 
 def image_to_text(data, media_type):
-    """OCR via Claude vision (live mode only)."""
-    from . import config
-    from .llm import LLMUnavailable, _get_client
+    """OCR via the configured vision model (config.MODELS['ocr'], live mode only)."""
+    from .llm import transcribe_image
 
-    if config.MODE != "live":
-        raise LLMUnavailable("Image documents need live mode (Claude vision) for transcription")
-    resp = _get_client().messages.create(
-        model=config.MODELS["extract"],
-        max_tokens=8000,
-        messages=[{"role": "user", "content": [
-            {"type": "image", "source": {"type": "base64", "media_type": media_type,
-                                         "data": base64.b64encode(data).decode()}},
-            {"type": "text", "text": "Transcribe this document exactly, line by line, preserving the original "
-                                     "language. Output only the transcription."},
-        ]}],
-    )
-    return next(b.text for b in resp.content if getattr(b, "type", "") == "text")
+    return transcribe_image(data, media_type, "Transcribe this document exactly, line by line, preserving the original "
+                                              "language. Output only the transcription.")

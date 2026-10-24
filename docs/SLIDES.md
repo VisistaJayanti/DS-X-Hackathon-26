@@ -23,8 +23,8 @@
 
 **5. Evaluation**
 - 46 synthetic cases with hard edge cases, held-out test split: pathway top-1 / top-2, gap precision / recall.
-- Headline: unsupported-claim rate with vs without the verifier (LLM drafts, independent Opus judge).
-- Risk flags: P@20 80% vs 55% (deadline-first) vs 30% (random) on the 200-member synthetic roster.
+- Headline: unsupported-claim rate with vs without the verifier (LLM drafts, independent judge from a different model family).
+- Risk flags: P@20 80% vs 15% (deadline-first) vs 35% (random) on the 200-member synthetic roster, calibrated to MassHealth renewal outcomes (CMS) and city language data (ACS).
 - Latency and cost per case; honest limitations (synthetic, small n, template-tuned baseline).
 
 **6. Innovation + business model**

@@ -4,6 +4,14 @@
 The label is drawn from a latent probability model with noise and unobserved factors, so the risk scorer
 (keeper/risk.py, hand-set points, not fit to these labels) is evaluated on assumed - not real - dynamics.
 
+Calibrated to real public, aggregate data (data/calibration/ma_calibration.json, built by data/fetch_calibration.py):
+  - city mix: ACS Medicaid-covered adults 19-64 per city
+  - preferred language per city: ACS limited-English-proficiency counts by language
+  - share subject to the requirement: MassHealth renewals that needed a form (CMS unwinding renewal outcomes)
+  - label base rate among them: MassHealth procedural terminations / renewals that needed a form (same CMS data);
+    the latent model's intercept is solved so the expected rate matches it.
+Everything else (returned mail, address changes, contact history, exemption hints) is an assumption.
+
 Usage: python data/generate_roster.py  -> data/roster.json
 """
 import json
@@ -14,8 +22,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 AS_OF = date(2026, 10, 24)
-CITIES = ["Lawrence", "Boston", "Springfield", "Lynn", "Worcester", "Chelsea", "Lowell", "Brockton", "New Bedford", "Fall River"]
-LANGS = [("en", 0.52), ("es", 0.26), ("pt", 0.07), ("ht", 0.06), ("vi", 0.045), ("zh", 0.045)]
+CAL = json.loads((ROOT / "calibration" / "ma_calibration.json").read_text(encoding="utf-8"))["roster_params"]
+CITY_WEIGHTS = list(CAL["city_weights"].items())
+LANGS_BY_CITY = {city: list(p.items()) for city, p in CAL["language_probs_by_city"].items()}
+LABEL_NOISE_SD = 0.9
 FIRST = {"en": ["James", "Ashley", "Tyler", "Brittany", "Kevin", "Nicole"], "es": ["Maria", "Jose", "Luz", "Carlos", "Yesenia", "Luis"],
          "pt": ["Joana", "Paulo", "Ana", "Thiago"], "ht": ["Jean", "Marie", "Widline", "Fritz"], "vi": ["Hoa", "Minh", "Thanh", "Lan"],
          "zh": ["Wei", "Mei", "Jun", "Li"]}
@@ -32,16 +42,18 @@ def pick(rng, weighted):
 
 
 def member(rng, i, cases_by_idx):
-    lang = pick(rng, LANGS)
+    city = pick(rng, CITY_WEIGHTS)
+    lang = pick(rng, LANGS_BY_CITY[city])
     c = cases_by_idx.get(i)
     m = {
         "member_id": f"M{i:04d}",
         "name": f"{rng.choice(FIRST[lang])} {chr(65 + rng.randrange(26))}. (synthetic)",
         "age": rng.randint(19, 64),
-        "city": rng.choice(CITIES),
+        "city": city,
         "language": lang,
         "line_of_business": "Medicaid managed care (MassHealth ACO)",
-        "subject_to_requirement": rng.random() < 0.8,  # state could not verify ex parte; RFI mailed
+        # state could not verify ex parte; RFI mailed (rate: MassHealth renewals not completed ex parte, CMS)
+        "subject_to_requirement": rng.random() < CAL["p_subject_to_requirement"],
         "notice_received_date": (AS_OF - timedelta(days=rng.randint(2, 26))).isoformat(),
         "notice_language": "en",
         "returned_mail": rng.random() < 0.09,
@@ -63,17 +75,40 @@ def member(rng, i, cases_by_idx):
     return m
 
 
-def latent_label(rng, m):
-    if not m["subject_to_requirement"]:
-        return rng.random() < 0.02
+def latent_z(m):
+    """Latent log-odds of procedural loss, before the intercept and noise."""
     due = date.fromisoformat(m["notice_received_date"]) + timedelta(days=30)
-    z = (-2.4 + 1.7 * m["returned_mail"] + 0.8 * m["address_change_90d"] + 0.9 * m["missed_prior_notices"]
-         + 0.9 * (m["language"] != m["notice_language"]) + 0.7 * (not m["reached_last_90d"]) + 0.5 * (not m["portal_account"])
-         + 0.5 * ((due - AS_OF).days < 14) + 0.6 * (m["exemption_hint"] != "none") + rng.gauss(0, 0.9))
+    return (1.7 * m["returned_mail"] + 0.8 * m["address_change_90d"] + 0.9 * m["missed_prior_notices"]
+            + 0.9 * (m["language"] != m["notice_language"]) + 0.7 * (not m["reached_last_90d"]) + 0.5 * (not m["portal_account"])
+            + 0.5 * ((due - AS_OF).days < 14) + 0.6 * (m["exemption_hint"] != "none"))
+
+
+def solve_intercept(target, n=20000):
+    """Intercept that makes the expected label rate among subject members equal the CMS target, on a large
+    calibration sample drawn with its own RNG (so the roster's random stream doesn't depend on it)."""
+    rng = random.Random(1)
+    zs = []
+    while len(zs) < n:
+        m = member(rng, 0, {})
+        if m["subject_to_requirement"]:
+            zs.append(latent_z(m) + rng.gauss(0, LABEL_NOISE_SD))
+    lo, hi = -10.0, 10.0
+    for _ in range(50):
+        mid = (lo + hi) / 2
+        rate = sum(1 / (1 + math.exp(-(mid + z))) for z in zs) / n
+        lo, hi = (mid, hi) if rate < target else (lo, mid)
+    return (lo + hi) / 2
+
+
+def latent_label(rng, m, intercept):
+    if not m["subject_to_requirement"]:
+        return rng.random() < 0.02  # assumption: renewed ex parte, small chance of a later paperwork loss
+    z = intercept + latent_z(m) + rng.gauss(0, LABEL_NOISE_SD)
     return rng.random() < 1 / (1 + math.exp(-z))
 
 
 def main():
+    intercept = solve_intercept(CAL["target_p_lose_given_subject"])
     rng = random.Random(2027)
     cases = sorted((ROOT / "cases").glob("*.json"))
     cases = [json.loads(p.read_text(encoding="utf-8")) for p in cases]
@@ -87,10 +122,13 @@ def main():
                       "has_mobile": True, "sms_opt_in": True, "portal_account": False, "preferred_channel": "phone",
                       "exemption_hint": "caregiver_adult", "case_id": "C46", "conditions_on_file": ["type 2 diabetes"]})
     for m in roster:
-        m["would_lose_paperwork"] = latent_label(rng, m)
+        m["would_lose_paperwork"] = latent_label(rng, m, intercept)
     roster[0]["would_lose_paperwork"] = True
     (ROOT / "roster.json").write_text(json.dumps(roster, indent=1, ensure_ascii=False), encoding="utf-8")
-    print(f"{len(roster)} members, {sum(m['would_lose_paperwork'] for m in roster)} labelled would-lose-for-paperwork")
+    subject = [m for m in roster if m["subject_to_requirement"]]
+    print(f"{len(roster)} members, {sum(m['would_lose_paperwork'] for m in roster)} labelled would-lose-for-paperwork; "
+          f"{len(subject)} subject to the requirement, {sum(m['would_lose_paperwork'] for m in subject) / len(subject):.1%} of them "
+          f"labelled (CMS target {CAL['target_p_lose_given_subject']:.1%}, intercept {intercept:.2f})")
 
 
 if __name__ == "__main__":

@@ -46,7 +46,16 @@ flowchart LR
 ```
 
 - **Each stage is inspectable** in the UI: input/output JSON, engine (LLM or deterministic), model, latency and cost.
-- **Models per stage:** Haiku 5.5 (intake), Sonnet 5.5 (extraction, drafting, translation, verifier), Opus 5.5 (clinician-letter interpretation, independent evaluation judge). JSON-schema structured outputs between stages.
+- **Models per stage** (`keeper/config.py`, set as `provider:model`). Two presets:
+  - **`free`** (the default when no Anthropic key is set) uses free API tiers spread over three providers:
+    - Groq gpt-oss-20b for intake.
+    - Gemini 3.8 Flash for extraction, translation, the verifier and image transcription.
+    - Groq gpt-oss-120b for clinician-letter interpretation.
+    - Cerebras gpt-oss-120b for drafting.
+    - Cerebras Qwen 3.8 27B as the independent evaluation judge, a different model family from both the drafter and the verifier.
+  - **`anthropic`** uses Haiku 5.5, Sonnet 5.5 and Opus 5.5.
+
+  Stages pass JSON-schema structured outputs, and every response is re-checked against its schema locally.
 - **Deterministic where possible:** thresholds, ages, dates, deadlines and pathway logic are code. The LLM handles interpretation (does this letter say the condition impairs the ability to work?), extraction from messy documents, drafting and translation.
 - **Run modes:** `live` calls the API and caches every response on disk. `replay` serves cached responses only (demo-safe, works offline). `offline` uses deterministic engines only. Every LLM stage falls back to its deterministic engine on network failure, so the demo never dies.
 
@@ -66,12 +75,18 @@ New lines of business (Medicare Advantage, ACA marketplace re-enrollment, non-US
 ```bash
 pip install -r requirements.txt
 python data/generate_cases.py      # 46 synthetic cases with labels
-python data/generate_roster.py     # 200-member synthetic plan roster
+python data/generate_roster.py     # 200-member synthetic plan roster (calibrated to CMS + ACS data, see below)
 python data/render_documents.py    # realistic synthetic PDFs + page images (watermarked "SYNTHETIC SAMPLE")
 python server.py                   # http://127.0.0.1:8000
 ```
 
-- **Live LLM mode:** set `ANTHROPIC_API_KEY` (never commit it). Without a key the app runs in `replay` mode: cached responses if present, otherwise deterministic engines.
+`python data/fetch_calibration.py` re-downloads the public CMS and Census data and rewrites `data/calibration/ma_calibration.json`. You only need it to refresh the data: the JSON is committed, so the roster generator runs offline.
+
+- **Live LLM mode (free APIs):** set `GROQ_API_KEY`, `GEMINI_API_KEY` and `CEREBRAS_API_KEY` as environment variables, never in a file in the repo. All three have free tiers and no local model is needed. A stage whose provider has no key falls back to its deterministic engine, so one key is enough to start.
+  - Override any stage with `PP_MODEL_<STAGE>=provider:model`. Providers: `groq`, `gemini`, `cerebras`, `openrouter` (free models end in `:free`), and `custom` for any other OpenAI-compatible endpoint via `PP_CUSTOM_BASE_URL` and `PP_CUSTOM_API_KEY`.
+  - To use Claude instead, set `ANTHROPIC_API_KEY`, or `PP_MODELS=anthropic`.
+  - Without any key the app runs in `replay` mode: cached responses if present, otherwise deterministic engines.
+- **Free-tier limits:** requests are paced per provider (`PP_RPM_<PROVIDER>`), and Groq's completion budget is capped to fit its tokens-per-minute limit (`PP_MAX_TOKENS_<PROVIDER>`). If a provider's daily quota runs out mid-run, the affected stages fall back to deterministic. Responses are cached, so re-running `--llm` the next day resumes where it stopped. Free tiers may retain prompts, so use them with synthetic data only.
 - **Evaluation (one command):** `python eval/run_eval.py` (deterministic) or `python eval/run_eval.py --llm` (LLM agents + independent judge; cached, so re-runs are free). Results go to `eval/RESULTS.md` and the UI's Evaluation tab.
 - **Demo safety:** after one `--llm` run, every response is cached in `cache/`, so `PP_MODE=replay python server.py` replays the demo without network.
 - **Check the rulebook quotes:** `python scripts/check_rulebook_quotes.py` confirms every "fetched_verbatim" quote appears in the downloaded Federal Register / SHVS text.
@@ -90,17 +105,34 @@ Headline numbers on the **held-out test split**. The current table is in [`eval/
 | Deterministic baseline, verifier on | 23 | 100% | 100% | 100% | 100% | 100% | 0/376 (0%) | 3 ms | $0 |
 | LLM agents, verifier off / on | 23 | *run `--llm`* | | | | | *headline ablation* | | |
 
-**Read these honestly.** The deterministic engine was written alongside the synthetic document templates, so 100% is an upper bound on template-like documents, not evidence of generalisation. Its drafts are built from grounded facts, so they are supported by construction. The verifier ablation matters for the **LLM drafter**: `--llm` measures unsupported claims in raw LLM drafts vs after the verifier, judged by grounding checks plus an independent Opus entailment judge.
+**Read these honestly.** The deterministic engine was written alongside the synthetic document templates, so 100% is an upper bound on template-like documents, not evidence of generalisation. Its drafts are built from grounded facts, so they are supported by construction. The verifier ablation matters for the **LLM drafter**: `--llm` measures unsupported claims in raw LLM drafts vs after the verifier, judged by grounding checks plus an independent entailment judge from a different model family.
 
-**Risk flagging** (200 synthetic members, 74 labelled would-lose-for-paperwork):
+**Risk flagging** (200 synthetic members, 51 labelled would-lose-for-paperwork):
 
 | Method | P@20 | R@20 | P@40 | R@40 | P@60 | R@60 |
 |---|---|---|---|---|---|---|
-| Coverage Keeper risk points | 80% | 22% | 68% | 36% | 62% | 50% |
-| Soonest deadline first | 55% | 15% | 45% | 24% | 50% | 41% |
-| Random | 30% | 8% | 20% | 11% | 30% | 24% |
+| Coverage Keeper risk points | 80% | 31% | 62% | 49% | 58% | 69% |
+| Soonest deadline first | 15% | 6% | 28% | 22% | 25% | 29% |
+| Random | 35% | 14% | 20% | 16% | 25% | 29% |
 
 The labels come from a synthetic latent model using the same feature families, and the hand-set points were *not* fit to them. This tests ranking under assumed dynamics, not real-world accuracy.
+
+**The roster is synthetic but calibrated to real public data.** Real member-level Medicaid records are protected health information, so no real member appears anywhere. The roster's aggregate shape comes from published, area-level data (`data/calibration/ma_calibration.json`, built by `data/fetch_calibration.py`):
+
+| Roster parameter | Real source | Value |
+|---|---|---|
+| Share of members who must respond (not verified automatically) | CMS renewal outcomes, MassHealth, renewals due May 2023–Mar 2024 (1.44M): share *not* renewed ex parte | 67.0% |
+| Label base rate among them | Same data: procedural terminations ÷ renewals that needed a form | 45.4% (monthly range 23–58%) |
+| City mix (10 MA cities) | ACS 2020–2024 5-year, C27007: Medicaid-covered adults 19–64 per city | Boston 29%, Springfield 13%, Worcester 12%, … Chelsea 4% |
+| Preferred language by city | ACS C16001 (city) + B16001 (PUMA, to split out Haitian and Portuguese): residents who speak English less than "very well" | e.g. Lawrence 40% Spanish, Brockton 10% Haitian Creole, Fall River 10% Portuguese |
+
+The generator solves the latent model's intercept so the expected label rate among members who must respond matches the CMS rate. This roster's realised rate is 39% (50 of 127), a sampling-noise gap at this n. Caveats:
+- Unwinding renewals are a proxy for 2027 community-engagement verification.
+- Procedural terminations include some people who were really ineligible, so the label rate is an upper-bound proxy for "eligible but lost to paperwork".
+- ACS language data covers all residents, not MassHealth members, so language mismatch is probably understated.
+- Returned mail, address changes, contact history and exemption hints are still assumptions.
+
+The calibration also shows where the product needs to grow. In Lowell, 9% of residents have limited English in a language the tool doesn't support yet, mostly Khmer (27% of Lowell's limited-English residents).
 
 **Fairness:** results are broken down by member language and case type in `eval/RESULTS.md` and in the UI.
 
@@ -109,7 +141,7 @@ The labels come from a synthetic latent model using the same feature families, a
 - **Never decides eligibility.** The tool says "likely pathway" and "documents support". The verifier strips decision language ("is eligible", "is exempt", "approved", "guaranteed"). Packets stay drafts until a coordinator ticks a confirmation box.
 - **Citations on every claim.** Each sentence is a typed claim (fact / finding / rule / request) carrying a document quote and/or a rule ID. The verifier checks that the quote is present verbatim, the rule exists, every number appears in the support, there's no decision language, and (live mode) that the LLM entailment check passes. Removals are logged and shown.
 - **Ambiguity shown, not guessed.** Medical-frailty letter requirements, postpartum length (placeholder 12 months), "part-time" vs "half-time", accepted caregiving documentation, the 45-day renewal form, and day counting for the 30-day window are all marked `needs_confirmation` in the UI.
-- **What leaves the machine.** Synthetic data only. In live mode, document text goes only to the Anthropic API call that processes it. Nothing goes to other third parties, and document contents aren't logged. The cache and navigator-entered cases are local and git-ignored. Offline/replay mode sends nothing.
+- **What leaves the machine.** Synthetic data only. In live mode, document text goes only to the API calls of the configured model providers: Groq, Google Gemini and Cerebras in the `free` preset, or Anthropic in the `anthropic` preset. Free tiers may retain prompts or use them to improve models, which is acceptable only because all data here is synthetic. Nothing goes to other third parties, and document contents aren't logged. The cache and navigator-entered cases are local and git-ignored. Offline/replay mode sends nothing.
 - **Fairness.** Evaluation is reported by language and case type.
 - **No dark patterns.** Outreach always gives the agency's direct contact line and a text opt-out, never asks for an SSN by text, and never implies a decision.
 - **Risk flags only help.** The score is a transparent points list with reasons. It only orders who is offered help first, and is never used to deny, delay or deprioritise coverage or services.
@@ -117,7 +149,7 @@ The labels come from a synthetic latent model using the same feature families, a
 
 ## Limitations
 
-- Synthetic data, small n (46 cases; one case is about 4 points). No real documents, OCR noise or adversarial inputs at scale.
+- Synthetic data, small n (46 cases; one case is about 4 points). No real documents, OCR noise or adversarial inputs at scale. The roster's base rates and city/language mix are calibrated to public CMS and ACS aggregates, but the member-level dynamics behind the risk labels are assumed.
 - mass.gov pages returned HTTP 403 to automated clients, so MassHealth-specific wording ($580 in MassHealth's own words, "part-time", the 45-day renewal form, the blue envelope) comes from the team brief and is marked `needs_confirmation`. Federal rules are quoted verbatim from 91 FR 33348.
 - The deterministic baseline is template-tuned (see above). The LLM run is the generalisation test.
 - Offline translations are machine-drafted templates. Live mode uses Claude, but either way a native speaker should review.
@@ -129,6 +161,8 @@ The labels come from a synthetic latent model using the same feature families, a
 - CMS interim final rule, *Medicaid Program; Community Engagement Requirement for Certain Individuals*, 91 FR 33348 (June 3, 2026): https://www.federalregister.gov/documents/2026/06/03/2026-11094/medicaid-program-community-engagement-requirement-for-certain-individuals (full text fetched via the federalregister.gov API)
 - SHVS / Manatt, *Medicaid Work Reporting Requirements: Verifying Compliance and Exemptions*: https://shvs.org/resource/medicaid-work-reporting-requirements-verifying-compliance-and-exemptions/
 - KFF, *Understanding Medicaid Procedural Disenrollment Rates*: https://www.kff.org/medicaid/understanding-medicaid-procedural-disenrollment-rates/
+- CMS, *Medicaid and CHIP Updated Renewal Outcomes* (roster calibration, Massachusetts rows): https://data.medicaid.gov/dataset/e6205a51-e6d7-4849-9882-4483b8a28c41
+- US Census Bureau, ACS 2020–2024 5-year summary file, tables C16001, B16001 and C27007 (roster calibration): https://www.census.gov/programs-surveys/acs/data/summary-file.html
 - MassHealth pages (not fetchable, HTTP 403; listed for reference): new work and education requirements, screener, federal updates, Sept 2026 stakeholder presentation; CMS Medicaid eligibility.
 
 ## Repo layout
@@ -140,9 +174,9 @@ keeper/                   core agents (program-agnostic)
   pipeline.py             orchestrator + trace
   risk.py  plan.py        risk flagging, plan view
   stages/                 outreach, intake, extract, rules, gaps, draft, verify
-  llm.py                  Anthropic client, JSON schemas, disk cache, cost
+  llm.py                  Anthropic + OpenAI-compatible clients, JSON schemas, disk cache, cost
 packs/                    policy packs (rules.json with cited quotes + pack.json)
-data/                     synthetic case + roster generators
+data/                     synthetic case + roster generators; calibration/ holds the CMS + ACS aggregates
 eval/run_eval.py          one-command evaluation -> eval/RESULTS.md
 docs/                     demo script, Devpost text, slide outline
 ```

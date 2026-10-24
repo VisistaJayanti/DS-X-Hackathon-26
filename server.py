@@ -39,7 +39,8 @@ def index():
 
 @app.get("/api/status")
 def status():
-    return {"mode": config.MODE, "api_key": bool(os.environ.get("ANTHROPIC_API_KEY")), "models": config.MODELS,
+    return {"mode": config.MODE, "api_key": bool(config.keys_present()), "providers": config.keys_present(),
+            "preset": config.PRESET, "models": config.MODELS,
             "as_of": config.AS_OF.isoformat(), "languages": config.LANGUAGES}
 
 

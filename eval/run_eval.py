@@ -9,8 +9,9 @@ Runs the pipeline on every synthetic case and reports:
   - risk-flag precision / recall at top-k on the 200-member roster
 Writes eval/results.json (shown in the UI) and eval/RESULTS.md.
 
---llm runs the LLM engines (needs ANTHROPIC_API_KEY, or a filled cache in replay mode). Responses are cached,
-so re-runs are fast and free. Without --llm only the deterministic baseline runs.
+--llm runs the LLM engines (needs an API key for each provider in config.MODELS, or a filled cache in replay
+mode). Responses are cached, so re-runs are fast and free, and a run interrupted by a free tier's daily quota
+resumes where it stopped. Without --llm only the deterministic baseline runs.
 """
 import argparse
 import json
@@ -139,7 +140,9 @@ def risk_eval(ks=(20, 40, 60)):
         {"name": "Baseline: soonest deadline first", "at": at(by_deadline)},
         {"name": "Baseline: random order", "at": at(rand)},
     ], "note": "Labels come from a synthetic latent model (with noise and unobserved factors) using the same feature families; the "
-               "hand-set points were not fit to these labels. This tests ranking under assumed dynamics, not real-world accuracy."}
+               "hand-set points were not fit to these labels. The roster's city and language mix and its base rates are calibrated to "
+               "public CMS (MassHealth renewal outcomes) and ACS data, but the member-level dynamics are assumed. This tests ranking "
+               "under assumed dynamics, not real-world accuracy."}
 
 
 def main():

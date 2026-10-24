@@ -1,4 +1,5 @@
 anthropic>=0.111
+openai>=1.40
 fastapi>=0.110
 uvicorn>=0.29
 pydantic>=2
