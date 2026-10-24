@@ -19,6 +19,8 @@ Coverage Keeper is an insurer-agnostic AI member-retention layer. It flags healt
 pip install -r requirements.txt            # Python 3.9+ (dev machine is 3.9: no `X | Y` types, no match statements)
 python data/generate_cases.py              # regenerate 46 labelled synthetic cases -> data/cases/
 python data/generate_roster.py             # regenerate 200-member synthetic roster -> data/roster.json
+python data/render_documents.py            # render each case document as a watermarked PDF + PNG -> data/documents/
+python scripts/smoke_pdf.py                # same check, but reading text back out of the PDFs (expects 46/46)
 python server.py                           # UI at http://127.0.0.1:8000  (#autorun=C46 runs Maria's case on load)
 python scripts/smoke.py [CASE_ID]          # fast offline check of stages 1-4 vs labels (expects 46/46)
 python eval/run_eval.py                    # deterministic eval -> eval/results.json + eval/RESULTS.md
@@ -62,7 +64,7 @@ Key design points:
 ## Data and evaluation conventions
 
 - Case JSON: `member` (incl. `notice_received_date`, `lookback_months`, `language`), `documents` (`doc_id`, `filename`, `text`), `labels` (`correct_pathways` = any acceptable top-1, `"NONE"` for no pathway; `evidence_sufficient`; `gaps` = gap codes from the pack). Splits alternate dev/test; report headline numbers on **test**.
-- When you add a case, add labels and run `scripts/smoke.py`. When you add a gap code, add it to **every** pack's `gap_codes` with `ask`, `fix`, `member_text` (6 languages) and optional `requests`.
+- When you add a case, add labels, re-run `data/render_documents.py`, and run both `scripts/smoke.py` and `scripts/smoke_pdf.py`. Every rendered page must keep the "SYNTHETIC SAMPLE" watermark and footer. When you add a gap code, add it to **every** pack's `gap_codes` with `ask`, `fix`, `member_text` (6 languages) and optional `requests`.
 - Be honest in reported numbers. The deterministic engine was tuned on the same templates (an upper bound), risk labels come from a synthetic latent model, and n is small. Don't remove these caveats from README/RESULTS.
 
 ## Current state / open work (as of 2026-10-24)

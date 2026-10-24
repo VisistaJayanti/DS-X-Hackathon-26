@@ -81,3 +81,6 @@ select { padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px; ba
 .bar { height: 8px; background: #eef0f4; border-radius: 4px; overflow: hidden; min-width: 80px; }
 .bar > i { display: block; height: 100%; background: var(--accent); }
 @media (max-width: 1000px) { .two, .case-grid, .results { display: block; } .side { width: auto; } }
+.docmode { display: flex; gap: 6px; align-items: center; margin-top: 8px; flex-wrap: wrap; }
+.docmode .on { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.docimg img { width: 100%; border: 1px solid var(--line); border-radius: 6px; margin-top: 8px; box-shadow: 0 2px 8px rgba(0,0,0,.06); max-height: 720px; object-fit: contain; object-position: top; background: #fff; }

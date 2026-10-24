@@ -67,6 +67,7 @@ New lines of business (Medicare Advantage, ACA marketplace re-enrollment, non-US
 pip install -r requirements.txt
 python data/generate_cases.py      # 46 synthetic cases with labels
 python data/generate_roster.py     # 200-member synthetic plan roster
+python data/render_documents.py    # realistic synthetic PDFs + page images (watermarked "SYNTHETIC SAMPLE")
 python server.py                   # http://127.0.0.1:8000
 ```
 
@@ -78,6 +79,8 @@ python server.py                   # http://127.0.0.1:8000
 ## Evaluation
 
 46 synthetic cases (23 dev / 23 test, alternating so every scenario family appears in both), with hard cases: frailty letters that do or don't state the impact on work, behavioral-health and SUD frailty, stable recovery (excluded), a child aged 13 vs 14, postpartum at the 12-month boundary, 75 hours + less-than-half-time classes, gig income at $571 / $580 / $596, conflicting documents, a 65-year-old and a Medicare member (out of scope), Spanish and Portuguese documents, stale pay stubs, tipped wages, and cases with no qualifying pathway.
+
+Every case document is also rendered as a realistic, watermarked PDF (letterheads, pay-stub forms, handwritten-style statements, ID cards). **Robustness check:** reading text back out of those PDFs with naive extraction drops the deterministic engine from 46/46 to 28/46 (form labels and values split onto separate lines). Layout-aware extraction (`keeper/docs.py: pdf_to_text`) restores 46/46 (`python scripts/smoke_pdf.py`).
 
 Headline numbers on the **held-out test split**. The current table is in [`eval/RESULTS.md`](eval/RESULTS.md).
 

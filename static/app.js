@@ -87,6 +87,13 @@ function renderDocs(hl) {
   $("#doclist").innerHTML = docs.map((d) => `<div class="doc-item ${d.doc_id === active ? "active" : ""}" onclick="showDoc('${d.doc_id}')">
     <span><b>${d.doc_id}</b> ${esc(d.filename)}</span>${types[d.doc_id] ? `<span class="badge">${types[d.doc_id]}</span>` : ""}</div>`).join("");
   const doc = docs.find((d) => d.doc_id === active);
+  if (hl) S.docMode = "text";
+  const mode = doc.image ? (S.docMode || "original") : "text";
+  $("#docmode").innerHTML = doc.image ? `<button class="ghost ${mode === "original" ? "on" : ""}" onclick="S.docMode='original';renderDocs()">Original document</button>
+    <button class="ghost ${mode === "text" ? "on" : ""}" onclick="S.docMode='text';renderDocs()">Extracted text (what the agents read)</button>
+    <a class="small" href="${doc.pdf}" target="_blank">open PDF</a>` : "";
+  $("#docimg").innerHTML = mode === "original" ? `<img src="${doc.image}" alt="${esc(doc.filename)}">` : "";
+  $("#docview").style.display = mode === "original" ? "none" : "block";
   const q = hl?.quote ? hl.quote.toLowerCase().replace(/\s+/g, " ") : null;
   $("#docview").innerHTML = doc.text.split("\n").map((l, i) => {
     const hit = q && (l.toLowerCase().replace(/\s+/g, " ").includes(q.slice(0, 40)) || (hl.line === i + 1));
@@ -95,7 +102,7 @@ function renderDocs(hl) {
   const hitEl = $("#docview .hit");
   if (hitEl) hitEl.scrollIntoView({ block: "center", behavior: "smooth" });
 }
-function showDoc(id, quote, line) { S.activeDoc = id; renderDocs(quote || line ? { doc_id: id, quote, line } : null); }
+function showDoc(id, quote, line) { S.activeDoc = id; if (!quote && !line) S.docMode = "original"; renderDocs(quote || line ? { doc_id: id, quote, line } : null); }
 
 const stageOut = (k) => S.trace?.stages.find((s) => s.key === k)?.output;
 
