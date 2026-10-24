@@ -1,0 +1,71 @@
+{
+ "id": "medicare_illustrative",
+ "illustrative": true,
+ "runnable": false,
+ "languages": [
+  "en"
+ ],
+ "pathways": [],
+ "gap_codes": {},
+ "doc_types": [],
+ "doc_labels": {},
+ "doc_keywords": [],
+ "resources": [],
+ "name": "ILLUSTRATIVE: Medicare enrollment document check",
+ "line_of_business": "Medicare (US federal, 65+ or qualifying disability)",
+ "jurisdiction": "United States (illustrative)",
+ "summary": "Illustrative rules: people 65 or older, or younger people with a qualifying disability, who are US citizens or long-term lawful residents.",
+ "program": {
+  "agency": "Medicare (illustrative)",
+  "payer_type": "Medicare",
+  "response_window_days": 30,
+  "contact_line": "1-800-MEDICARE (illustrative)",
+  "domain_context": "Illustrative Medicare enrollment check."
+ },
+ "eligibility": {
+  "tier": "medicare",
+  "countries": [
+   "US"
+  ],
+  "regions": [],
+  "nationalities": [
+   "US"
+  ],
+  "nationality_rule": "IL-MCR-RESIDENCY",
+  "nationality_note": "Non-citizens may qualify with 5+ years of lawful permanent residence (needs a green card).",
+  "nationality_exception_keywords": "permanent resident|green card|form i-551",
+  "age_min": 65,
+  "age_max": null,
+  "age_rule": "IL-MCR-AGE",
+  "age_exception_keywords": "social security disability|ssdi|disability benefits|end-stage renal|esrd|\\bals\\b",
+  "age_exception_note": "Under 65 can qualify after receiving disability benefits, or with ESRD or ALS.",
+  "valid_from": null,
+  "valid_to": null,
+  "min_coverage_months": null,
+  "max_coverage_months": null,
+  "timeline_note": "Initial enrollment runs from 3 months before to 3 months after the 65th-birthday month.",
+  "enrollment_window_months": [
+   -3,
+   3
+  ]
+ },
+ "required_documents": [
+  {
+   "id": "age",
+   "label": "Proof of age (birth certificate or passport)",
+   "keywords": "date of birth|dob|birth certificate|passport",
+   "rule_id": "IL-MCR-AGE",
+   "why": "Age 65 is the main way to qualify.",
+   "fix": "Upload a birth certificate or passport showing the date of birth."
+  },
+  {
+   "id": "citizenship",
+   "label": "Proof of citizenship or lawful permanent residence",
+   "keywords": "passport|citizen|naturalization|permanent resident|green card|form i-551",
+   "rule_id": "IL-MCR-RESIDENCY",
+   "why": "Medicare requires citizenship or long-term lawful residence.",
+   "fix": "Upload a US passport, naturalization certificate, or green card."
+  }
+ ],
+ "document_expiry_days": null
+}

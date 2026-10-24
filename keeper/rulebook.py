@@ -17,8 +17,15 @@ def available():
     for d in sorted(PACKS.iterdir()):
         if (d / "pack.json").exists():
             p = json.loads((d / "pack.json").read_text(encoding="utf-8"))
-            out.append({k: p.get(k) for k in ("id", "name", "line_of_business", "jurisdiction", "illustrative", "summary")})
+            out.append({k: p.get(k) for k in ("id", "name", "line_of_business", "jurisdiction", "illustrative", "summary",
+                                               "eligibility", "runnable")})
     return out
+
+
+def available_ids():
+    """{pack_id: runnable} - packs without "runnable": true support matching/checks only."""
+    return {p["id"]: bool(p.get("runnable", True if p["id"] in ("masshealth_ce_2027", "employer_dependent_audit_demo") else False))
+            for p in available()}
 
 
 @lru_cache(maxsize=None)

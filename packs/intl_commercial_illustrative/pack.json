@@ -1,0 +1,70 @@
+{
+ "id": "intl_commercial_illustrative",
+ "illustrative": true,
+ "runnable": false,
+ "languages": [
+  "en"
+ ],
+ "pathways": [],
+ "gap_codes": {},
+ "doc_types": [],
+ "doc_labels": {},
+ "doc_keywords": [],
+ "resources": [],
+ "name": "ILLUSTRATIVE: International private medical insurance (expat)",
+ "line_of_business": "Commercial international health insurance",
+ "jurisdiction": "Worldwide (illustrative)",
+ "summary": "Illustrative rules: people living outside their home country, aged up to 74 at enrolment, with pre-existing conditions declared and excluded.",
+ "program": {
+  "agency": "the insurer (illustrative)",
+  "payer_type": "Commercial (international)",
+  "response_window_days": 30,
+  "contact_line": "the insurer's customer service line",
+  "domain_context": "Illustrative expat health plan check."
+ },
+ "eligibility": {
+  "tier": "commercial",
+  "countries": [],
+  "regions": [],
+  "nationalities": [],
+  "nationality_note": "Any nationality, but the member must live outside their country of nationality.",
+  "require_abroad": true,
+  "abroad_rule": "IL-INT-ABROAD",
+  "age_min": 0,
+  "age_max": 74,
+  "age_rule": "IL-INT-AGE",
+  "valid_from": null,
+  "valid_to": null,
+  "min_coverage_months": 3,
+  "max_coverage_months": null,
+  "coverage_rule": "IL-INT-TERM",
+  "timeline_note": "Short-term plans run 3 to 11 months; annual plans run 12 months."
+ },
+ "required_documents": [
+  {
+   "id": "passport",
+   "label": "Passport",
+   "keywords": "passport|nationality",
+   "rule_id": "IL-INT-ABROAD",
+   "why": "Shows nationality, which must differ from the country of residence.",
+   "fix": "Upload the photo page of a valid passport."
+  },
+  {
+   "id": "residence",
+   "label": "Proof of residence abroad (visa, residence permit, lease or employment contract)",
+   "keywords": "visa|residence permit|residency|lease|tenancy|employment contract|work permit",
+   "rule_id": "IL-INT-ABROAD",
+   "why": "The plan covers people living outside their home country.",
+   "fix": "Upload a visa, residence permit, lease, or employment contract in the country of residence."
+  },
+  {
+   "id": "medical_declaration",
+   "label": "Medical history declaration",
+   "keywords": "medical history|health declaration|pre-?existing",
+   "rule_id": "IL-INT-PREEX",
+   "why": "Pre-existing conditions must be declared; they are usually excluded.",
+   "fix": "Complete and upload the medical history declaration, listing every existing condition."
+  }
+ ],
+ "document_expiry_days": null
+}

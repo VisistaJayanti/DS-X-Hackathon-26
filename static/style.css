@@ -81,3 +81,28 @@ select { padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px; ba
 .bar { height: 8px; background: #eef0f4; border-radius: 4px; overflow: hidden; min-width: 80px; }
 .bar > i { display: block; height: 100%; background: var(--accent); }
 @media (max-width: 1000px) { .two, .case-grid, .results { display: block; } .side { width: auto; } }
+
+/* ---------- Upload & check tab ---------- */
+.uform { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px 14px; margin-top: 8px; }
+.uform label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); }
+.uform label.chk { flex-direction: row; align-items: flex-start; gap: 8px; color: var(--ink); font-size: 13px; }
+.uform .wide { grid-column: 1 / -1; }
+.uform input:not([type=checkbox]) { padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; font-size: 13px; color: var(--ink); background: #fff; }
+.match { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin-bottom: 6px; cursor: pointer; }
+.match:hover { background: #fafbfc; } .match.active { border-color: var(--accent); background: var(--accent-soft); }
+.match .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; } .match .crit { margin-top: 6px; display: flex; gap: 4px; flex-wrap: wrap; }
+.flag { border-left: 3px solid var(--warn); background: #fffbeb; border-radius: 6px; padding: 8px 10px; margin-bottom: 8px; font-size: 13px; }
+.flag.error { border-left-color: var(--bad); background: #fef2f2; }
+.flag .fix { margin-top: 4px; }
+.req { padding: 6px 0; border-bottom: 1px dashed var(--line); font-size: 13px; } .req:last-of-type { border-bottom: 0; }
+.actions { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+button.danger { color: var(--bad); border-color: #fecaca; }
+
+/* ---------- Secure document viewer (deterrents; see static/secure-view.js) ---------- */
+.secure-doc { position: relative; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.secure-doc { background-repeat: repeat; background-attachment: local; }
+.secure-doc > span { transition: filter .12s; }
+.secure-doc.veiled > span { filter: blur(7px); }
+.secure-doc.hold-to-view.veiled::before { content: "Press and hold to view"; position: absolute; inset: 0; display: flex; align-items: center;
+  justify-content: center; z-index: 3; font: 600 14px system-ui, sans-serif; color: var(--ink); background: rgba(255,255,255,.35); }
+@media print { .secure-doc, #u-results, #results { display: none !important; } }

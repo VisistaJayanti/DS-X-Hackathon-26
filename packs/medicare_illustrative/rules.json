@@ -1,0 +1,40 @@
+{
+ "_meta": {
+  "description": "ILLUSTRATIVE pack: made-up rules for matching and document checks.",
+  "sources": {
+   "ILLUSTRATIVE": {
+    "title": "Made-up demo rules (no real source)",
+    "url": "https://example.org/illustrative-pack",
+    "status": "illustrative"
+   }
+  }
+ },
+ "rules": [
+  {
+   "id": "IL-MCR-AGE",
+   "pathway": null,
+   "kind": "eligibility",
+   "name": "Age 65 or qualifying disability",
+   "logic": "age >= 65, or disability benefits / ESRD / ALS documented",
+   "source": "ILLUSTRATIVE",
+   "cite": "Illustrative Medicare rule 1",
+   "quote": "A person qualifies at age 65, or earlier after receiving disability benefits, or with ESRD or ALS.",
+   "source_status": "illustrative",
+   "needs_confirmation": true,
+   "confirmation_note": "ILLUSTRATIVE rule written for this demo; replace with the insurer's real policy wording before any real use."
+  },
+  {
+   "id": "IL-MCR-RESIDENCY",
+   "pathway": null,
+   "kind": "eligibility",
+   "name": "Citizenship or lawful residence",
+   "logic": "US citizen, or lawful permanent resident for 5+ years",
+   "source": "ILLUSTRATIVE",
+   "cite": "Illustrative Medicare rule 2",
+   "quote": "The person must be a US citizen or a lawful permanent resident who has lived in the US for at least five years.",
+   "source_status": "illustrative",
+   "needs_confirmation": true,
+   "confirmation_note": "ILLUSTRATIVE rule written for this demo; replace with the insurer's real policy wording before any real use."
+  }
+ ]
+}

@@ -1,0 +1,66 @@
+{
+ "_meta": {
+  "description": "ILLUSTRATIVE pack: made-up rules for matching and document checks.",
+  "sources": {
+   "ILLUSTRATIVE": {
+    "title": "Made-up demo rules (no real source)",
+    "url": "https://example.org/illustrative-pack",
+    "status": "illustrative"
+   }
+  }
+ },
+ "rules": [
+  {
+   "id": "IL-INT-AGE",
+   "pathway": null,
+   "kind": "eligibility",
+   "name": "Age at enrolment",
+   "logic": "age <= 74 at enrolment",
+   "source": "ILLUSTRATIVE",
+   "cite": "Illustrative policy 3.1",
+   "quote": "New members must be 74 or younger on the policy start date.",
+   "source_status": "illustrative",
+   "needs_confirmation": true,
+   "confirmation_note": "ILLUSTRATIVE rule written for this demo; replace with the insurer's real policy wording before any real use."
+  },
+  {
+   "id": "IL-INT-ABROAD",
+   "pathway": null,
+   "kind": "eligibility",
+   "name": "Living abroad",
+   "logic": "country of residence differs from nationality",
+   "source": "ILLUSTRATIVE",
+   "cite": "Illustrative policy 3.2",
+   "quote": "The policy covers people who live outside their country of nationality.",
+   "source_status": "illustrative",
+   "needs_confirmation": true,
+   "confirmation_note": "ILLUSTRATIVE rule written for this demo; replace with the insurer's real policy wording before any real use."
+  },
+  {
+   "id": "IL-INT-TERM",
+   "pathway": null,
+   "kind": "eligibility",
+   "name": "Policy term",
+   "logic": "coverage period >= 3 months",
+   "source": "ILLUSTRATIVE",
+   "cite": "Illustrative policy 3.4",
+   "quote": "Cover runs for at least three months.",
+   "source_status": "illustrative",
+   "needs_confirmation": true,
+   "confirmation_note": "ILLUSTRATIVE rule written for this demo; replace with the insurer's real policy wording before any real use."
+  },
+  {
+   "id": "IL-INT-PREEX",
+   "pathway": null,
+   "kind": "eligibility",
+   "name": "Pre-existing conditions",
+   "logic": "medical history declared",
+   "source": "ILLUSTRATIVE",
+   "cite": "Illustrative policy 4.1",
+   "quote": "Conditions that started before joining must be declared and are excluded.",
+   "source_status": "illustrative",
+   "needs_confirmation": true,
+   "confirmation_note": "ILLUSTRATIVE rule written for this demo; replace with the insurer's real policy wording before any real use."
+  }
+ ]
+}

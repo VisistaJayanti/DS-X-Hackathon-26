@@ -12,6 +12,7 @@ function tab(name) {
   document.querySelectorAll(".tab").forEach((t) => t.classList.toggle("active", t.id === "tab-" + name));
   if (name === "eval") loadEval();
   if (name === "packs") renderPacks();
+  if (name === "upload") initUpload();
 }
 document.querySelectorAll("#tabs button").forEach((b) => (b.onclick = () => tab(b.dataset.tab)));
 
@@ -72,7 +73,7 @@ async function openCase(cid, switchTab = true) {
   const m = S.caseData.member;
   $("#lang").value = m.language || "en";
   $("#case-meta").innerHTML = `${esc(m.name)} · age ${m.age} · prefers ${LANG_NAMES[m.language] || m.language} · ${esc(m.household || "")}
-    · notice received ${m.notice_received_date} · review months ${(m.lookback_months || []).join(", ")}
+    · notice received ${m.notice_received_date || "–"} · review months ${(m.lookback_months || []).join(", ")}
     ${cid === "C46" ? '<span class="badge warn">illustrative composite</span>' : '<span class="badge grey">synthetic</span>'}`;
   renderDocs();
   $("#stagelist").innerHTML = '<p class="muted">Press "Run agents" to watch each agent work.</p>';
@@ -92,6 +93,7 @@ function renderDocs(hl) {
     const hit = q && (l.toLowerCase().replace(/\s+/g, " ").includes(q.slice(0, 40)) || (hl.line === i + 1));
     return `<span class="${hit ? "hit" : ""}"><span class="ln">${i + 1}</span>${esc(l)}</span>`;
   }).join("\n");
+  Secure.protect($("#docview"));
   const hitEl = $("#docview .hit");
   if (hitEl) hitEl.scrollIntoView({ block: "center", behavior: "smooth" });
 }

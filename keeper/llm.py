@@ -2,14 +2,15 @@
 
 Privacy: document text is sent only to the Anthropic API call itself. Nothing is sent to any
 other third-party service, and document contents are never written to logs (the on-disk cache
-lives in ./cache, which is git-ignored and local to the laptop).
+lives in ./cache, which is git-ignored and local to the laptop). Cache files are encrypted at rest
+with keeper/crypto.py because responses can quote document text.
 """
 import hashlib
 import json
 import threading
 import time
 
-from . import config
+from . import config, crypto
 
 
 class LLMUnavailable(Exception):
@@ -51,7 +52,7 @@ def call_json(stage, system, user, schema, max_tokens=16000, effort="low", meter
     path = _cache_path(key)
 
     if path.exists():
-        rec = json.loads(path.read_text(encoding="utf-8"))
+        rec = crypto.read_json(path)
         info = {"model": model, "cached": True, "usage": rec["usage"], "cost": cost_usd(model, rec["usage"]),
                 "ms": rec.get("ms", 0)}
         if meter is not None:
@@ -86,7 +87,7 @@ def call_json(stage, system, user, schema, max_tokens=16000, effort="low", meter
 
     usage = {"input_tokens": resp.usage.input_tokens, "output_tokens": resp.usage.output_tokens}
     with _lock:
-        path.write_text(json.dumps({"data": data, "usage": usage, "ms": ms, "model": model}), encoding="utf-8")
+        crypto.write_json(path, {"data": data, "usage": usage, "ms": ms, "model": model})
     info = {"model": model, "cached": False, "usage": usage, "cost": cost_usd(model, usage), "ms": ms}
     if meter is not None:
         meter.append(info)

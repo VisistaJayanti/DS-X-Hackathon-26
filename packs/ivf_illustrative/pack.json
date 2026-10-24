@@ -1,0 +1,73 @@
+{
+ "id": "ivf_illustrative",
+ "illustrative": true,
+ "runnable": false,
+ "languages": [
+  "en"
+ ],
+ "pathways": [],
+ "gap_codes": {},
+ "doc_types": [],
+ "doc_labels": {},
+ "doc_keywords": [],
+ "resources": [],
+ "name": "ILLUSTRATIVE: Commercial plan IVF / fertility benefit",
+ "line_of_business": "Commercial plan fertility rider (IVF)",
+ "jurisdiction": "United States (illustrative)",
+ "summary": "Illustrative rules: IVF is covered with a documented infertility diagnosis, prior authorization, age limits, and a waiting period after joining the plan.",
+ "program": {
+  "agency": "the health plan (illustrative)",
+  "payer_type": "Commercial",
+  "response_window_days": 30,
+  "contact_line": "the member services number on your card",
+  "domain_context": "Illustrative IVF benefit check."
+ },
+ "eligibility": {
+  "tier": "ivf",
+  "countries": [
+   "US"
+  ],
+  "regions": [],
+  "nationalities": [],
+  "nationality_note": "Plan benefits do not depend on nationality.",
+  "age_min": 21,
+  "age_max": 44,
+  "age_rule": "IL-IVF-AGE",
+  "valid_from": null,
+  "valid_to": null,
+  "min_coverage_months": null,
+  "max_coverage_months": null,
+  "timeline_note": "Coverage must be in force 12 months before the first IVF cycle.",
+  "waiting_period_months": 12,
+  "waiting_rule": "IL-IVF-WAIT",
+  "waiting_event_keywords": "ivf cycle|egg retrieval|embryo transfer|stimulation start",
+  "waiting_event_label": "first IVF cycle"
+ },
+ "required_documents": [
+  {
+   "id": "diagnosis",
+   "label": "Infertility diagnosis from a clinician",
+   "keywords": "infertility|diagnosis of infertility|reproductive endocrinolog|unable to conceive",
+   "rule_id": "IL-IVF-DX",
+   "why": "IVF is covered only with a documented infertility diagnosis.",
+   "fix": "Ask the fertility clinic for a letter stating the infertility diagnosis and how long the member has tried to conceive."
+  },
+  {
+   "id": "prior_auth",
+   "label": "Prior authorization approval",
+   "keywords": "prior authori[sz]ation|pre-?authori[sz]ation|authorization number",
+   "rule_id": "IL-IVF-PA",
+   "why": "Each IVF cycle needs prior authorization.",
+   "fix": "Ask the clinic to submit a prior authorization request to the plan and upload the approval letter."
+  },
+  {
+   "id": "treatment_plan",
+   "label": "Treatment plan with cycle dates",
+   "keywords": "treatment plan|ivf cycle|egg retrieval|embryo transfer|stimulation",
+   "rule_id": "IL-IVF-DX",
+   "why": "The plan checks the cycle dates against coverage dates.",
+   "fix": "Upload the clinic's treatment plan showing planned cycle dates."
+  }
+ ],
+ "document_expiry_days": 180
+}

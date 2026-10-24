@@ -11,6 +11,7 @@
   <div class="brand"><span class="logo">CK</span> Coverage Keeper <span class="tag">member-retention agents for health plans</span></div>
   <nav id="tabs">
     <button data-tab="plan" class="active">Plan view</button>
+    <button data-tab="upload">Upload &amp; check</button>
     <button data-tab="case">Case</button>
     <button data-tab="eval">Evaluation</button>
     <button data-tab="packs">Policy packs</button>
@@ -41,6 +42,33 @@
         <button class="primary" onclick="openCase('C46')">Open Maria's case &rarr;</button>
       </div>
     </div>
+  </section>
+
+  <!-- UPLOAD & CHECK (features 1-3) -->
+  <section id="tab-upload" class="tab">
+    <div class="card">
+      <h2>Upload documents and match them to policies</h2>
+      <p class="muted small">Files are read on the server, only their text is kept, and it is stored encrypted. You can delete everything afterwards.</p>
+      <form id="u-form" class="uform" autocomplete="off">
+        <label>Full name <input id="u-name" required maxlength="80"></label>
+        <label>Date of birth <input id="u-dob" type="date" required></label>
+        <label>Nationality <select id="u-nationality" required></select></label>
+        <label>Country of residence <select id="u-country" required></select></label>
+        <label>State / region <input id="u-region" placeholder="e.g. Massachusetts" maxlength="60"></label>
+        <label>Insurance tier <select id="u-tier" required></select></label>
+        <label>Coverage start <input id="u-start" type="date" required></label>
+        <label>Coverage end <input id="u-end" type="date"></label>
+        <label id="u-notice-wrap" style="display:none">Notice received <input id="u-notice" type="date"></label>
+        <label>Preferred language <select id="u-language"></select></label>
+        <label class="wide">Documents (PDF, image or text; up to 10 files, 10 MB each)
+          <input id="u-files" type="file" multiple accept=".pdf,.png,.jpg,.jpeg,.webp,.gif,.txt,.md"></label>
+        <div id="u-filelist" class="wide"></div>
+        <label class="chk wide"><input type="checkbox" id="u-consent"> I agree that these documents are stored encrypted on this server for this check, and I can delete them at any time.</label>
+        <div class="wide"><button class="primary" id="u-submit" type="submit">Upload &amp; check &#9654;</button></div>
+      </form>
+      <div id="u-msg"></div>
+    </div>
+    <div id="u-results"></div>
   </section>
 
   <!-- CASE -->
@@ -94,6 +122,8 @@
     </div>
   </section>
 </main>
+<script src="/static/secure-view.js"></script>
 <script src="/static/app.js"></script>
+<script src="/static/upload.js"></script>
 </body>
 </html>

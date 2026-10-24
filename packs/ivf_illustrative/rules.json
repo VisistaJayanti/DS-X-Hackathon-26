@@ -1,0 +1,66 @@
+{
+ "_meta": {
+  "description": "ILLUSTRATIVE pack: made-up rules for matching and document checks.",
+  "sources": {
+   "ILLUSTRATIVE": {
+    "title": "Made-up demo rules (no real source)",
+    "url": "https://example.org/illustrative-pack",
+    "status": "illustrative"
+   }
+  }
+ },
+ "rules": [
+  {
+   "id": "IL-IVF-AGE",
+   "pathway": null,
+   "kind": "eligibility",
+   "name": "Age limit",
+   "logic": "21 <= age <= 44 at the start of treatment",
+   "source": "ILLUSTRATIVE",
+   "cite": "Illustrative IVF rider 1.2",
+   "quote": "IVF is covered for members aged 21 to 44 at the start of the treatment cycle.",
+   "source_status": "illustrative",
+   "needs_confirmation": true,
+   "confirmation_note": "ILLUSTRATIVE rule written for this demo; replace with the insurer's real policy wording before any real use."
+  },
+  {
+   "id": "IL-IVF-WAIT",
+   "pathway": null,
+   "kind": "eligibility",
+   "name": "Waiting period",
+   "logic": "coverage active >= 12 months before first cycle",
+   "source": "ILLUSTRATIVE",
+   "cite": "Illustrative IVF rider 1.4",
+   "quote": "Coverage must have been in force for 12 continuous months before the first covered cycle.",
+   "source_status": "illustrative",
+   "needs_confirmation": true,
+   "confirmation_note": "ILLUSTRATIVE rule written for this demo; replace with the insurer's real policy wording before any real use."
+  },
+  {
+   "id": "IL-IVF-DX",
+   "pathway": null,
+   "kind": "eligibility",
+   "name": "Documented infertility",
+   "logic": "clinician letter states infertility diagnosis",
+   "source": "ILLUSTRATIVE",
+   "cite": "Illustrative IVF rider 2.1",
+   "quote": "A licensed clinician must document a diagnosis of infertility.",
+   "source_status": "illustrative",
+   "needs_confirmation": true,
+   "confirmation_note": "ILLUSTRATIVE rule written for this demo; replace with the insurer's real policy wording before any real use."
+  },
+  {
+   "id": "IL-IVF-PA",
+   "pathway": null,
+   "kind": "eligibility",
+   "name": "Prior authorization",
+   "logic": "approved prior authorization per cycle",
+   "source": "ILLUSTRATIVE",
+   "cite": "Illustrative IVF rider 2.3",
+   "quote": "Each treatment cycle requires prior authorization from the plan.",
+   "source_status": "illustrative",
+   "needs_confirmation": true,
+   "confirmation_note": "ILLUSTRATIVE rule written for this demo; replace with the insurer's real policy wording before any real use."
+  }
+ ]
+}
