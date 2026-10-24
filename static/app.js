@@ -84,6 +84,7 @@ async function openCase(cid, switchTab = true) {
   if (switchTab) tab("case");
   $("#case-select").value = cid;
   S.caseData = await api("/api/cases/" + cid);
+  S.activeDoc = null; S.docMode = null;
   S.trace = null;
   const m = S.caseData.member;
   $("#lang").value = m.language || "en";
@@ -98,7 +99,7 @@ async function openCase(cid, switchTab = true) {
 function renderDocs(hl) {
   const docs = S.caseData.documents;
   const types = S.trace ? Object.fromEntries(stageOut("intake").documents.map((d) => [d.doc_id, d.doc_type])) : {};
-  const active = hl?.doc_id || S.activeDoc || docs[0].doc_id;
+  const active = [hl?.doc_id, S.activeDoc].find((id) => id && docs.some((d) => d.doc_id === id)) || docs[0].doc_id;
   S.activeDoc = active;
   $("#doclist").innerHTML = docs.map((d) => `<div class="doc-item ${d.doc_id === active ? "active" : ""}" onclick="showDoc('${d.doc_id}')">
     <span><b>${d.doc_id}</b> ${esc(d.filename)}</span>${types[d.doc_id] ? `<span class="badge">${types[d.doc_id]}</span>` : ""}</div>`).join("");
