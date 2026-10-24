@@ -1,5 +1,7 @@
-# secrets / env
+# secrets / env (.env.example is the committed template, with no real keys)
 .env
+.env.*
+!.env.example
 *.key
 # LLM response cache and navigator-entered cases (may contain uploaded documents)
 cache/
