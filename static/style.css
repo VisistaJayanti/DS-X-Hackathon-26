@@ -91,3 +91,7 @@ select { padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px; ba
 .ob-tag { display: inline-block; font-weight: 800; letter-spacing: .04em; font-size: 12px; padding: 2px 8px; border-radius: 4px; background: var(--accent-soft); color: var(--accent); margin-right: 6px; }
 .recover .ob-tag { background: #dbeafe; color: #1d4ed8; } .transition .ob-tag { background: var(--warn-soft); color: var(--warn); } .recover_expired .ob-tag { background: var(--bad-soft); color: var(--bad); }
 .ok-t { color: var(--ok); } .warn-t { color: var(--warn); } .bad-t { color: var(--bad); }
+.missing-box { background: var(--warn-soft); border: 1px solid #fcd34d; border-radius: 8px; padding: 10px 14px; margin: 8px 0 12px; }
+.missing-box.soft { background: #f8fafc; border-color: var(--line); }
+.missing-box ol, .missing-box ul { margin: 6px 0; padding-left: 20px; } .miss-item { margin-bottom: 8px; }
+.confirm.locked { background: #f3f4f6; border-color: #d1d5db; color: #374151; }

@@ -254,12 +254,34 @@ function renderResults() {
   h += `<div class="card"><h2>Member explanation · ${LANG_NAMES[fin.member.language]}</h2><div class="letter">${fin.member.sentences.map((s) => `<p title="${esc(s.en)}">${esc(s.text)}</p>`).join("")}</div>
     <p class="muted small">Translation engine: ${t.stages.find((s) => s.key === "translate").engine}. Hover a sentence for the verified English. Machine-drafted translations need native-speaker review.</p></div>`;
   const pk = fin.packet;
-  h += `<div class="card full"><h2>Response packet to ${esc(S.packData.program.agency)} <span class="badge ${pk.status === "ready" ? "ok" : pk.status === "hold" ? "warn" : "grey"}">${pk.status === "ready" ? "ready for review" : pk.status === "hold" ? "hold: waiting for missing evidence" : "no packet"}</span></h2>
+  const first = S.caseData.member.name.split(" ")[0];
+  const agency = S.packData.program.agency;
+  // Gaps that block sending vs. things to double-check (they don't stop the packet).
+  const SOFT = ["DOC_TRANSLATION", "POSTPARTUM_ENDING"];
+  const blocking = gaps.gaps.filter((g) => !SOFT.includes(g.code));
+  const soft = gaps.gaps.filter((g) => SOFT.includes(g.code));
+  const WHO = { clinician: "the doctor / clinician", school: "the school", employer: "the employer", member: first, navigator: "you (navigator)" };
+  const replyBy = (dl && (dl.ask_third_party_by || oc.reconsideration?.ask_third_party_by)) || null;
+  const missingItem = (g) => `<li class="miss-item"><div><b>${esc(g.detail)}</b></div>
+      <div class="small">Who: <b>${esc(WHO[g.ask] || g.ask)}</b>${fin.request && fin.request.gap === g.code ? ` · <span class="badge ok">request drafted</span>${replyBy ? ` reply by <b>${replyBy}</b>` : ""} <a href="#" onclick="document.querySelector('.request-card')?.scrollIntoView({behavior:'smooth'});return false">view letter ↓</a>` : ""}</div>
+      <div class="muted small">${esc(g.fix)}</div></li>`;
+  const title = pk.status === "none" ? `No response packet` : `${esc(first)}'s response to ${esc(agency)} <span class="muted small">(prepared with their navigator)</span>`;
+  const badge = pk.status === "ready" ? '<span class="badge ok">ready for review</span>' : pk.status === "hold" ? '<span class="badge warn">on hold: missing documents</span>' : "";
+  h += `<div class="card full"><h2>${title} ${badge}</h2>
+    ${pk.status === "hold" ? `<div class="missing-box"><h3>Missing before this can be sent (${blocking.length})</h3>
+      ${blocking.length ? `<ol>${blocking.map(missingItem).join("")}</ol>` : '<p class="muted small">The evidence for the leading pathway is incomplete; see Gaps above.</p>'}
+      ${soft.length ? `<h3 style="margin-top:8px">Also check (doesn't block sending)</h3><ul>${soft.map(missingItem).join("")}</ul>` : ""}
+      <p class="small">When the missing document arrives, add it to the case and run the agents again: the packet turns <b>ready</b>.</p></div>` : ""}
+    ${pk.status === "ready" && soft.length ? `<div class="missing-box soft"><h3>Also check before sending</h3><ul>${soft.map(missingItem).join("")}</ul></div>` : ""}
     ${pk.sections.map((s) => `<h3>${esc(s.heading)}</h3>${s.claims.map(claimHTML).join("")}`).join("")}
     ${pk.enclosures ? `<div class="muted small">Enclosures: ${pk.enclosures.map(esc).join(" · ")}</div>` : ""}
-    ${pk.status !== "none" ? `<div class="confirm"><label><input type="checkbox" id="confirm-send" onchange="$('#approve').disabled=!this.checked"> I (coordinator/navigator) reviewed every claim with the member and confirm the member consents to sending this.</label>
-      <button class="primary" id="approve" disabled onclick="this.textContent='Marked approved (demo: nothing is sent)';this.disabled=true">Approve for sending</button></div>` : ""}</div>`;
-  if (fin.request) h += `<div class="card"><h2>${esc(fin.request.title)} <span class="badge">to ${fin.request.to}</span></h2><div class="letter">${fin.request.claims.map(claimHTML).join("")}</div></div>`;
+    ${pk.status === "hold" ? `<div class="confirm locked">🔒 <b>Approval is locked</b> until the missing documents above are added. ${esc(first)} can't send an incomplete response that would likely be rejected.</div>` : ""}
+    ${pk.status === "ready" ? `<div class="confirm">
+      <label><input type="checkbox" class="appr" onchange="apprCheck()"> <b>Navigator:</b> I went through every statement with ${esc(first)} in their language.</label><br>
+      <label><input type="checkbox" class="appr" onchange="apprCheck()"> <b>${esc(first)}:</b> confirms it is accurate and wants to send it (or authorises the navigator to send it for them).</label>
+      <div style="margin-top:8px"><button class="primary" id="approve" disabled onclick="this.textContent='Marked approved (demo: nothing is sent)';this.disabled=true">Approve for sending</button>
+      <span class="muted small">${esc(first)} can also send it directly, by the method on the ${esc(agency)} notice.</span></div></div>` : ""}</div>`;
+  if (fin.request) h += `<div class="card request-card"><h2>${esc(fin.request.title)} <span class="badge">to ${fin.request.to}</span></h2><div class="letter">${fin.request.claims.map(claimHTML).join("")}</div></div>`;
   if (ver) {
     h += `<div class="card ${fin.request ? "" : "full"}"><h2>Verifier log</h2><p>${ver.stats.claims} claims checked · <b>${ver.stats.removed} removed</b> · ${ver.stats.flagged} flagged</p>
       ${ver.removed.map((r) => `<div class="removed"><b>Removed</b> [${r.where}] ${esc(r.text)}<div>${r.reasons.map(esc).join("; ")}</div></div>`).join("")}
@@ -271,6 +293,11 @@ function renderResults() {
   }
   h += `<div class="card full muted small">Run: pack <b>${sum.pack}</b> · ${sum.llm_calls} LLM calls · ${sum.latency_ms} ms · $${sum.cost_usd.toFixed(4)} · engines: ${Object.entries(sum.engines).map(([k, v]) => k + "=" + v).join(", ")}</div>`;
   $("#results").innerHTML = h;
+}
+
+function apprCheck() {
+  const boxes = [...document.querySelectorAll(".appr")];
+  $("#approve").disabled = !boxes.every((b) => b.checked);
 }
 
 function msgHTML(m) {
