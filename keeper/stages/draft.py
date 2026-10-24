@@ -237,6 +237,12 @@ def llm(case, intake_out, extract_out, rules_out, gaps_out, meter):
         req = {"to": data["request_to"] or "clinician", "title": ASK_TITLE.get(data["request_to"] or "", "Request for documentation"),
                "gap": gap, "claims": [norm(c, "Q", i) for i, c in enumerate(data["request"])]}
     member = [norm(c, "M", i) for i, c in enumerate(data["member"])]
+    # Guardrail: whatever the model wrote, the member always gets the dated deadline and "the agency decides".
+    dl = gaps_out.get("deadline")
+    fixed = ([{"key": "overdue" if dl["days_left"] < 0 else "deadline", "kw": {"date": dl["due"], "days": dl["days_left"]},
+               "rule_id": dl["rule_id"]}] if dl else []) + [{"key": "decides", "kw": {}}]
+    member += [_claim(f"M{len(member) + i + 1}", "finding" if s.get("rule_id") else "boilerplate", render(s, "en"),
+                      rule_id=s.get("rule_id"), template=s) for i, s in enumerate(fixed)]
     return {"packet": packet, "request": req, "member_en": member}
 
 
