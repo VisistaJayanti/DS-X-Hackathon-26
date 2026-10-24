@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-24 15:18",
+ "generated": "2026-10-24 16:26",
  "as_of": "2026-10-24",
  "pack": "masshealth_ce_2027",
  "split": "test",
@@ -233,7 +233,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 12,
+   "latency_ms": 9,
    "cost": 0,
    "ranking": [
     "EX_MEDICALLY_FRAIL"
@@ -260,7 +260,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "EX_MEDICALLY_FRAIL"
@@ -283,7 +283,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "EX_MEDICALLY_FRAIL"
@@ -306,7 +306,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "EX_MEDICALLY_FRAIL",
@@ -331,7 +331,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 13,
+   "latency_ms": 2,
    "cost": 0,
    "ranking": [
     "WORK_80",
@@ -383,7 +383,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 2,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "EX_MEDICALLY_FRAIL"
@@ -410,7 +410,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 1,
+   "latency_ms": 3,
    "cost": 0,
    "ranking": [
     "EX_MEDICALLY_FRAIL"
@@ -437,7 +437,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "EX_MEDICALLY_FRAIL"
@@ -460,7 +460,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 2,
    "cost": 0,
    "ranking": [
     "EX_CAREGIVER_CHILD"
@@ -483,7 +483,7 @@
    "tp": 3,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "NONE"
@@ -541,7 +541,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "EX_CAREGIVER_DISABLED"
@@ -618,7 +618,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "EX_CAREGIVER_CHILD",
@@ -643,7 +643,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "EX_CAREGIVER_CHILD",
@@ -672,7 +672,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 1,
+   "latency_ms": 2,
    "cost": 0,
    "ranking": [
     "WORK_80",
@@ -720,7 +720,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "COMBINATION"
@@ -743,7 +743,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 2,
    "cost": 0,
    "ranking": [
     "EDUCATION",
@@ -772,7 +772,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 2,
    "cost": 0,
    "ranking": [
     "EDUCATION"
@@ -795,7 +795,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "EDUCATION"
@@ -822,7 +822,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "EDUCATION"
@@ -868,7 +868,7 @@
    "tp": 2,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "NONE"
@@ -920,7 +920,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 7,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "WORK_80"
@@ -947,7 +947,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "WORK_80",
@@ -1022,7 +1022,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 2,
    "cost": 0,
    "ranking": [
     "WORK_80"
@@ -1049,7 +1049,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "WORK_80",
@@ -1103,7 +1103,7 @@
    "tp": 3,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 3,
+   "latency_ms": 4,
    "cost": 0,
    "ranking": [
     "NONE"
@@ -1134,7 +1134,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 1,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "OUT_OF_SCOPE_AGE"
@@ -1182,7 +1182,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "EX_VETERAN_TOTAL"
@@ -1205,7 +1205,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "WORK_80"
@@ -1228,7 +1228,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 8,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "EX_SNAP_TAFDC"
@@ -1274,7 +1274,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 1,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "EX_FORMER_FOSTER"
@@ -1297,7 +1297,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 3,
    "cost": 0,
    "ranking": [
     "EX_INCARCERATION"
@@ -1366,7 +1366,7 @@
    "tp": 2,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 8,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "EX_CAREGIVER_DISABLED"

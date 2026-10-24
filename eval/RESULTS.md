@@ -1,6 +1,6 @@
 # Coverage Keeper evaluation results
 
-Generated 2026-10-24 15:18 · as-of date 2026-10-24 · pack `masshealth_ce_2027`
+Generated 2026-10-24 16:26 · as-of date 2026-10-24 · pack `masshealth_ce_2027`
 
 46 synthetic cases (23 dev / 23 test); headline numbers on the 'test' split. The deterministic engine was written alongside the synthetic document templates (all splits), so its scores are an upper bound on template-like documents, not evidence of generalisation. Small n: one case = ~4 points.
 
