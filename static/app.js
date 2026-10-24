@@ -188,7 +188,7 @@ function ruleChip(rid) {
   const r = S.rules[rid];
   if (!r) return rid ? `<span class="cite rule">${esc(rid)}</span>` : "";
   const src = S.sources[r.source];
-  return `<a class="cite rule" href="${src.url}" target="_blank" title="${esc(r.cite + ": " + r.quote)}">${esc(r.cite)}</a>${r.needs_confirmation ? ' <span class="badge warn" title="' + esc(r.confirmation_note || "") + '">needs confirmation</span>' : ""}`;
+  return `<a class="cite rule" href="${r.url || src.url}" target="_blank" title="${esc(r.cite + ": " + r.quote)}">${esc(r.cite)}</a>${r.needs_confirmation ? ' <span class="badge warn" title="' + esc(r.confirmation_note || "") + '">needs confirmation</span>' : ""}`;
 }
 S.cites = [];
 function factChip(c) {
@@ -320,7 +320,7 @@ async function renderPacks() {
     <h3 style="margin-top:12px">Rulebook</h3><table class="tbl"><tr><th>Rule</th><th>Verbatim source text</th><th>Source</th></tr>
     ${p.rulebook.rules.map((r) => `<tr><td><b>${r.id}</b><div class="small">${esc(r.name)}</div>${r.needs_confirmation ? '<span class="badge warn">needs confirmation</span>' : ""}</td>
       <td class="small">“${esc(r.quote)}”${r.confirmation_note ? `<div class="muted">${esc(r.confirmation_note)}</div>` : ""}</td>
-      <td class="small"><a href="${p.rulebook._meta.sources[r.source].url}" target="_blank">${esc(r.cite)}</a><div class="muted">${r.source_status}</div></td></tr>`).join("")}</table></div>`;
+      <td class="small"><a href="${r.url || p.rulebook._meta.sources[r.source].url}" target="_blank">${esc(r.cite)}</a><div class="muted">${r.source_status}</div></td></tr>`).join("")}</table></div>`;
   $("#packs").innerHTML = h;
   $("#packsel").onchange = async (e) => { await loadPack(e.target.value); renderPacks(); };
 }

@@ -3,6 +3,7 @@ fixes, deadlines, document types, notice conventions, languages, cited rules) li
 The agents only read it through this module."""
 import json
 import os
+import re
 import threading
 from functools import lru_cache
 from pathlib import Path
@@ -21,11 +22,25 @@ def available():
     return out
 
 
+CFR_CITE = re.compile(r"(\d+)\s+CFR\s+(\d+\.\d+)((?:\([0-9A-Za-z]+\))*)")
+
+
+def rule_url(rule, sources):
+    """Deep link for a rule: a federal citation goes to that section and paragraph on eCFR; anything else to its source page."""
+    m = CFR_CITE.search(rule.get("cite", ""))
+    if m:
+        title, sec, paras = m.groups()
+        return f"https://www.ecfr.gov/current/title-{title}/section-{sec}" + (f"#p-{sec}{paras}" if paras else "")
+    return sources.get(rule.get("source"), {}).get("url")
+
+
 @lru_cache(maxsize=None)
 def _load(pack_id):
     d = PACKS / pack_id
     pack = json.loads((d / "pack.json").read_text(encoding="utf-8"))
     pack["rulebook"] = json.loads((d / "rules.json").read_text(encoding="utf-8"))
+    for r in pack["rulebook"]["rules"]:
+        r["url"] = rule_url(r, pack["rulebook"]["_meta"]["sources"])
     return pack
 
 
