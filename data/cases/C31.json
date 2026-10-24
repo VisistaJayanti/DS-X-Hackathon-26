@@ -27,7 +27,8 @@
     ],
     "evidence_sufficient": true,
     "gaps": [],
-    "notes": "Messy OCR ('Hcurs'). 82 hrs x $6.75 tipped base = $553.50, so income pathway is NOT met."
+    "notes": "Messy OCR ('Hcurs'). 82 hrs x $6.75 tipped base = $553.50, so income pathway is NOT met.",
+    "outcome": "retain"
   },
   "split": "dev"
 }

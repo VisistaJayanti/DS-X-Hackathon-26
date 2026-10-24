@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 from . import config, risk, rulebook
-from .stages import draft, extract, gaps, intake, outreach, rules, verify
+from .stages import draft, extract, gaps, intake, outcome, outreach, rules, verify
 
 ROSTER = Path(__file__).resolve().parent.parent / "data" / "roster.json"
 
@@ -25,6 +25,7 @@ STAGES = [
     ("extract", "Extraction", "Pull facts with document/line quotes"),
     ("rules", "Rules", "Evaluate every pathway against the cited rulebook"),
     ("gaps", "Gap", "What's missing, how to fix it, the deadline"),
+    ("outcome", "Outcome", "Retain, Recover or Transition, and the window that matters"),
     ("followup", "Follow-up", "Exactly what to send / collect (SMS photo, CHW checklist)"),
     ("draft", "Drafting", "Packet, request letter, member explanation"),
     ("verify", "Verifier", "Drop any claim without a quote + rule"),
@@ -65,6 +66,7 @@ def run(case, use_llm=None, use_verifier=True, lang=None, on_event=None):
 
     def do_outreach(m):
         who = member or dict(case["member"], member_id=None, has_mobile=True, sms_opt_in=False, preferred_channel="phone")
+        who = dict(who, coverage=case["member"].get("coverage"), reported_changes=case["member"].get("reported_changes", []))
         return outreach.initial(who, gaps.deadline(case["member"]), m, use_llm), "deterministic", None
 
     stage("risk", do_risk)
@@ -73,11 +75,12 @@ def run(case, use_llm=None, use_verifier=True, lang=None, on_event=None):
     stage("extract", lambda m: extract.run(case, out["intake"], m, use_llm))
     stage("rules", lambda m: rules.run(case, out["intake"], out["extract"], m, use_llm))
     stage("gaps", lambda m: gaps.run(case, out["extract"], out["rules"]))
+    stage("outcome", lambda m: outcome.run(case, out["rules"], out["gaps"]))
     who = member or dict(case["member"], sms_opt_in=False)
     stage("followup", lambda m: (outreach.followup(who, out["gaps"], m, use_llm), "deterministic", None))
-    stage("draft", lambda m: draft.run(case, out["intake"], out["extract"], out["rules"], out["gaps"], m, use_llm))
+    stage("draft", lambda m: draft.run(case, out["intake"], out["extract"], out["rules"], out["gaps"], m, use_llm, out["outcome"]))
     if use_verifier:
-        stage("verify", lambda m: verify.run(case, out["extract"], out["rules"], out["gaps"], out["draft"], m, use_llm))
+        stage("verify", lambda m: verify.run(case, out["extract"], out["rules"], out["gaps"], out["draft"], m, use_llm, out["outcome"]))
         final = out["verify"]["verified"]
     else:
         final = {k: out["draft"][k] for k in ("packet", "request", "member_en")}
@@ -87,10 +90,13 @@ def run(case, use_llm=None, use_verifier=True, lang=None, on_event=None):
         return {"language": lang, "sentences": sents}, eng, None
 
     stage("translate", tr)
-    trace["final"] = dict(final, member=out["translate"])
+    trace["final"] = dict(final, member=out["translate"], transition_plan=out["draft"].get("transition_plan"),
+                          outcome=out["outcome"]["outcome"])
     trace["summary"] = {
         "ranking": out["rules"]["ranking"],
         "best_pathway": out["gaps"]["best_pathway"],
+        "outcome": out["outcome"]["outcome"],
+        "key_date": out["outcome"].get("key_date"),
         "pack": rulebook.active()["id"],
         "risk_score": out["risk"].get("score"),
         "evidence_sufficient": out["gaps"]["evidence_sufficient"],

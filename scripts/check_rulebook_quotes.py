@@ -17,7 +17,9 @@ def norm(s):
     s = re.sub(r"\[\[Page \d+\]\]", " ", s)
     s = s.replace("``", '"').replace("''", '"').replace("’", "'")
     s = re.sub(r"-\s*\n\s*", "-", s)  # hyphenated line breaks
-    return re.sub(r"\s+", " ", s).strip()
+    s = re.sub(r"\s+", " ", s)
+    s = re.sub(r"\(\s+", "(", s)  # eCFR markup leaves "( iii )" and "(d)(1) ,"
+    return re.sub(r"\s+([,.;:)])", r"\1", s).strip()
 
 
 def load_sources():
@@ -30,6 +32,14 @@ def load_sources():
         t = sh.read_text(encoding="utf-8", errors="ignore")
         t = re.sub(r"(?s)<script.*?</script>|<style.*?</style>", "", t)
         src["SHVS"] = norm(html.unescape(re.sub(r"<[^>]+>", " ", t)))
+    # Any other source that names a downloaded "file" (eCFR renderer output, web pages) under sources_raw/.
+    rb = json.loads((ROOT / "packs" / "masshealth_ce_2027" / "rules.json").read_text(encoding="utf-8"))
+    for key, meta in rb["_meta"]["sources"].items():
+        f = ROOT / "sources_raw" / meta.get("file", "")
+        if meta.get("file") and f.exists():
+            t = f.read_text(encoding="utf-8", errors="ignore")
+            t = re.sub(r"(?s)<script.*?</script>|<style.*?</style>", "", t)
+            src[key] = norm(html.unescape(re.sub(r"<[^>]+>", " ", t)))
     return src
 
 

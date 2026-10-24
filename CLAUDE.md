@@ -11,6 +11,7 @@ Coverage Keeper is an insurer-agnostic AI member-retention layer. It flags healt
 - **Don't invent rules.** Every rule in a pack carries a source URL and a verbatim quote. If you can't fetch and quote a source, mark the rule `needs_confirmation: true` (or `illustrative` for demo packs) instead of filling gaps from memory. After editing a rulebook, run `python scripts/check_rulebook_quotes.py`.
 - **Keep the demo working offline.** Every LLM stage must keep a deterministic fallback, and replay mode (cached responses) must keep working. Don't add hard network dependencies.
 - **Don't build income verification integrations.** That's deliberately left to CMS's Emmy and vendors.
+- Recover/Transition wording never promises reinstatement or eligibility ("may", "the agency decides"). Transition options are listed neutrally (no ranking, no steering to the plan's own product). Windows and thresholds come only from cited pack rules; never hard-code them in agent code.
 - Outreach must always give the agency's direct contact line, offer text opt-out, never ask for an SSN by text, and never use pressure or dark patterns. Risk flags may only prioritise *help*, never deny or deprioritise anyone.
 
 ## Commands
@@ -46,8 +47,10 @@ On Windows use `PYTHONIOENCODING=utf-8` when printing non-English output to the 
 server.py                  FastAPI; /api/run/{case} streams stage events over SSE
 static/                    vanilla JS UI, no build step (index.html, app.js, style.css)
 keeper/
-  pipeline.py              orchestrator: risk -> outreach -> intake -> extract -> rules -> gaps
+  pipeline.py              orchestrator: risk -> outreach -> intake -> extract -> rules -> gaps -> outcome
                            -> followup -> draft -> verify -> translate; records a per-stage trace
+                           (outcome = Retain / Recover / Transition, from case coverage status + reported changes
+                           + the pack's `reconsideration` / `transitions` sections)
   rulebook.py              ACTIVE POLICY PACK accessor (thread-local; pipeline sets it from case["pack"])
   risk.py / plan.py        transparent points risk score; plan-view aggregation
   llm.py                   Anthropic + OpenAI-compatible clients (Groq, Gemini, Cerebras, OpenRouter, custom),

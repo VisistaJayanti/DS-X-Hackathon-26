@@ -10,6 +10,11 @@
 - From Jan 1, 2027, Massachusetts **Medicaid** (MassHealth) adds work requirements + six-month renewals: ~175,000 expected to lose coverage.
 - Every eligible member lost = lost capitation revenue + broken care. Reminders aren't enough: the hard part is the evidence.
 
+**2b. Three outcomes**
+- **Retain** eligible members: pathway, gaps, packet before the deadline.
+- **Recover** those dropped by mistake: 90-day reconsideration window, no new application needed (42 CFR 435.916(a)(3)(iii)). Demo: Devon, 70 days left.
+- **Transition** those who no longer qualify: neutral options + enrol-by date so nobody falls into a gap (45 CFR 155.420; Medicare IEP 42 CFR 407.14). Demo: Kofi, income rose.
+
 **3. How it works**
 - Pipeline: risk flag → outreach → intake → extraction → rules → gap → follow-up → drafting → verifier → translation → human confirms.
 - Deterministic rules for thresholds and dates; Claude for interpretation, extraction, drafting, translation (Haiku / Sonnet / Opus by stage).

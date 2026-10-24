@@ -30,7 +30,8 @@
     "gaps": [
       "OUTSIDE_LOOKBACK"
     ],
-    "notes": ""
+    "notes": "",
+    "outcome": "retain"
   },
   "split": "test"
 }

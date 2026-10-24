@@ -1,6 +1,14 @@
 # Coverage Keeper
 
-**Insurers lose members to paperwork, not ineligibility. Our agents don't just remind members — they finish the paperwork.**
+**Retain eligible members. Recover those dropped by mistake. Transition those who no longer qualify, so nobody falls into a gap.**
+
+Insurers lose members to paperwork, not ineligibility. Our agents don't just remind members — they finish the paperwork.
+
+| Outcome | Who | What Coverage Keeper does |
+|---|---|---|
+| **Retain** | Eligible members at risk of losing coverage | Find the pathway, catch missing evidence, draft the packet before the deadline |
+| **Recover** | Members already dropped for paperwork | Inside the reconsideration window (90 days after termination under 42 CFR 435.916(a)(3)(iii)): count down the days left and draft the submission, so they may get coverage back without a new application |
+| **Transition** | Members whose evidence suggests they may no longer qualify (income rose, turning 65, postpartum coverage ending, moved, no pathway) | List next-coverage options neutrally, compute the enrol-by date to avoid a gap (e.g. marketplace special enrollment, Medicare initial enrollment), and hand off to a navigator |
 
 Coverage Keeper is an AI member-retention layer for health insurers. It finds members who are about to lose coverage over paperwork, reaches them in their language on the right channel, works out *which* compliance or exemption pathway their documents support, catches the missing evidence, drafts the response packet and the letter to the doctor/school/employer, and tracks the case to done. Every claim it writes is cited to a document line and a rule, and a verifier removes anything unsupported. A human always confirms before anything is sent.
 
@@ -27,6 +35,10 @@ Maria, 34, lives in Lawrence, speaks Spanish, and cares for her mother after a s
 7. **Verifier log.** Every claim checked against an exact quote and a cited rule.
 8. **Day 12.** The packet is ready; the plan keeps a member.
 
+**Recover (Devon, illustrative composite, case C47).** Devon was dropped 20 days ago because a requested pay stub never arrived. The Outcome agent sees a procedural termination inside the 90-day reconsideration window: **70 days left**. It drafts a reconsideration submission with his September pay stubs (86 hours) and tells him, without promising, that he *may* get coverage back without reapplying.
+
+**Transition (Kofi, illustrative composite, case C50).** Kofi reports a new full-time job and income above the limit. The tool doesn't compute the limit or decide anything. It says the evidence suggests he *may* no longer qualify, lists options neutrally (ask MassHealth to check every other way to qualify; the Massachusetts Health Connector), gives the enrol-by date to avoid a gap (2026-11-30) and the window end (2027-02-28, 90 days after loss of Medicaid under 45 CFR 155.420(c)(6)), and writes a warm hand-off note for a navigator.
+
 ## Architecture
 
 ```mermaid
@@ -37,12 +49,13 @@ flowchart LR
   IN --> EX[2 Extraction<br/>facts + exact quotes]
   EX --> RU[3 Rules<br/>every pathway]
   RU --> GA[4 Gap<br/>fixes + deadline]
-  GA --> FU[Follow-up<br/>SMS photo / CHW checklist]
+  GA --> OC[Outcome<br/>Retain / Recover / Transition<br/>+ the window that matters]
+  OC --> FU[Follow-up<br/>SMS photo / CHW checklist]
   FU --> DR[5 Drafting<br/>packet, request letter,<br/>member explanation]
   DR --> VE[6 Verifier<br/>quote + rule + numbers<br/>+ guardrail + entailment]
   VE --> TR[Translation<br/>member's language]
   TR --> H{{Human confirms}}
-  P[(Policy pack<br/>rules, params, doc types,<br/>gap fixes, notices, languages,<br/>cited sources)] -.-> IN & EX & RU & GA & DR & VE & OUT
+  P[(Policy pack<br/>rules, params, doc types,<br/>gap fixes, notices, languages,<br/>cited sources, reconsideration,<br/>transitions)] -.-> IN & EX & RU & GA & OC & DR & VE & OUT
 ```
 
 - **Each stage is inspectable** in the UI: input/output JSON, engine (LLM or deterministic), model, latency and cost.
@@ -67,6 +80,8 @@ All program-specific content lives in `packs/<id>/`: scope, pathways and thresho
 |---|---|---|
 | `masshealth_ce_2027` | Medicaid (MassHealth expansion adults) | 23 rules; 22 quoted verbatim from the CMS interim final rule (42 CFR 435.550–563) and machine-checked against the downloaded text; ambiguous rules marked `needs_confirmation` |
 | `employer_dependent_audit_demo` | Employer / commercial plan | **ILLUSTRATIVE, made-up rules**, labelled as such in the UI. Shows the same agents running on a different program (dependent under 26, 60-day window). |
+
+The MassHealth pack also has a `reconsideration` section (window length, what to submit, reinstatement note, citations) and a `transitions` section (triggers → next-coverage options, enrolment window rules, documents, citations, neutral-routing note). The Outcome agent reads only these; a pack without them simply has no Recover/Transition.
 
 New lines of business (Medicare Advantage, ACA marketplace re-enrollment, non-US private insurers) are new packs, not new code.
 
@@ -93,17 +108,19 @@ python server.py                   # http://127.0.0.1:8000
 
 ## Evaluation
 
-46 synthetic cases (23 dev / 23 test, alternating so every scenario family appears in both), with hard cases: frailty letters that do or don't state the impact on work, behavioral-health and SUD frailty, stable recovery (excluded), a child aged 13 vs 14, postpartum at the 12-month boundary, 75 hours + less-than-half-time classes, gig income at $571 / $580 / $596, conflicting documents, a 65-year-old and a Medicare member (out of scope), Spanish and Portuguese documents, stale pay stubs, tipped wages, and cases with no qualifying pathway.
+54 synthetic cases (27 dev / 27 test, alternating so every scenario family appears in both). Each is labelled Retain, Recover or Transition, and the Recover/Transition cases also carry the expected key date (reconsideration end, or the last day to enrol in next coverage). Hard cases: frailty letters that do or don't state the impact on work, behavioral-health and SUD frailty, stable recovery (excluded), a child aged 13 vs 14, postpartum at the 12-month boundary, 75 hours + less-than-half-time classes, gig income at $571 / $580 / $596, conflicting documents, a 65-year-old and a Medicare member (out of scope), Spanish and Portuguese documents, stale pay stubs, tipped wages, and cases with no qualifying pathway. Recover: dropped 20 days ago (inside the window), 120 days ago (window closed), and dropped but now pregnant (exempt). Transition: income rose above the limit, postpartum coverage ending, turning 65 next month (Medicare), moved out of state, and no pathway or exemption.
 
-Every case document is also rendered as a realistic, watermarked PDF (letterheads, pay-stub forms, handwritten-style statements, ID cards). **Robustness check:** reading text back out of those PDFs with naive extraction drops the deterministic engine from 46/46 to 28/46 (form labels and values split onto separate lines). Layout-aware extraction (`keeper/docs.py: pdf_to_text`) restores 46/46 (`python scripts/smoke_pdf.py`).
+Every case document is also rendered as a realistic, watermarked PDF (letterheads, pay-stub forms, handwritten-style statements, ID cards). **Robustness check:** reading text back out of those PDFs with naive extraction dropped the deterministic engine from 46/46 to 28/46 (form labels and values split onto separate lines). Layout-aware extraction (`keeper/docs.py: pdf_to_text`) restores full accuracy (now 54/54) (`python scripts/smoke_pdf.py`).
 
 Headline numbers on the **held-out test split**. The current table is in [`eval/RESULTS.md`](eval/RESULTS.md).
 
-| Run | n | Top-1 | Top-2 | Sufficiency | Gap P | Gap R | Unsupported claims | Latency | Cost |
-|---|---|---|---|---|---|---|---|---|---|
-| Deterministic baseline, verifier off | 23 | 100% | 100% | 100% | 100% | 100% | 0/376 (0%) | 3 ms | $0 |
-| Deterministic baseline, verifier on | 23 | 100% | 100% | 100% | 100% | 100% | 0/376 (0%) | 3 ms | $0 |
-| LLM agents, verifier off / on | 23 | *run `--llm`* | | | | | *headline ablation* | | |
+| Run | n | Top-1 | Top-2 | Sufficiency | Gap P | Gap R | Retain / Recover / Transition | Key date | Transition told "still eligible" | Unsupported claims | Latency | Cost |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Deterministic baseline, verifier off | 27 | 100% | 100% | 100% | 100% | 100% | 100% | 100% (n=4) | 0% (n=4) | 0/429 (0%) | 3 ms | $0 |
+| Deterministic baseline, verifier on | 27 | 100% | 100% | 100% | 100% | 100% | 100% | 100% (n=4) | 0% (n=4) | 0/429 (0%) | 3 ms | $0 |
+| LLM agents, verifier off / on | 27 | *run `--llm`* | | | | | | | | *headline ablation* | | |
+
+On all 54 cases (`--split all`): outcome classification 100%, key date 100% (n=8), transition cases told they are still eligible 0% (n=8). "Told still eligible" counts a transition case whose member explanation uses retain framing ("you may qualify through…", "your documents look complete") or that gets a ready packet.
 
 **Read these honestly.** The deterministic engine was written alongside the synthetic document templates, so 100% is an upper bound on template-like documents, not evidence of generalisation. Its drafts are built from grounded facts, so they are supported by construction. The verifier ablation matters for the **LLM drafter**: `--llm` measures unsupported claims in raw LLM drafts vs after the verifier, judged by grounding checks plus an independent entailment judge from a different model family.
 
@@ -134,7 +151,7 @@ The generator solves the latent model's intercept so the expected label rate amo
 
 The calibration also shows where the product needs to grow. In Lowell, 9% of residents have limited English in a language the tool doesn't support yet, mostly Khmer (27% of Lowell's limited-English residents).
 
-**Fairness:** results are broken down by member language and case type in `eval/RESULTS.md` and in the UI.
+**Fairness:** results are broken down by member language, case type and outcome (Retain / Recover / Transition) in `eval/RESULTS.md` and in the UI.
 
 ## Responsible AI and guardrails
 
@@ -144,6 +161,8 @@ The calibration also shows where the product needs to grow. In Lowell, 9% of res
 - **What leaves the machine.** Synthetic data only. In live mode, document text goes only to the API calls of the configured model providers: Groq, Google Gemini and Cerebras in the `free` preset, or Anthropic in the `anthropic` preset. Free tiers may retain prompts or use them to improve models, which is acceptable only because all data here is synthetic. Nothing goes to other third parties, and document contents aren't logged. The cache and navigator-entered cases are local and git-ignored. Offline/replay mode sends nothing.
 - **Fairness.** Evaluation is reported by language and case type.
 - **No dark patterns.** Outreach always gives the agency's direct contact line and a text opt-out, never asks for an SSN by text, and never implies a decision.
+- **Recover without false promises.** Dropped members are told they *may* get coverage back without a new application, by a dated deadline, and that the agency decides. Nothing says coverage will be reinstated or backdated (the MassHealth reinstatement waiver couldn't be fetched, so it's marked `needs_confirmation`).
+- **Neutral routing on transition.** The tool says the evidence suggests the member *may* no longer qualify; it never decides. Next-coverage options are listed without preference and the member chooses. Plan contracts may bar steering members to the plan's own marketplace product, so options are never ranked. A navigator confirms through a warm hand-off.
 - **Risk flags only help.** The score is a transparent points list with reasons. It only orders who is offered help first, and is never used to deny, delay or deprioritise coverage or services.
 - **Human in the loop.** Coordinators and navigators review everything. Machine-drafted translations are labelled for native-speaker review.
 
@@ -154,6 +173,9 @@ The calibration also shows where the product needs to grow. In Lowell, 9% of res
 - The deterministic baseline is template-tuned (see above). The LLM run is the generalisation test.
 - Offline translations are machine-drafted templates. Live mode uses Claude, but either way a native speaker should review.
 - We deliberately leave income verification to CMS's Emmy and vendors. For income/hours cases we only check the documents provided against the thresholds.
+- Recover/Transition windows use federal rules: 90-day reconsideration (42 CFR 435.916(a)(3)(iii); a state may elect longer), marketplace special enrollment after losing Medicaid (90 days after, up to 60 days before; 45 CFR 155.420(c)(2),(c)(6)), Medicare initial enrollment (42 CFR 407.14). How MassHealth and the Health Connector apply them, ConnectorCare income limits, and whether reinstatement is backdated were not verifiable and are marked `needs_confirmation`; no income limits are encoded (income-change transitions rely on a member-reported change). The Delaware worked example returned HTTP 404 and the MassHealth waiver letter HTTP 403. The brief cited 435.916(b)(2)(iii); the current eCFR places the rule at (a)(3)(iii).
+- Recover/Transition member text exists in English and Spanish; other languages fall back to English (labelled) offline, or AI translation in live mode.
+- Plan-view Recover/Transition members (M0201–M0220) and their statuses and hand-offs are synthetic; the 200 calibrated members and the risk evaluation are unchanged.
 - The capitation figure in the plan view ($600 PMPM) is an illustrative assumption, not a sourced number. Case statuses in the plan view are synthetic.
 
 ## Sources
@@ -163,6 +185,11 @@ The calibration also shows where the product needs to grow. In Lowell, 9% of res
 - KFF, *Understanding Medicaid Procedural Disenrollment Rates*: https://www.kff.org/medicaid/understanding-medicaid-procedural-disenrollment-rates/
 - CMS, *Medicaid and CHIP Updated Renewal Outcomes* (roster calibration, Massachusetts rows): https://data.medicaid.gov/dataset/e6205a51-e6d7-4849-9882-4483b8a28c41
 - US Census Bureau, ACS 2020–2024 5-year summary file, tables C16001, B16001 and C27007 (roster calibration): https://www.census.gov/programs-surveys/acs/data/summary-file.html
+- eCFR 42 CFR 435.916 (reconsideration at (a)(3)(iii)), fetched via the eCFR API: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-C/part-435/subpart-J/section-435.916
+- eCFR 45 CFR 155.420 (special enrollment periods): https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-B/part-155/subpart-E/section-155.420
+- eCFR 42 CFR 407.14 (Medicare initial enrollment period): https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-407/subpart-B/section-407.14
+- Massachusetts Health Connector: https://www.mahealthconnector.org/
+- Not fetchable (listed for reference, rules marked `needs_confirmation`): MassHealth 1902(e)(14)(A) reinstatement-during-reconsideration waiver approval (HTTP 403); Delaware DHSS 90-day reconsideration notice (HTTP 404).
 - MassHealth pages (not fetchable, HTTP 403; listed for reference): new work and education requirements, screener, federal updates, Sept 2026 stakeholder presentation; CMS Medicaid eligibility.
 
 ## Repo layout

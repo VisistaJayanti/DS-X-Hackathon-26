@@ -29,7 +29,8 @@
     "gaps": [
       "CHILD_AGE_PROOF"
     ],
-    "notes": ""
+    "notes": "",
+    "outcome": "retain"
   },
   "split": "test"
 }

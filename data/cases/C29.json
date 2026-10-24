@@ -35,7 +35,8 @@
     "gaps": [
       "DOC_CONFLICT"
     ],
-    "notes": "Stub: 36 hrs/$540. Letter implies ~86.6 hrs / $1,299."
+    "notes": "Stub: 36 hrs/$540. Letter implies ~86.6 hrs / $1,299.",
+    "outcome": "retain"
   },
   "split": "dev"
 }

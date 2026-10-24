@@ -107,12 +107,53 @@ def latent_label(rng, m, intercept):
     return rng.random() < 1 / (1 + math.exp(-z))
 
 
+def recover_transition_members(cases):
+    """20 extra synthetic members for the plan view's Recover and Transition groups (M0201-M0220).
+
+    Kept separate from the calibrated 200 (own RNG, no risk label) so the risk-flag evaluation is unchanged.
+    """
+    rng = random.Random(4120)
+    linked = [c for c in cases if "C47" <= c["case_id"] <= "C54"]
+    extra = []
+    for i, c in enumerate(linked):
+        m = c["member"]
+        extra.append({"case_id": c["case_id"], "name": m["name"], "age": m["age"], "language": m["language"],
+                      "coverage": m.get("coverage"), "reported_changes": m.get("reported_changes", [])})
+    triggers = ["income_above_limit", "turning_65", "postpartum_ending", "moved_out_of_state"]
+    for i in range(12 - 0):
+        lang = rng.choice(["en", "es", "pt", "ht", "vi", "zh"])
+        if i < 7:  # dropped for paperwork, some inside the reconsideration window, some past it
+            days = rng.choice([6, 15, 28, 41, 55, 73, 104])
+            extra.append({"case_id": None, "name": f"{rng.choice(FIRST[lang])} {chr(65 + rng.randrange(26))}. (synthetic)",
+                          "age": rng.randint(19, 64), "language": lang,
+                          "coverage": {"status": "terminated_procedural",
+                                       "termination_date": (AS_OF - timedelta(days=days)).isoformat(),
+                                       "termination_reason": rng.choice(["renewal form not returned", "requested pay stub not received",
+                                                                         "request for information not answered"])},
+                          "reported_changes": []})
+        else:  # likely to lose eligibility
+            trig = triggers[i % len(triggers)]
+            when = (AS_OF + timedelta(days=rng.randint(10, 45))).isoformat()
+            extra.append({"case_id": None, "name": f"{rng.choice(FIRST[lang])} {chr(65 + rng.randrange(26))}. (synthetic)",
+                          "age": 64 if trig == "turning_65" else rng.randint(22, 60), "language": lang,
+                          "coverage": {"status": "at_risk", "expected_end_date": when},
+                          "reported_changes": [{"type": trig, "date": when}]})
+    for j, m in enumerate(extra):
+        m.update({"member_id": f"M{201 + j:04d}", "city": rng.choice(list(CAL["city_weights"]) if "city_weights" in CAL else ["Boston"]),
+                  "group": "recover" if m["coverage"]["status"].startswith("terminated") else "transition",
+                  "would_lose_paperwork": None, "subject_to_requirement": True, "notice_received_date": AS_OF.isoformat(),
+                  "notice_language": "en", "returned_mail": False, "address_change_90d": False, "missed_prior_notices": 0,
+                  "reached_last_90d": rng.random() < 0.5, "has_mobile": True, "sms_opt_in": rng.random() < 0.6, "portal_account": False,
+                  "preferred_channel": rng.choice(["sms", "phone"]), "exemption_hint": "none"})
+    return extra
+
+
 def main():
     intercept = solve_intercept(CAL["target_p_lose_given_subject"])
     rng = random.Random(2027)
     cases = sorted((ROOT / "cases").glob("*.json"))
     cases = [json.loads(p.read_text(encoding="utf-8")) for p in cases]
-    by_idx = {i + 2: c for i, c in enumerate(cc for cc in cases if cc["case_id"] != "C46")}
+    by_idx = {i + 2: c for i, c in enumerate(cc for cc in cases if cc["case_id"] <= "C45")}
     roster = [member(rng, i, by_idx) for i in range(1, 201)]
     # Maria: illustrative composite, the primary demo member
     maria = next(c for c in cases if c["case_id"] == "C46")
@@ -124,9 +165,10 @@ def main():
     for m in roster:
         m["would_lose_paperwork"] = latent_label(rng, m, intercept)
     roster[0]["would_lose_paperwork"] = True
+    roster += recover_transition_members(cases)
     (ROOT / "roster.json").write_text(json.dumps(roster, indent=1, ensure_ascii=False), encoding="utf-8")
-    subject = [m for m in roster if m["subject_to_requirement"]]
-    print(f"{len(roster)} members, {sum(m['would_lose_paperwork'] for m in roster)} labelled would-lose-for-paperwork; "
+    subject = [m for m in roster if m["subject_to_requirement"] and m.get("group", "at_risk") == "at_risk"]
+    print(f"{len(roster)} members, {sum(bool(m['would_lose_paperwork']) for m in roster)} labelled would-lose-for-paperwork; "
           f"{len(subject)} subject to the requirement, {sum(m['would_lose_paperwork'] for m in subject) / len(subject):.1%} of them "
           f"labelled (CMS target {CAL['target_p_lose_given_subject']:.1%}, intercept {intercept:.2f})")
 

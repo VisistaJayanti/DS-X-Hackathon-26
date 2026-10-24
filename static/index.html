@@ -26,6 +26,7 @@
 <main>
   <!-- PLAN VIEW -->
   <section id="tab-plan" class="tab active">
+    <div class="kpis outcomes" id="outcomes"></div>
     <div class="kpis" id="kpis"></div>
     <div class="pipeline-bar" id="pipelinebar"></div>
     <div class="two">
@@ -39,7 +40,15 @@
         <p class="muted small">Illustrative composite, not a real person.</p>
         <ol class="timeline" id="maria-timeline"></ol>
         <button class="primary" onclick="openCase('C46')">Open Maria's case &rarr;</button>
+        <h2 style="margin-top:16px">More demo stories</h2>
+        <p class="muted small">Illustrative composites, not real people.</p>
+        <button class="ghost" onclick="openCase('C47')">Recover: Devon, dropped 20 days ago &rarr;</button>
+        <button class="ghost" style="margin-top:6px" onclick="openCase('C50')">Transition: Kofi, income rose &rarr;</button>
       </div>
+    </div>
+    <div class="two">
+      <div class="card grow"><div class="card-h"><h2>Recover: dropped for paperwork</h2><span class="muted small">reconsideration window per the policy pack</span></div><div id="recover-group"></div></div>
+      <div class="card grow"><div class="card-h"><h2>Transition: likely to lose eligibility</h2><span class="muted small">next coverage before a gap</span></div><div id="transition-group"></div></div>
     </div>
   </section>
 
@@ -90,6 +99,8 @@
         <div><h3>What leaves the machine</h3><p>Synthetic data only. In live mode, document text is sent only to the API calls of the configured model providers (free preset: Groq, Google Gemini, Cerebras; or Anthropic). Free tiers may retain prompts, which is acceptable only because the data is synthetic. Nothing goes to other third parties; document contents are not logged. Cached responses stay in a git-ignored local folder. Offline mode sends nothing anywhere.</p></div>
         <div><h3>Fairness</h3><p>Evaluation is broken down by member language and case type, so gaps in performance for limited-English members or specific exemptions are visible (see Evaluation).</p></div>
         <div><h3>No dark patterns</h3><p>Every outreach message tells the member how to contact the agency directly, includes opt-out for texts, never asks for a Social Security number by text, and never pressures or implies a decision.</p></div>
+        <div><h3>Recover without false promises</h3><p>Members dropped for paperwork are told they <i>may</i> be able to get coverage back without a new application, by a dated deadline, and that the agency decides. Nothing says coverage will be reinstated.</p></div>
+        <div><h3>Neutral routing on transition</h3><p>When the evidence suggests someone may no longer qualify, options are listed without preference and the member chooses. Plan contracts may bar steering members to the plan's own marketplace product, so the tool never ranks or favours one. A navigator confirms before anything changes.</p></div>
         <div><h3>Risk flags help, never harm</h3><p>The risk score is a transparent points list with reasons. It only orders who gets help first. It is never used to deny, delay, or deprioritise coverage or services, and members not flagged can always get help.</p></div>
         <div><h3>Human in the loop</h3><p>Coordinators and navigators review every packet, letter and message. Machine-drafted translations are labelled and should be reviewed by a native speaker before real use.</p></div>
       </div>

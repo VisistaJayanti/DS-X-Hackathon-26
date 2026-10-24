@@ -1,0 +1,47 @@
+{
+  "case_id": "C52",
+  "title": "Transition - turns 65 next month (Medicare)",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Walter P. (synthetic)",
+    "age": 64,
+    "language": "en",
+    "household": "Lives with wife",
+    "notice_received_date": "2026-10-08",
+    "coverage": {
+      "status": "at_risk"
+    },
+    "reported_changes": [
+      {
+        "type": "turning_65",
+        "date": "2026-11-15",
+        "detail": "65th birthday"
+      }
+    ]
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "id.txt",
+      "text": "MASSACHUSETTS IDENTIFICATION CARD\nName: Walter P.\nDOB: 11/15/1961"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "NONE"
+    ],
+    "evidence_sufficient": false,
+    "gaps": [
+      "NO_QUALIFYING_PATHWAY"
+    ],
+    "notes": "Medicare initial enrollment period Aug 2026 - Feb 2027.",
+    "outcome": "transition",
+    "key_date": "2027-02-28"
+  },
+  "split": "test"
+}

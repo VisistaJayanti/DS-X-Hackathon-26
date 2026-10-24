@@ -103,18 +103,30 @@ def entail(claims, ctx, meter, stage="verify"):
     return {v["claim_id"]: v for v in data["verdicts"]}
 
 
-def context(case, extract_out, rules_out, gaps_out):
+def _outcome_numbers(oc):
+    """Dates and day counts the Outcome stage computed (windows, deadlines), as text."""
+    if not oc:
+        return ""
+    rc, t = oc.get("reconsideration") or {}, oc.get("transition") or {}
+    w = t.get("window") or {}
+    vals = [rc.get(k) for k in ("termination_date", "ends", "days_left", "window_days", "days_since", "ask_third_party_by")]
+    vals += [w.get(k) for k in ("opens", "closes", "avoid_gap_by")] + [t.get("coverage_end"), (t.get("change") or {}).get("date")]
+    return " ".join(str(v) for v in vals if v is not None)
+
+
+def context(case, extract_out, rules_out, gaps_out, outcome_out=None):
     dl = gaps_out.get("deadline") or {}
     m = case["member"]
     always = " ".join(str(x) for x in [m.get("age"), m.get("notice_received_date"), dl.get("due"), dl.get("days_left"), dl.get("ask_third_party_by"),
                                        " ".join(m.get("lookback_months", [])), "80 580 13 19 64 65 30", m.get("name")])
+    always += " " + _outcome_numbers(outcome_out)
     always += " " + " ".join(f"{d['doc_id']} line {i}" for d in case["documents"] for i in range(1, len(d["text"].splitlines()) + 1))
     return {"docs": {d["doc_id"]: d for d in case["documents"]}, "facts": {f["fact_id"]: f for f in extract_out["facts"]},
             "rules": rulebook.rules(), "pathways": rules_out["pathways"], "always": always}
 
 
-def run(case, extract_out, rules_out, gaps_out, draft_out, meter, use_llm=True):
-    ctx = context(case, extract_out, rules_out, gaps_out)
+def run(case, extract_out, rules_out, gaps_out, draft_out, meter, use_llm=True, outcome_out=None):
+    ctx = context(case, extract_out, rules_out, gaps_out, outcome_out)
     sections = [("packet", c) for s in draft_out["packet"]["sections"] for c in s["claims"]]
     if draft_out["request"]:
         sections += [("request", c) for c in draft_out["request"]["claims"]]

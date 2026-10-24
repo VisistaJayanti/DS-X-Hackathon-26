@@ -109,10 +109,71 @@ def deterministic(case, intake_out, extract_out, rules_out, gaps_out):
 def render(s, lang):
     if s["key"] == "gap":
         return "• " + i18n.gap_text(s["kw"]["code"], lang)
+    if s["key"] == "option":
+        return f"• {s['kw']['name']}: {s['kw']['contact']}"
     kw = dict(s["kw"])
     if "pathway" in kw:
         kw["pathway"] = i18n.pathway_name(kw["pathway"], lang)
+    if "trigger" in kw:
+        lab = rulebook.active()["transitions"]["triggers"][kw["trigger"]]["label"]
+        kw["trigger"] = lab.get(lang, lab["en"])
+    if "submit" in kw:
+        sub = rulebook.active()["reconsideration"]["submit"]
+        kw["submit"] = sub.get(lang, sub["en"])
     return i18n.t(s["key"], lang, **kw)
+
+
+def frame(case, draft_out, outcome_out):
+    """Re-frame drafts for Recover / Transition. Retain drafts are returned unchanged."""
+    oc = (outcome_out or {}).get("outcome", "retain")
+    if oc == "retain":
+        return dict(draft_out, outcome="retain")
+    first = _first(case)
+    old = [c["template"] for c in draft_out["member_en"] if c.get("template")]
+    keep = [s for s in old if s["key"] in ("likely", "out_of_scope", "need_intro", "gap", "ready")]
+    member = [{"key": "intro", "kw": {"first": first}}]
+    packet, request, plan = draft_out["packet"], draft_out["request"], None
+
+    if oc == "recover":
+        rc = outcome_out["reconsideration"]
+        r = rulebook.rules()[rc["rule_id"]]
+        head = {"heading": "Reconsideration submission", "claims": [
+            _claim("R1", "rule", f"Basis: {r['name']} ({r['cite']}).", rule_id=r["id"]),
+            _claim("R2", "rule", f"Rule text: “{r['quote']}”", rule_id=r["id"]),
+            _claim("R3", "finding", f"Coverage ended on {rc['termination_date']} for missing paperwork; this submission is sent within the "
+                                    f"{rc['window_days']}-day reconsideration period, which ends {rc['ends']}.", rule_id=r["id"]),
+        ]}
+        packet = dict(packet, sections=[head] + packet["sections"], status=packet["status"] if packet["sections"] else "hold")
+        member += [{"key": "recover_intro", "kw": {"term": rc["termination_date"]}, "rule_id": rc["rule_id"]},
+                   {"key": "recover_window", "kw": {"submit": True, "date": rc["ends"], "days": rc["days_left"]}, "rule_id": rc["rule_id"]}]
+        member += keep + [{"key": "recover_no_promise", "kw": {}}]
+        if request:
+            ask = rc["ask_third_party_by"]
+            request = dict(request, claims=[dict(c, text=f"Please reply by {ask} so the member can send it within the reconsideration "
+                                                          f"period ending {rc['ends']}.", rule_id=rc["rule_id"])
+                                            if c["text"].startswith("Please reply by") else c for c in request["claims"]])
+    elif oc == "recover_expired":
+        rc = outcome_out["reconsideration"]
+        packet = dict(packet, sections=[dict(s, heading="Documents for a new application: " + s["heading"]) for s in packet["sections"]])
+        member += [{"key": "recover_intro", "kw": {"term": rc["termination_date"]}, "rule_id": rc["rule_id"]},
+                   {"key": "recover_expired", "kw": {"date": rc["ends"]}, "rule_id": rc["rule_id"]}] + keep
+    t = outcome_out.get("transition")
+    if oc == "transition":
+        packet, request = {"status": "none", "sections": []}, None
+    if t and oc in ("transition", "recover_expired"):
+        w = t["window"] or {}
+        member += [{"key": "transition_intro", "kw": {"trigger": t["trigger"]}, "rule_id": t["trigger_rule_id"]},
+                   {"key": "transition_options", "kw": {}}]
+        member += [{"key": "option", "kw": {"name": o["name"], "contact": o["contact"]}} for o in t["options"]]
+        if w:
+            member.append({"key": "transition_deadline", "kw": {"avoid": w["avoid_gap_by"], "closes": w["closes"]}, "rule_id": w["rule_id"]})
+        member += [{"key": "transition_docs", "kw": {"docs": "; ".join(d[0].lower() + d[1:] if not d.split()[0].isupper() and d.split()[0] != "Photo" else d for d in t["documents"])}},
+                   {"key": "transition_wrong", "kw": {}}]
+        plan = t
+    member.append({"key": "decides", "kw": {}})
+    english = [_claim(f"M{i + 1}", "finding" if s.get("rule_id") else "boilerplate", render(s, "en"), rule_id=s.get("rule_id"),
+                      fact_ids=s.get("fact_ids", []), template=s) for i, s in enumerate(member)]
+    return {"packet": packet, "request": request, "member_en": english, "transition_plan": plan, "outcome": oc}
 
 
 # ------------------------------------------------------------------ LLM drafter
@@ -179,13 +240,15 @@ def llm(case, intake_out, extract_out, rules_out, gaps_out, meter):
     return {"packet": packet, "request": req, "member_en": member}
 
 
-def run(case, intake_out, extract_out, rules_out, gaps_out, meter, use_llm=True):
-    if use_llm:
+def run(case, intake_out, extract_out, rules_out, gaps_out, meter, use_llm=True, outcome_out=None):
+    # Recover / Transition framing is template-driven (fixed, reviewed wording that never promises an outcome),
+    # so those cases use the deterministic drafter as their base.
+    if use_llm and (outcome_out or {}).get("outcome", "retain") == "retain":
         try:
-            return llm(case, intake_out, extract_out, rules_out, gaps_out, meter), "llm", None
+            return frame(case, llm(case, intake_out, extract_out, rules_out, gaps_out, meter), outcome_out), "llm", None
         except LLMUnavailable as e:
-            return deterministic(case, intake_out, extract_out, rules_out, gaps_out), "deterministic", str(e)
-    return deterministic(case, intake_out, extract_out, rules_out, gaps_out), "deterministic", None
+            return frame(case, deterministic(case, intake_out, extract_out, rules_out, gaps_out), outcome_out), "deterministic", str(e)
+    return frame(case, deterministic(case, intake_out, extract_out, rules_out, gaps_out), outcome_out), "deterministic", None
 
 
 # ------------------------------------------------------------------ translation (after verification)

@@ -4601,5 +4601,602 @@
   "exemption_hint": "chronic_condition",
   "case_id": null,
   "would_lose_paperwork": false
+ },
+ {
+  "case_id": "C47",
+  "name": "Devon K. (illustrative composite)",
+  "age": 38,
+  "language": "en",
+  "coverage": {
+   "status": "terminated_procedural",
+   "termination_date": "2026-10-04",
+   "termination_reason": "renewal: requested pay stub was not received"
+  },
+  "reported_changes": [],
+  "member_id": "M0201",
+  "city": "Springfield",
+  "group": "recover",
+  "would_lose_paperwork": null,
+  "subject_to_requirement": true,
+  "notice_received_date": "2026-10-24",
+  "notice_language": "en",
+  "returned_mail": false,
+  "address_change_90d": false,
+  "missed_prior_notices": 0,
+  "reached_last_90d": false,
+  "has_mobile": true,
+  "sms_opt_in": true,
+  "portal_account": false,
+  "preferred_channel": "phone",
+  "exemption_hint": "none"
+ },
+ {
+  "case_id": "C48",
+  "name": "Alicia M. (synthetic)",
+  "age": 44,
+  "language": "es",
+  "coverage": {
+   "status": "terminated_procedural",
+   "termination_date": "2026-06-26",
+   "termination_reason": "renewal form not returned"
+  },
+  "reported_changes": [],
+  "member_id": "M0202",
+  "city": "Boston",
+  "group": "recover",
+  "would_lose_paperwork": null,
+  "subject_to_requirement": true,
+  "notice_received_date": "2026-10-24",
+  "notice_language": "en",
+  "returned_mail": false,
+  "address_change_90d": false,
+  "missed_prior_notices": 0,
+  "reached_last_90d": true,
+  "has_mobile": true,
+  "sms_opt_in": false,
+  "portal_account": false,
+  "preferred_channel": "sms",
+  "exemption_hint": "none"
+ },
+ {
+  "case_id": "C49",
+  "name": "Tamika B. (synthetic)",
+  "age": 27,
+  "language": "en",
+  "coverage": {
+   "status": "terminated_procedural",
+   "termination_date": "2026-09-24",
+   "termination_reason": "request for information not answered"
+  },
+  "reported_changes": [],
+  "member_id": "M0203",
+  "city": "New Bedford",
+  "group": "recover",
+  "would_lose_paperwork": null,
+  "subject_to_requirement": true,
+  "notice_received_date": "2026-10-24",
+  "notice_language": "en",
+  "returned_mail": false,
+  "address_change_90d": false,
+  "missed_prior_notices": 0,
+  "reached_last_90d": true,
+  "has_mobile": true,
+  "sms_opt_in": true,
+  "portal_account": false,
+  "preferred_channel": "phone",
+  "exemption_hint": "none"
+ },
+ {
+  "case_id": "C50",
+  "name": "Kofi A. (illustrative composite)",
+  "age": 41,
+  "language": "en",
+  "coverage": {
+   "status": "at_risk",
+   "expected_end_date": "2026-11-30"
+  },
+  "reported_changes": [
+   {
+    "type": "income_above_limit",
+    "date": "2026-10-01",
+    "detail": "New full-time job; member reports income above the limit"
+   }
+  ],
+  "member_id": "M0204",
+  "city": "Chelsea",
+  "group": "transition",
+  "would_lose_paperwork": null,
+  "subject_to_requirement": true,
+  "notice_received_date": "2026-10-24",
+  "notice_language": "en",
+  "returned_mail": false,
+  "address_change_90d": false,
+  "missed_prior_notices": 0,
+  "reached_last_90d": false,
+  "has_mobile": true,
+  "sms_opt_in": false,
+  "portal_account": false,
+  "preferred_channel": "sms",
+  "exemption_hint": "none"
+ },
+ {
+  "case_id": "C51",
+  "name": "Lucia F. (synthetic)",
+  "age": 29,
+  "language": "es",
+  "coverage": {
+   "status": "at_risk",
+   "expected_end_date": "2026-11-30"
+  },
+  "reported_changes": [
+   {
+    "type": "postpartum_ending",
+    "date": "2026-11-30",
+    "detail": "postpartum coverage ends (placeholder window)"
+   }
+  ],
+  "member_id": "M0205",
+  "city": "Boston",
+  "group": "transition",
+  "would_lose_paperwork": null,
+  "subject_to_requirement": true,
+  "notice_received_date": "2026-10-24",
+  "notice_language": "en",
+  "returned_mail": false,
+  "address_change_90d": false,
+  "missed_prior_notices": 0,
+  "reached_last_90d": false,
+  "has_mobile": true,
+  "sms_opt_in": true,
+  "portal_account": false,
+  "preferred_channel": "sms",
+  "exemption_hint": "none"
+ },
+ {
+  "case_id": "C52",
+  "name": "Walter P. (synthetic)",
+  "age": 64,
+  "language": "en",
+  "coverage": {
+   "status": "at_risk"
+  },
+  "reported_changes": [
+   {
+    "type": "turning_65",
+    "date": "2026-11-15",
+    "detail": "65th birthday"
+   }
+  ],
+  "member_id": "M0206",
+  "city": "Lowell",
+  "group": "transition",
+  "would_lose_paperwork": null,
+  "subject_to_requirement": true,
+  "notice_received_date": "2026-10-24",
+  "notice_language": "en",
+  "returned_mail": false,
+  "address_change_90d": false,
+  "missed_prior_notices": 0,
+  "reached_last_90d": true,
+  "has_mobile": true,
+  "sms_opt_in": true,
+  "portal_account": false,
+  "preferred_channel": "phone",
+  "exemption_hint": "none"
+ },
+ {
+  "case_id": "C53",
+  "name": "Erin S. (synthetic)",
+  "age": 33,
+  "language": "en",
+  "coverage": {
+   "status": "at_risk",
+   "expected_end_date": "2026-10-31"
+  },
+  "reported_changes": [
+   {
+    "type": "moved_out_of_state",
+    "date": "2026-10-15",
+    "detail": "Moved to New Hampshire"
+   }
+  ],
+  "member_id": "M0207",
+  "city": "Worcester",
+  "group": "transition",
+  "would_lose_paperwork": null,
+  "subject_to_requirement": true,
+  "notice_received_date": "2026-10-24",
+  "notice_language": "en",
+  "returned_mail": false,
+  "address_change_90d": false,
+  "missed_prior_notices": 0,
+  "reached_last_90d": false,
+  "has_mobile": true,
+  "sms_opt_in": false,
+  "portal_account": false,
+  "preferred_channel": "phone",
+  "exemption_hint": "none"
+ },
+ {
+  "case_id": "C54",
+  "name": "Marcus J. (synthetic)",
+  "age": 36,
+  "language": "en",
+  "coverage": {
+   "status": "at_risk"
+  },
+  "reported_changes": [],
+  "member_id": "M0208",
+  "city": "Lawrence",
+  "group": "transition",
+  "would_lose_paperwork": null,
+  "subject_to_requirement": true,
+  "notice_received_date": "2026-10-24",
+  "notice_language": "en",
+  "returned_mail": false,
+  "address_change_90d": false,
+  "missed_prior_notices": 0,
+  "reached_last_90d": true,
+  "has_mobile": true,
+  "sms_opt_in": false,
+  "portal_account": false,
+  "preferred_channel": "phone",
+  "exemption_hint": "none"
+ },
+ {
+  "case_id": null,
+  "name": "Yesenia M. (synthetic)",
+  "age": 52,
+  "language": "es",
+  "coverage": {
+   "status": "terminated_procedural",
+   "termination_date": "2026-09-26",
+   "termination_reason": "renewal form not returned"
+  },
+  "reported_changes": [],
+  "member_id": "M0209",
+  "city": "Lowell",
+  "group": "recover",
+  "would_lose_paperwork": null,
+  "subject_to_requirement": true,
+  "notice_received_date": "2026-10-24",
+  "notice_language": "en",
+  "returned_mail": false,
+  "address_change_90d": false,
+  "missed_prior_notices": 0,
+  "reached_last_90d": true,
+  "has_mobile": true,
+  "sms_opt_in": false,
+  "portal_account": false,
+  "preferred_channel": "sms",
+  "exemption_hint": "none"
+ },
+ {
+  "case_id": null,
+  "name": "Marie T. (synthetic)",
+  "age": 31,
+  "language": "ht",
+  "coverage": {
+   "status": "terminated_procedural",
+   "termination_date": "2026-08-12",
+   "termination_reason": "requested pay stub not received"
+  },
+  "reported_changes": [],
+  "member_id": "M0210",
+  "city": "Lynn",
+  "group": "recover",
+  "would_lose_paperwork": null,
+  "subject_to_requirement": true,
+  "notice_received_date": "2026-10-24",
+  "notice_language": "en",
+  "returned_mail": false,
+  "address_change_90d": false,
+  "missed_prior_notices": 0,
+  "reached_last_90d": false,
+  "has_mobile": true,
+  "sms_opt_in": false,
+  "portal_account": false,
+  "preferred_channel": "sms",
+  "exemption_hint": "none"
+ },
+ {
+  "case_id": null,
+  "name": "Ashley H. (synthetic)",
+  "age": 52,
+  "language": "en",
+  "coverage": {
+   "status": "terminated_procedural",
+   "termination_date": "2026-10-18",
+   "termination_reason": "renewal form not returned"
+  },
+  "reported_changes": [],
+  "member_id": "M0211",
+  "city": "Lynn",
+  "group": "recover",
+  "would_lose_paperwork": null,
+  "subject_to_requirement": true,
+  "notice_received_date": "2026-10-24",
+  "notice_language": "en",
+  "returned_mail": false,
+  "address_change_90d": false,
+  "missed_prior_notices": 0,
+  "reached_last_90d": false,
+  "has_mobile": true,
+  "sms_opt_in": false,
+  "portal_account": false,
+  "preferred_channel": "phone",
+  "exemption_hint": "none"
+ },
+ {
+  "case_id": null,
+  "name": "Jose I. (synthetic)",
+  "age": 51,
+  "language": "es",
+  "coverage": {
+   "status": "terminated_procedural",
+   "termination_date": "2026-08-12",
+   "termination_reason": "requested pay stub not received"
+  },
+  "reported_changes": [],
+  "member_id": "M0212",
+  "city": "Brockton",
+  "group": "recover",
+  "would_lose_paperwork": null,
+  "subject_to_requirement": true,
+  "notice_received_date": "2026-10-24",
+  "notice_language": "en",
+  "returned_mail": false,
+  "address_change_90d": false,
+  "missed_prior_notices": 0,
+  "reached_last_90d": true,
+  "has_mobile": true,
+  "sms_opt_in": true,
+  "portal_account": false,
+  "preferred_channel": "phone",
+  "exemption_hint": "none"
+ },
+ {
+  "case_id": null,
+  "name": "Jun E. (synthetic)",
+  "age": 22,
+  "language": "zh",
+  "coverage": {
+   "status": "terminated_procedural",
+   "termination_date": "2026-08-30",
+   "termination_reason": "renewal form not returned"
+  },
+  "reported_changes": [],
+  "member_id": "M0213",
+  "city": "Lawrence",
+  "group": "recover",
+  "would_lose_paperwork": null,
+  "subject_to_requirement": true,
+  "notice_received_date": "2026-10-24",
+  "notice_language": "en",
+  "returned_mail": false,
+  "address_change_90d": false,
+  "missed_prior_notices": 0,
+  "reached_last_90d": true,
+  "has_mobile": true,
+  "sms_opt_in": true,
+  "portal_account": false,
+  "preferred_channel": "phone",
+  "exemption_hint": "none"
+ },
+ {
+  "case_id": null,
+  "name": "Joana X. (synthetic)",
+  "age": 38,
+  "language": "pt",
+  "coverage": {
+   "status": "terminated_procedural",
+   "termination_date": "2026-09-13",
+   "termination_reason": "renewal form not returned"
+  },
+  "reported_changes": [],
+  "member_id": "M0214",
+  "city": "Chelsea",
+  "group": "recover",
+  "would_lose_paperwork": null,
+  "subject_to_requirement": true,
+  "notice_received_date": "2026-10-24",
+  "notice_language": "en",
+  "returned_mail": false,
+  "address_change_90d": false,
+  "missed_prior_notices": 0,
+  "reached_last_90d": true,
+  "has_mobile": true,
+  "sms_opt_in": true,
+  "portal_account": false,
+  "preferred_channel": "phone",
+  "exemption_hint": "none"
+ },
+ {
+  "case_id": null,
+  "name": "Maria D. (synthetic)",
+  "age": 62,
+  "language": "es",
+  "coverage": {
+   "status": "terminated_procedural",
+   "termination_date": "2026-08-12",
+   "termination_reason": "renewal form not returned"
+  },
+  "reported_changes": [],
+  "member_id": "M0215",
+  "city": "Lynn",
+  "group": "recover",
+  "would_lose_paperwork": null,
+  "subject_to_requirement": true,
+  "notice_received_date": "2026-10-24",
+  "notice_language": "en",
+  "returned_mail": false,
+  "address_change_90d": false,
+  "missed_prior_notices": 0,
+  "reached_last_90d": false,
+  "has_mobile": true,
+  "sms_opt_in": false,
+  "portal_account": false,
+  "preferred_channel": "sms",
+  "exemption_hint": "none"
+ },
+ {
+  "case_id": null,
+  "name": "Jose X. (synthetic)",
+  "age": 51,
+  "language": "es",
+  "coverage": {
+   "status": "at_risk",
+   "expected_end_date": "2026-11-06"
+  },
+  "reported_changes": [
+   {
+    "type": "moved_out_of_state",
+    "date": "2026-11-06"
+   }
+  ],
+  "member_id": "M0216",
+  "city": "Worcester",
+  "group": "transition",
+  "would_lose_paperwork": null,
+  "subject_to_requirement": true,
+  "notice_received_date": "2026-10-24",
+  "notice_language": "en",
+  "returned_mail": false,
+  "address_change_90d": false,
+  "missed_prior_notices": 0,
+  "reached_last_90d": true,
+  "has_mobile": true,
+  "sms_opt_in": true,
+  "portal_account": false,
+  "preferred_channel": "phone",
+  "exemption_hint": "none"
+ },
+ {
+  "case_id": null,
+  "name": "Ana A. (synthetic)",
+  "age": 25,
+  "language": "pt",
+  "coverage": {
+   "status": "at_risk",
+   "expected_end_date": "2026-11-14"
+  },
+  "reported_changes": [
+   {
+    "type": "income_above_limit",
+    "date": "2026-11-14"
+   }
+  ],
+  "member_id": "M0217",
+  "city": "Worcester",
+  "group": "transition",
+  "would_lose_paperwork": null,
+  "subject_to_requirement": true,
+  "notice_received_date": "2026-10-24",
+  "notice_language": "en",
+  "returned_mail": false,
+  "address_change_90d": false,
+  "missed_prior_notices": 0,
+  "reached_last_90d": false,
+  "has_mobile": true,
+  "sms_opt_in": true,
+  "portal_account": false,
+  "preferred_channel": "phone",
+  "exemption_hint": "none"
+ },
+ {
+  "case_id": null,
+  "name": "Mei J. (synthetic)",
+  "age": 64,
+  "language": "zh",
+  "coverage": {
+   "status": "at_risk",
+   "expected_end_date": "2026-12-01"
+  },
+  "reported_changes": [
+   {
+    "type": "turning_65",
+    "date": "2026-12-01"
+   }
+  ],
+  "member_id": "M0218",
+  "city": "Boston",
+  "group": "transition",
+  "would_lose_paperwork": null,
+  "subject_to_requirement": true,
+  "notice_received_date": "2026-10-24",
+  "notice_language": "en",
+  "returned_mail": false,
+  "address_change_90d": false,
+  "missed_prior_notices": 0,
+  "reached_last_90d": true,
+  "has_mobile": true,
+  "sms_opt_in": false,
+  "portal_account": false,
+  "preferred_channel": "sms",
+  "exemption_hint": "none"
+ },
+ {
+  "case_id": null,
+  "name": "Thiago E. (synthetic)",
+  "age": 24,
+  "language": "pt",
+  "coverage": {
+   "status": "at_risk",
+   "expected_end_date": "2026-12-06"
+  },
+  "reported_changes": [
+   {
+    "type": "postpartum_ending",
+    "date": "2026-12-06"
+   }
+  ],
+  "member_id": "M0219",
+  "city": "Worcester",
+  "group": "transition",
+  "would_lose_paperwork": null,
+  "subject_to_requirement": true,
+  "notice_received_date": "2026-10-24",
+  "notice_language": "en",
+  "returned_mail": false,
+  "address_change_90d": false,
+  "missed_prior_notices": 0,
+  "reached_last_90d": false,
+  "has_mobile": true,
+  "sms_opt_in": true,
+  "portal_account": false,
+  "preferred_channel": "phone",
+  "exemption_hint": "none"
+ },
+ {
+  "case_id": null,
+  "name": "Widline O. (synthetic)",
+  "age": 56,
+  "language": "ht",
+  "coverage": {
+   "status": "at_risk",
+   "expected_end_date": "2026-11-25"
+  },
+  "reported_changes": [
+   {
+    "type": "moved_out_of_state",
+    "date": "2026-11-25"
+   }
+  ],
+  "member_id": "M0220",
+  "city": "Boston",
+  "group": "transition",
+  "would_lose_paperwork": null,
+  "subject_to_requirement": true,
+  "notice_received_date": "2026-10-24",
+  "notice_language": "en",
+  "returned_mail": false,
+  "address_change_90d": false,
+  "missed_prior_notices": 0,
+  "reached_last_90d": true,
+  "has_mobile": true,
+  "sms_opt_in": true,
+  "portal_account": false,
+  "preferred_channel": "sms",
+  "exemption_hint": "none"
  }
 ]

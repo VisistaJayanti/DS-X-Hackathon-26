@@ -681,5 +681,170 @@
    "url": "https://www.mass.gov/masshire-career-centers"
   }
  ],
- "rulebook_patch": {}
+ "rulebook_patch": {},
+ "reconsideration": {
+  "window_days": 90,
+  "rule_id": "R-PROC-RECON",
+  "related_rules": [
+   "R-PROC-RECON-CE",
+   "R-PROC-REINSTATE"
+  ],
+  "applies_to": [
+   "terminated_procedural"
+  ],
+  "submit": {
+   "en": "the renewal form or the missing information named on the termination notice",
+   "es": "el formulario de renovación o la información que faltaba, según la carta de cancelación"
+  },
+  "reinstatement_note": "Whether coverage is reinstated back to the termination date needs confirmation (MassHealth waiver not fetched)."
+ },
+ "transitions": {
+  "neutral_routing_note": "Options are listed without preference; the member chooses. Plan contracts may bar steering members to the plan's own marketplace product.",
+  "triggers": {
+   "income_above_limit": {
+    "label": {
+     "en": "income went above the program limit",
+     "es": "sus ingresos superaron el límite del programa"
+    },
+    "rule_id": "R-TR-INCOME-LIMIT",
+    "options": [
+     "agency_rescreen",
+     "health_connector"
+    ],
+    "window": {
+     "kind": "sep",
+     "days_before": 60,
+     "days_after": 90,
+     "rule_id": "R-TR-SEP-MEDICAID",
+     "advance_rule_id": "R-TR-SEP-ADVANCE"
+    },
+    "documents": [
+     "Recent pay stubs or an offer letter showing the new income",
+     "Photo ID",
+     "Immigration documents, if applicable",
+     "The latest MassHealth notice"
+    ]
+   },
+   "postpartum_ending": {
+    "label": {
+     "en": "postpartum coverage is ending",
+     "es": "su cobertura después del parto está terminando"
+    },
+    "rule_id": "R-EX-PREG",
+    "options": [
+     "agency_rescreen",
+     "health_connector"
+    ],
+    "window": {
+     "kind": "sep",
+     "days_before": 60,
+     "days_after": 90,
+     "rule_id": "R-TR-SEP-MEDICAID",
+     "advance_rule_id": "R-TR-SEP-ADVANCE"
+    },
+    "documents": [
+     "Hospital discharge or birth record",
+     "Recent pay stubs",
+     "Photo ID"
+    ]
+   },
+   "turning_65": {
+    "label": {
+     "en": "turning 65 (Medicare age)",
+     "es": "cumple 65 años (edad de Medicare)"
+    },
+    "rule_id": "R-SCOPE-AGE",
+    "options": [
+     "medicare",
+     "agency_rescreen"
+    ],
+    "window": {
+     "kind": "medicare_iep",
+     "months_before": 3,
+     "months_after": 3,
+     "rule_id": "R-TR-MEDICARE-IEP"
+    },
+    "documents": [
+     "Proof of age (birth certificate or ID)",
+     "Social Security number",
+     "The latest MassHealth notice"
+    ]
+   },
+   "moved_out_of_state": {
+    "label": {
+     "en": "moved out of Massachusetts",
+     "es": "se mudó fuera de Massachusetts"
+    },
+    "rule_id": "R-TR-MOVE",
+    "options": [
+     "new_state_medicaid",
+     "new_state_marketplace"
+    ],
+    "window": {
+     "kind": "sep",
+     "days_before": 0,
+     "days_after": 60,
+     "rule_id": "R-TR-SEP-GENERAL"
+    },
+    "documents": [
+     "Proof of new address (lease or utility bill)",
+     "Photo ID",
+     "Recent pay stubs"
+    ]
+   },
+   "no_pathway": {
+    "label": {
+     "en": "no way to meet the requirement or an exemption is shown yet",
+     "es": "todavía no se muestra una forma de cumplir el requisito ni una exención"
+    },
+    "rule_id": "R-WORK-80",
+    "options": [
+     "agency_rescreen",
+     "health_connector"
+    ],
+    "window": {
+     "kind": "sep",
+     "days_before": 60,
+     "days_after": 90,
+     "rule_id": "R-TR-SEP-MEDICAID",
+     "advance_rule_id": "R-TR-SEP-ADVANCE"
+    },
+    "documents": [
+     "Any proof of work, volunteer, school or training hours",
+     "Recent pay stubs",
+     "Photo ID"
+    ]
+   }
+  },
+  "options": {
+   "agency_rescreen": {
+    "name": "Ask MassHealth to check every other way to qualify",
+    "contact": "MassHealth Customer Service (number on your notice)",
+    "rule_id": null,
+    "needs_confirmation": true
+   },
+   "health_connector": {
+    "name": "Massachusetts Health Connector (state marketplace, including ConnectorCare plans)",
+    "contact": "Health Connector 1-877-623-6765 (TTY: 711)",
+    "url": "https://www.mahealthconnector.org/",
+    "rule_id": "R-TR-CONNECTOR"
+   },
+   "medicare": {
+    "name": "Medicare (Parts A and B)",
+    "contact": "Social Security / Medicare (see medicare.gov)",
+    "rule_id": "R-TR-MEDICARE-IEP"
+   },
+   "new_state_medicaid": {
+    "name": "Medicaid in the new state",
+    "contact": "the new state's Medicaid agency",
+    "rule_id": null,
+    "needs_confirmation": true
+   },
+   "new_state_marketplace": {
+    "name": "Marketplace in the new state (HealthCare.gov or the state exchange)",
+    "contact": "HealthCare.gov",
+    "rule_id": "R-TR-MOVE"
+   }
+  }
+ }
 }

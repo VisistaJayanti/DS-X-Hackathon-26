@@ -33,7 +33,8 @@
     ],
     "evidence_sufficient": true,
     "gaps": [],
-    "notes": ""
+    "notes": "",
+    "outcome": "retain"
   },
   "split": "dev"
 }

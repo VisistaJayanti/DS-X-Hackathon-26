@@ -1,0 +1,47 @@
+{
+  "case_id": "C51",
+  "title": "Transition - postpartum coverage ending",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Lucia F. (synthetic)",
+    "age": 29,
+    "language": "es",
+    "household": "Self + infant",
+    "notice_received_date": "2026-10-12",
+    "coverage": {
+      "status": "at_risk",
+      "expected_end_date": "2026-11-30"
+    },
+    "reported_changes": [
+      {
+        "type": "postpartum_ending",
+        "date": "2026-11-30",
+        "detail": "postpartum coverage ends (placeholder window)"
+      }
+    ]
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "discharge.txt",
+      "text": "BAYSTATE MEDICAL CENTER\nDischarge Summary - Obstetrics\nPatient name: Lucia F.\nDelivered: 11/30/2025 (vaginal delivery)\nInfant: female, 6 lb 14 oz"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "EX_PREGNANT_POSTPARTUM",
+      "EX_CAREGIVER_CHILD"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": "Options start with asking MassHealth to check other ways to qualify.",
+    "outcome": "transition",
+    "key_date": "2027-02-28"
+  },
+  "split": "dev"
+}

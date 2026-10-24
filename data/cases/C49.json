@@ -1,0 +1,40 @@
+{
+  "case_id": "C49",
+  "title": "Recover - dropped 30 days ago for paperwork, now pregnant (exempt)",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Tamika B. (synthetic)",
+    "age": 27,
+    "language": "en",
+    "household": "Lives with partner",
+    "notice_received_date": "2026-08-15",
+    "coverage": {
+      "status": "terminated_procedural",
+      "termination_date": "2026-09-24",
+      "termination_reason": "request for information not answered"
+    }
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "prenatal.txt",
+      "text": "Lynn Community Health Center - Women's Health\n10/15/2026\n\nTo Whom It May Concern:\n\nRE: Tamika B.   DOB: 03/02/1999\n\nThis letter confirms that Ms. B. is currently pregnant and receiving prenatal care at our health center.\nEstimated due date: 04/18/2027.\n\nSincerely,\nRosa Ellis, CNM\nLynn Community Health Center - Women's Health"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "EX_PREGNANT_POSTPARTUM"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": "",
+    "outcome": "recover",
+    "key_date": "2026-12-23"
+  },
+  "split": "dev"
+}

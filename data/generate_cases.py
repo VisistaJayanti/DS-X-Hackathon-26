@@ -16,12 +16,15 @@ LOOKBACK = ["2026-07", "2026-08", "2026-09"]
 CASES = []
 
 
-def case(cid, title, member, docs, correct, sufficient, gaps, notes=""):
+def case(cid, title, member, docs, correct, sufficient, gaps, notes="", outcome=None, key_date=None):
     m = {"lookback_months": LOOKBACK, "notice_type": "Request for Information (RFI)", **member}
+    # Retain / Recover / Transition label. No supported pathway -> transition (help them avoid a gap).
+    outcome = outcome or ("transition" if correct == ["NONE"] else "retain")
     CASES.append({
         "case_id": cid, "title": title, "member": m,
         "documents": [{"doc_id": f"D{i + 1}", "filename": fn, "text": t.strip("\n")} for i, (fn, t) in enumerate(docs)],
-        "labels": {"correct_pathways": correct, "evidence_sufficient": sufficient, "gaps": sorted(gaps), "notes": notes},
+        "labels": {"correct_pathways": correct, "evidence_sufficient": sufficient, "gaps": sorted(gaps), "notes": notes,
+                   "outcome": outcome, **({"key_date": key_date} if key_date else {})},
     })
 
 
@@ -530,6 +533,88 @@ She has residual left-sided weakness and is followed in our neurology clinic eve
 Her medications include apixaban and atorvastatin."""))],
      ["EX_CAREGIVER_DISABLED"], False, ["CAREGIVER_DISABILITY_STATEMENT", "DOC_TRANSLATION"],
      "Caregiver exemption applies but the mother's doctor letter names the stroke without stating a disability or daily-care need.")
+
+# ---------------------------------------------------------------- Recover: already dropped for paperwork
+case("C47", "DEMO RECOVER - dropped 20 days ago because a pay stub never arrived",
+     {"name": "Devon K. (illustrative composite)", "age": 38, "language": "en", "household": "Lives with partner",
+      "notice_received_date": "2026-08-20",
+      "coverage": {"status": "terminated_procedural", "termination_date": "2026-10-04",
+                   "termination_reason": "renewal: requested pay stub was not received"}},
+     [("paystubs_sept.txt", paystubs("Revere Beach Logistics", "Devon K.", 16.00,
+                                     [("09/01/2026", "09/15/2026", 43.0), ("09/16/2026", "09/30/2026", 43.0)]))],
+     ["WORK_80", "INCOME_580"], True, [], "Dropped 2026-10-04; 90-day reconsideration ends 2027-01-02 (70 days left).",
+     outcome="recover", key_date="2027-01-02")
+
+case("C48", "Recover window closed - dropped 120 days ago",
+     {"name": "Alicia M. (synthetic)", "age": 44, "language": "es", "household": "Lives with sister", "notice_received_date": "2026-05-01",
+      "coverage": {"status": "terminated_procedural", "termination_date": "2026-06-26",
+                   "termination_reason": "renewal form not returned"}},
+     [("stubs.txt", paystubs("Lawrence Textile Works", "Alicia M.", 15.50,
+                             [("09/01/2026", "09/15/2026", 45.0), ("09/16/2026", "09/30/2026", 45.0)]))],
+     ["WORK_80", "INCOME_580"], True, [], "Reconsideration ended 2026-09-24; route to a new application.",
+     outcome="recover_expired", key_date="2026-09-24")
+
+case("C49", "Recover - dropped 30 days ago for paperwork, now pregnant (exempt)",
+     {"name": "Tamika B. (synthetic)", "age": 27, "language": "en", "household": "Lives with partner", "notice_received_date": "2026-08-15",
+      "coverage": {"status": "terminated_procedural", "termination_date": "2026-09-24",
+                   "termination_reason": "request for information not answered"}},
+     [("prenatal.txt", clinic_letter("Lynn Community Health Center - Women's Health", "Rosa Ellis", "CNM", "10/15/2026", "Tamika B.",
+                                     "03/02/1999", """This letter confirms that Ms. B. is currently pregnant and receiving prenatal care at our health center.
+Estimated due date: 04/18/2027."""))],
+     ["EX_PREGNANT_POSTPARTUM"], True, [], outcome="recover", key_date="2026-12-23")
+
+# ---------------------------------------------------------------- Transition: may no longer qualify
+case("C50", "DEMO TRANSITION - income rose above the limit after a new job",
+     {"name": "Kofi A. (illustrative composite)", "age": 41, "language": "en", "household": "Lives alone", "notice_received_date": "2026-10-10",
+      "coverage": {"status": "at_risk", "expected_end_date": "2026-11-30"},
+      "reported_changes": [{"type": "income_above_limit", "date": "2026-10-01",
+                            "detail": "New full-time job; member reports income above the limit"}]},
+     [("offer_letter.txt", """NORTHEAST MEDICAL SUPPLY CO.
+September 18, 2026
+
+Dear Kofi A.,
+We are pleased to offer you the position of Warehouse Supervisor, starting October 1, 2026.
+This is a full-time position, 40 hours per week, at $26.00 per hour.
+
+Human Resources""")],
+     ["WORK_80", "INCOME_580"], True, [], "Member-reported income change; the tool does not compute the income limit.",
+     outcome="transition", key_date="2027-02-28")
+
+case("C51", "Transition - postpartum coverage ending",
+     {"name": "Lucia F. (synthetic)", "age": 29, "language": "es", "household": "Self + infant", "notice_received_date": "2026-10-12",
+      "coverage": {"status": "at_risk", "expected_end_date": "2026-11-30"},
+      "reported_changes": [{"type": "postpartum_ending", "date": "2026-11-30", "detail": "postpartum coverage ends (placeholder window)"}]},
+     [("discharge.txt", """BAYSTATE MEDICAL CENTER
+Discharge Summary - Obstetrics
+Patient name: Lucia F.
+Delivered: 11/30/2025 (vaginal delivery)
+Infant: female, 6 lb 14 oz""")],
+     ["EX_PREGNANT_POSTPARTUM", "EX_CAREGIVER_CHILD"], True, [], "Options start with asking MassHealth to check other ways to qualify.",
+     outcome="transition", key_date="2027-02-28")
+
+case("C52", "Transition - turns 65 next month (Medicare)",
+     {"name": "Walter P. (synthetic)", "age": 64, "language": "en", "household": "Lives with wife", "notice_received_date": "2026-10-08",
+      "coverage": {"status": "at_risk"},
+      "reported_changes": [{"type": "turning_65", "date": "2026-11-15", "detail": "65th birthday"}]},
+     [("id.txt", """MASSACHUSETTS IDENTIFICATION CARD
+Name: Walter P.
+DOB: 11/15/1961""")],
+     ["NONE"], False, ["NO_QUALIFYING_PATHWAY"], "Medicare initial enrollment period Aug 2026 - Feb 2027.",
+     outcome="transition", key_date="2027-02-28")
+
+case("C53", "Transition - moved out of state",
+     {"name": "Erin S. (synthetic)", "age": 33, "language": "en", "household": "Lives alone", "notice_received_date": "2026-10-05",
+      "coverage": {"status": "at_risk", "expected_end_date": "2026-10-31"},
+      "reported_changes": [{"type": "moved_out_of_state", "date": "2026-10-15", "detail": "Moved to New Hampshire"}]},
+     [("stub.txt", paystubs("Nashua Coffee House", "Erin S.", 15.00, [("09/01/2026", "09/30/2026", 30.0)]))],
+     ["NONE"], False, ["HOURS_SHORT", "INCOME_SHORT", "NO_QUALIFYING_PATHWAY"], "Marketplace window: 60 days after coverage ends.",
+     outcome="transition", key_date="2026-12-30")
+
+case("C54", "Transition - no pathway and no exemption",
+     {"name": "Marcus J. (synthetic)", "age": 36, "language": "en", "household": "Lives with friends", "notice_received_date": "2026-10-10",
+      "coverage": {"status": "at_risk"}},
+     [("stub.txt", paystubs("Quincy Car Wash", "Marcus J.", 15.00, [("09/01/2026", "09/30/2026", 20.0)]))],
+     ["NONE"], False, ["NO_QUALIFYING_PATHWAY", "HOURS_SHORT", "INCOME_SHORT"], outcome="transition", key_date="2027-02-07")
 
 
 def main():

@@ -1,6 +1,6 @@
 # Coverage Keeper: Devpost write-up
 
-**Tagline:** Insurers lose members to paperwork, not ineligibility. Our agents don't just remind members — they finish the paperwork.
+**Tagline:** Retain eligible members. Recover those dropped by mistake. Transition those who no longer qualify, so nobody falls into a gap.
 
 ## Inspiration
 During the 2023 Medicaid unwinding, KFF found that about 72–73% of disenrollments were for procedural reasons in states that reported them: people lost coverage over paperwork, not eligibility. On January 1, 2027, Massachusetts Medicaid (MassHealth) adds federal work/community-engagement requirements and six-month renewals for expansion adults, and the state estimates about 175,000 people will lose coverage. Many are exempt (caregivers, people who are medically frail, people who are postpartum) but don't know it, send the wrong document, or miss the 30-day deadline. For a health plan, each of those members is lost revenue and broken care.
@@ -14,6 +14,11 @@ Coverage Keeper is an AI member-retention layer for health plans, with care coor
 - **Drafts** the response packet, the request to the clinician/school/employer, and a plain-language explanation in English, Spanish, Portuguese, Haitian Creole, Vietnamese or Chinese.
 - **Verifies** every claim against a document quote and a cited rule, removing and logging anything unsupported.
 - **Tracks** each case from flagged → contacted → documents received → packet ready → submitted.
+
+**Three outcomes for every member at risk:**
+- **Retain:** keep eligible members covered: find the pathway, catch the gap, draft the packet before the deadline.
+- **Recover:** members already dropped for paperwork can be reconsidered without a new application if the missing papers arrive within 90 days of termination (42 CFR 435.916(a)(3)(iii)); the tool counts down the window and drafts the submission, without promising reinstatement.
+- **Transition:** when the evidence suggests someone may no longer qualify (income rose, turning 65, postpartum coverage ending, moved), it lists next-coverage options neutrally (e.g. the Massachusetts Health Connector, Medicare), computes the enrol-by date to avoid a gap from the cited enrolment rules, and hands off to a navigator.
 
 It never decides eligibility. The agency does, and a coordinator confirms before anything is sent.
 

@@ -37,6 +37,40 @@
         "title": "CMS Medicaid eligibility",
         "url": "https://www.medicaid.gov/medicaid/eligibility/index.html",
         "status": "not_fetched (HTTP 403 to automated clients)"
+      },
+      "ECFR_435916": {
+        "title": "eCFR 42 CFR 435.916, Periodic renewal of Medicaid eligibility (current, through 91 FR 33480, June 3, 2026)",
+        "url": "https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-C/part-435/subpart-J/section-435.916",
+        "status": "fetched_verbatim (eCFR renderer API)",
+        "file": "transitions/ecfr_435916.json"
+      },
+      "ECFR_155420": {
+        "title": "eCFR 45 CFR 155.420, Special enrollment periods",
+        "url": "https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-B/part-155/subpart-E/section-155.420",
+        "status": "fetched_verbatim (eCFR renderer API)",
+        "file": "transitions/ecfr_155420.json"
+      },
+      "ECFR_40714": {
+        "title": "eCFR 42 CFR 407.14, Initial enrollment period (Medicare Part B)",
+        "url": "https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-407/subpart-B/section-407.14",
+        "status": "fetched_verbatim (eCFR renderer API)",
+        "file": "transitions/ecfr_40714.json"
+      },
+      "CONNECTOR": {
+        "title": "Massachusetts Health Connector home page",
+        "url": "https://www.mahealthconnector.org/",
+        "status": "fetched_verbatim",
+        "file": "transitions/connector.html"
+      },
+      "MH_WAIVER": {
+        "title": "CMS approval letter: MassHealth 1902(e)(14)(A) waiver, retroactive reinstatement during reconsideration",
+        "url": "https://www.mass.gov/doc/1902e14a-waivers-ma-retro-reinstate-during-reconsideration-e14-approval-letterfinal/download",
+        "status": "not_fetched (HTTP 403 to automated clients)"
+      },
+      "DE_90DAY": {
+        "title": "Delaware DHSS notice A-09-2025: 90-Day Reconsideration Period at Renewal (worked example)",
+        "url": "https://dhss.delaware.gov/wp-content/uploads/sites/9/2025/10/A-09-2025-90-Day-Reconsideration-Period-at-Renewal-1.docx.pdf",
+        "status": "not_fetched (HTTP 404 on 2026-10-24)"
       }
     }
   },
@@ -329,6 +363,132 @@
       "source_status": "fetched_verbatim",
       "needs_confirmation": true,
       "confirmation_note": "The brief says MassHealth requires one month; the federal rule lets the state plan specify '1 or more'."
+    },
+    {
+      "id": "R-PROC-RECON",
+      "pathway": null,
+      "kind": "process",
+      "name": "90-day reconsideration after a procedural termination",
+      "logic": "terminated for not returning the renewal form / information; reconsider without a new application if it arrives within 90 days of termination",
+      "source": "ECFR_435916",
+      "cite": "42 CFR 435.916(a)(3)(iii)",
+      "quote": "Reconsider in a timely manner the eligibility of an individual who is terminated for failure to submit the renewal form or necessary information, if the individual subsequently submits the renewal form within 90 days after the date of termination, or a longer period elected by the State, without requiring a new application",
+      "source_status": "fetched_verbatim",
+      "needs_confirmation": true,
+      "confirmation_note": "A state may elect a longer period than 90 days; MassHealth's period was not verified. (The team brief cited 435.916(b)(2)(iii); the current eCFR text places this rule at (a)(3)(iii).)"
+    },
+    {
+      "id": "R-PROC-RECON-CE",
+      "pathway": null,
+      "kind": "process",
+      "name": "Reconsideration also applies to work-requirement disenrollments",
+      "logic": "MAGI enrollees disenrolled for not answering a notice of noncompliance get the same reconsideration period",
+      "source": "FR",
+      "cite": "42 CFR 435.558(f)",
+      "quote": "A State must reconsider eligibility consistent with Sec.  435.916(a)(3)(iii), if an individual, who was enrolled with eligibility based on MAGI, was disenrolled for failure to submit information requested in a notice of noncompliance and submits the information during the reconsideration period",
+      "source_status": "fetched_verbatim",
+      "needs_confirmation": false
+    },
+    {
+      "id": "R-PROC-REINSTATE",
+      "pathway": null,
+      "kind": "process",
+      "name": "MassHealth reinstatement during reconsideration (waiver)",
+      "logic": "informational: whether and how coverage is reinstated back to the termination date",
+      "source": "MH_WAIVER",
+      "cite": "MassHealth 1902(e)(14)(A) waiver approval",
+      "quote": "Massachusetts has a CMS-approved waiver related to reinstatement during reconsideration.",
+      "source_status": "not_fetched",
+      "needs_confirmation": true,
+      "confirmation_note": "From the team brief; mass.gov blocked retrieval. Whether coverage is backdated to the termination date is NOT asserted."
+    },
+    {
+      "id": "R-TR-INCOME-LIMIT",
+      "pathway": null,
+      "kind": "process",
+      "name": "Expansion coverage has an income limit",
+      "logic": "a member-reported income increase may end expansion eligibility; the tool never computes the limit",
+      "source": "FR",
+      "cite": "42 CFR 435.119",
+      "quote": "Coverage for individuals age 19 or older and under age 65 at or below 133 percent FPL.",
+      "source_status": "fetched_verbatim",
+      "needs_confirmation": true,
+      "confirmation_note": "The effective MassHealth limit (incl. any income disregard) and current dollar amounts were not verified; the tool relies on a member-reported change and never compares income to a limit itself."
+    },
+    {
+      "id": "R-TR-SEP-MEDICAID",
+      "pathway": null,
+      "kind": "process",
+      "name": "Marketplace special enrollment after losing Medicaid: 90 days after",
+      "logic": "loss of Medicaid -> 90 days after the loss to pick a marketplace plan",
+      "source": "ECFR_155420",
+      "cite": "45 CFR 155.420(c)(6)",
+      "quote": "a qualified individual or their dependent(s) who is described in paragraph (d)(1)(i) of this section and whose loss of coverage is a loss of Medicaid or CHIP coverage shall have 90 days after the triggering event to select a QHP.",
+      "source_status": "fetched_verbatim",
+      "needs_confirmation": true,
+      "confirmation_note": "Federal rule; how the Massachusetts Health Connector applies it (and any longer state window) was not verified."
+    },
+    {
+      "id": "R-TR-SEP-ADVANCE",
+      "pathway": null,
+      "kind": "process",
+      "name": "Special enrollment can start 60 days before losing coverage",
+      "logic": "a member may pick a plan up to 60 days before the loss, so coverage can start without a gap",
+      "source": "ECFR_155420",
+      "cite": "45 CFR 155.420(c)(2)",
+      "quote": "A qualified individual or their dependent who is described in paragraph (d)(1), (d)(6)(iii), or (d)(15) of this section has 60 days before and, unless the Exchange exercises the option in paragraph (c)(6) of this section, 60 days after the triggering event to select a QHP.",
+      "source_status": "fetched_verbatim",
+      "needs_confirmation": false
+    },
+    {
+      "id": "R-TR-SEP-GENERAL",
+      "pathway": null,
+      "kind": "process",
+      "name": "General special enrollment window: 60 days",
+      "logic": "default window after a triggering event such as a permanent move",
+      "source": "ECFR_155420",
+      "cite": "45 CFR 155.420(c)(1)",
+      "quote": "Unless specifically stated otherwise herein, a qualified individual or enrollee has 60 days from the date of a triggering event to select a QHP.",
+      "source_status": "fetched_verbatim",
+      "needs_confirmation": false
+    },
+    {
+      "id": "R-TR-MOVE",
+      "pathway": null,
+      "kind": "process",
+      "name": "A permanent move is a special-enrollment trigger",
+      "logic": "moving out of state -> marketplace in the new state",
+      "source": "ECFR_155420",
+      "cite": "45 CFR 155.420(d)(7)",
+      "quote": "The qualified individual or enrollee, or his or her dependent, gains access to new QHPs as a result of a permanent move",
+      "source_status": "fetched_verbatim",
+      "needs_confirmation": true,
+      "confirmation_note": "Medicaid in the new state is decided by that state; its rules are not encoded."
+    },
+    {
+      "id": "R-TR-MEDICARE-IEP",
+      "pathway": null,
+      "kind": "process",
+      "name": "Medicare initial enrollment period around turning 65",
+      "logic": "7 months: 3 months before the month of eligibility, that month, 3 months after",
+      "source": "ECFR_40714",
+      "cite": "42 CFR 407.14(a)(1)",
+      "quote": "The initial enrollment period is the 7-month period that begins 3 months before the month an individual first meets the eligibility requirements of § 407.10 and ends 3 months after that first month of eligibility.",
+      "source_status": "fetched_verbatim",
+      "needs_confirmation": false
+    },
+    {
+      "id": "R-TR-CONNECTOR",
+      "pathway": null,
+      "kind": "process",
+      "name": "Massachusetts Health Connector (state marketplace)",
+      "logic": "informational: destination for people leaving MassHealth",
+      "source": "CONNECTOR",
+      "cite": "mahealthconnector.org",
+      "quote": "see if you qualify for free or lower-cost coverage like MassHealth, ConnectorCare plans, or a tax credit",
+      "source_status": "fetched_verbatim",
+      "needs_confirmation": true,
+      "confirmation_note": "ConnectorCare income limits and plan details were not on the fetched page and are not encoded."
     }
   ]
 }

@@ -29,7 +29,8 @@
     "gaps": [
       "DOC_TRANSLATION"
     ],
-    "notes": ""
+    "notes": "",
+    "outcome": "retain"
   },
   "split": "test"
 }

@@ -36,7 +36,8 @@
       "INCOME_SHORT",
       "NO_QUALIFYING_PATHWAY"
     ],
-    "notes": "Child is 14 (born June 2012). 30 hrs at a $7.00 tipped base wage = $210."
+    "notes": "Child is 14 (born June 2012). 30 hrs at a $7.00 tipped base wage = $210.",
+    "outcome": "transition"
   },
   "split": "dev"
 }

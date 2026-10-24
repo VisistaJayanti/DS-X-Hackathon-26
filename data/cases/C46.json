@@ -43,7 +43,8 @@
       "CAREGIVER_DISABILITY_STATEMENT",
       "DOC_TRANSLATION"
     ],
-    "notes": "Caregiver exemption applies but the mother's doctor letter names the stroke without stating a disability or daily-care need."
+    "notes": "Caregiver exemption applies but the mother's doctor letter names the stroke without stating a disability or daily-care need.",
+    "outcome": "retain"
   },
   "split": "test"
 }

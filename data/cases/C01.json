@@ -34,7 +34,8 @@
     "gaps": [
       "FRAILTY_NO_WORK_IMPACT"
     ],
-    "notes": "Diagnosis is serious/complex but the letter never says it impairs ability to work. 26 hrs / $403 in Sept: work and income not met."
+    "notes": "Diagnosis is serious/complex but the letter never says it impairs ability to work. 26 hrs / $403 in Sept: work and income not met.",
+    "outcome": "retain"
   },
   "split": "dev"
 }

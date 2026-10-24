@@ -29,7 +29,8 @@
     "gaps": [
       "FRAILTY_NO_WORK_IMPACT"
     ],
-    "notes": ""
+    "notes": "",
+    "outcome": "retain"
   },
   "split": "dev"
 }

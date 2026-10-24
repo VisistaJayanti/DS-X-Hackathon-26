@@ -27,7 +27,8 @@
     ],
     "evidence_sufficient": true,
     "gaps": [],
-    "notes": "Sept payouts (09/01-09/22) = $596.20; the week of 09/29 is paid in October."
+    "notes": "Sept payouts (09/01-09/22) = $596.20; the week of 09/29 is paid in October.",
+    "outcome": "retain"
   },
   "split": "dev"
 }

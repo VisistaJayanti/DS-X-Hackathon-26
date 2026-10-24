@@ -32,7 +32,8 @@
     ],
     "evidence_sufficient": true,
     "gaps": [],
-    "notes": "75 volunteer + 3 credits x 3 x 4.33 = 39 -> 114 hrs."
+    "notes": "75 volunteer + 3 credits x 3 x 4.33 = 39 -> 114 hrs.",
+    "outcome": "retain"
   },
   "split": "test"
 }
