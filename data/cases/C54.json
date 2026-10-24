@@ -1,0 +1,42 @@
+{
+  "case_id": "C54",
+  "title": "Transition - no pathway and no exemption",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Marcus J. (synthetic)",
+    "age": 36,
+    "language": "en",
+    "household": "Lives with friends",
+    "notice_received_date": "2026-10-10",
+    "coverage": {
+      "status": "at_risk"
+    }
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "stub.txt",
+      "text": "QUINCY CAR WASH\nEARNINGS STATEMENT\nEmployee: Marcus J.\nPay period: 09/01/2026 - 09/30/2026\nPay date: 09/30/2026\nRate: $15.00/hr\nRegular Hours worked: 20.0\nGross pay: $300.00\nNet pay: $264.00\nYTD gross: $4,200.00"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "NONE"
+    ],
+    "evidence_sufficient": false,
+    "gaps": [
+      "HOURS_SHORT",
+      "INCOME_SHORT",
+      "NO_QUALIFYING_PATHWAY"
+    ],
+    "notes": "",
+    "outcome": "transition",
+    "key_date": "2027-02-07"
+  },
+  "split": "test"
+}

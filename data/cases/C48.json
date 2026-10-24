@@ -1,0 +1,41 @@
+{
+  "case_id": "C48",
+  "title": "Recover window closed - dropped 120 days ago",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Alicia M. (synthetic)",
+    "age": 44,
+    "language": "es",
+    "household": "Lives with sister",
+    "notice_received_date": "2026-05-01",
+    "coverage": {
+      "status": "terminated_procedural",
+      "termination_date": "2026-06-26",
+      "termination_reason": "renewal form not returned"
+    }
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "stubs.txt",
+      "text": "LAWRENCE TEXTILE WORKS\nEARNINGS STATEMENT\nEmployee: Alicia M.\nPay period: 09/01/2026 - 09/15/2026\nPay date: 09/15/2026\nRate: $15.50/hr\nRegular Hours worked: 45.0\nGross pay: $697.50\nNet pay: $613.80\nYTD gross: $9,765.00\n\n- - - - - - - - - - - - - - -\n\nLAWRENCE TEXTILE WORKS\nEARNINGS STATEMENT\nEmployee: Alicia M.\nPay period: 09/16/2026 - 09/30/2026\nPay date: 09/30/2026\nRate: $15.50/hr\nRegular Hours worked: 45.0\nGross pay: $697.50\nNet pay: $613.80\nYTD gross: $9,765.00"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "WORK_80",
+      "INCOME_580"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": "Reconsideration ended 2026-09-24; route to a new application.",
+    "outcome": "recover_expired",
+    "key_date": "2026-09-24"
+  },
+  "split": "test"
+}

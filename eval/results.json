@@ -1,38 +1,48 @@
 {
- "generated": "2026-10-24 14:31",
+ "generated": "2026-10-24 16:06",
  "as_of": "2026-10-24",
  "pack": "masshealth_ce_2027",
  "split": "test",
- "n_cases": 46,
+ "n_cases": 54,
  "runs": [
   {
-   "n": 23,
+   "n": 27,
    "top1": 1.0,
    "top2": 1.0,
    "sufficiency_acc": 1.0,
    "gap_precision": 1.0,
    "gap_recall": 1.0,
-   "latency_ms_mean": 2,
+   "latency_ms_mean": 3,
    "cost_usd_mean": 0.0,
+   "outcome_acc": 1.0,
+   "key_date_acc": 1.0,
+   "key_date_n": 4,
+   "transition_told_eligible_rate": 0.0,
+   "transition_n": 4,
    "split": "test",
    "name": "Deterministic - verifier OFF",
    "unsupported": 0,
-   "claims": 376,
+   "claims": 429,
    "unsupported_rate": 0.0
   },
   {
-   "n": 23,
+   "n": 27,
    "top1": 1.0,
    "top2": 1.0,
    "sufficiency_acc": 1.0,
    "gap_precision": 1.0,
    "gap_recall": 1.0,
-   "latency_ms_mean": 2,
+   "latency_ms_mean": 3,
    "cost_usd_mean": 0.0,
+   "outcome_acc": 1.0,
+   "key_date_acc": 1.0,
+   "key_date_n": 4,
+   "transition_told_eligible_rate": 0.0,
+   "transition_n": 4,
    "split": "test",
    "name": "Deterministic - verifier ON",
    "unsupported": 0,
-   "claims": 376,
+   "claims": 429,
    "unsupported_rate": 0.0
   }
  ],
@@ -40,21 +50,21 @@
   "engine": "Deterministic",
   "without_verifier": 0.0,
   "with_verifier": 0.0,
-  "summary": "Deterministic: unsupported claims 0/376 (0.0%) without the verifier vs 0/376 (0.0%) with it, judged by grounding checks. Deterministic drafts are template-built from grounded facts, so they are supported by construction; the ablation is meaningful for the LLM drafter (run with --llm).",
+  "summary": "Deterministic: unsupported claims 0/429 (0.0%) without the verifier vs 0/429 (0.0%) with it, judged by grounding checks. Deterministic drafts are template-built from grounded facts, so they are supported by construction; the ablation is meaningful for the LLM drafter (run with --llm).",
   "judge_cost_usd": 0.0
  },
  "fairness": {
   "language": [
    {
     "group": "en",
-    "n": 30,
+    "n": 36,
     "top1": 1.0,
     "gap_precision": 1.0,
     "gap_recall": 1.0
    },
    {
     "group": "es",
-    "n": 7,
+    "n": 9,
     "top1": 1.0,
     "gap_precision": 1.0,
     "gap_recall": 1.0
@@ -112,7 +122,7 @@
    },
    {
     "group": "no pathway",
-    "n": 3,
+    "n": 6,
     "top1": 1.0,
     "gap_precision": 1.0,
     "gap_recall": 1.0
@@ -133,14 +143,44 @@
    },
    {
     "group": "pregnancy/postpartum",
-    "n": 3,
+    "n": 5,
     "top1": 1.0,
     "gap_precision": 1.0,
     "gap_recall": 1.0
    },
    {
     "group": "work/income",
-    "n": 12,
+    "n": 15,
+    "top1": 1.0,
+    "gap_precision": 1.0,
+    "gap_recall": 1.0
+   }
+  ],
+  "want_outcome": [
+   {
+    "group": "recover",
+    "n": 2,
+    "top1": 1.0,
+    "gap_precision": 1.0,
+    "gap_recall": 1.0
+   },
+   {
+    "group": "recover_expired",
+    "n": 1,
+    "top1": 1.0,
+    "gap_precision": 1.0,
+    "gap_recall": 1.0
+   },
+   {
+    "group": "retain",
+    "n": 43,
+    "top1": 1.0,
+    "gap_precision": 1.0,
+    "gap_recall": 1.0
+   },
+   {
+    "group": "transition",
+    "n": 8,
     "top1": 1.0,
     "gap_precision": 1.0,
     "gap_recall": 1.0
@@ -149,7 +189,7 @@
  },
  "risk": {
   "n": 200,
-  "positives": 74,
+  "positives": 51,
   "ks": [
    20,
    40,
@@ -162,17 +202,17 @@
      {
       "k": 20,
       "precision": 0.8,
-      "recall": 0.21621621621621623
+      "recall": 0.3137254901960784
      },
      {
       "k": 40,
-      "precision": 0.675,
-      "recall": 0.36486486486486486
+      "precision": 0.625,
+      "recall": 0.49019607843137253
      },
      {
       "k": 60,
-      "precision": 0.6166666666666667,
-      "recall": 0.5
+      "precision": 0.5833333333333334,
+      "recall": 0.6862745098039216
      }
     ]
    },
@@ -181,18 +221,18 @@
     "at": [
      {
       "k": 20,
-      "precision": 0.55,
-      "recall": 0.14864864864864866
+      "precision": 0.15,
+      "recall": 0.058823529411764705
      },
      {
       "k": 40,
-      "precision": 0.45,
-      "recall": 0.24324324324324326
+      "precision": 0.275,
+      "recall": 0.21568627450980393
      },
      {
       "k": 60,
-      "precision": 0.5,
-      "recall": 0.40540540540540543
+      "precision": 0.25,
+      "recall": 0.29411764705882354
      }
     ]
    },
@@ -201,23 +241,23 @@
     "at": [
      {
       "k": 20,
-      "precision": 0.3,
-      "recall": 0.08108108108108109
+      "precision": 0.35,
+      "recall": 0.13725490196078433
      },
      {
       "k": 40,
       "precision": 0.2,
-      "recall": 0.10810810810810811
+      "recall": 0.1568627450980392
      },
      {
       "k": 60,
-      "precision": 0.3,
-      "recall": 0.24324324324324326
+      "precision": 0.25,
+      "recall": 0.29411764705882354
      }
     ]
    }
   ],
-  "note": "Labels come from a synthetic latent model (with noise and unobserved factors) using the same feature families; the hand-set points were not fit to these labels. This tests ranking under assumed dynamics, not real-world accuracy."
+  "note": "Labels come from a synthetic latent model (with noise and unobserved factors) using the same feature families; the hand-set points were not fit to these labels. The roster's city and language mix and its base rates are calibrated to public CMS (MassHealth renewal outcomes) and ACS data, but the member-level dynamics are assumed. This tests ranking under assumed dynamics, not real-world accuracy."
  },
  "errors": [],
  "per_case": [
@@ -233,7 +273,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 15,
+   "latency_ms": 20,
    "cost": 0,
    "ranking": [
     "EX_MEDICALLY_FRAIL"
@@ -246,7 +286,12 @@
    ],
    "want": [
     "EX_MEDICALLY_FRAIL"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C02",
@@ -269,7 +314,12 @@
    "want_gaps": [],
    "want": [
     "EX_MEDICALLY_FRAIL"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C03",
@@ -283,7 +333,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 3,
+   "latency_ms": 4,
    "cost": 0,
    "ranking": [
     "EX_MEDICALLY_FRAIL"
@@ -292,7 +342,12 @@
    "want_gaps": [],
    "want": [
     "EX_MEDICALLY_FRAIL"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C04",
@@ -306,7 +361,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 5,
+   "latency_ms": 6,
    "cost": 0,
    "ranking": [
     "EX_MEDICALLY_FRAIL",
@@ -317,7 +372,12 @@
    "want": [
     "EX_MEDICALLY_FRAIL",
     "EX_SUD_TREATMENT"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C05",
@@ -331,7 +391,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 6,
+   "latency_ms": 7,
    "cost": 0,
    "ranking": [
     "WORK_80",
@@ -342,7 +402,12 @@
    "want": [
     "WORK_80",
     "INCOME_580"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C06",
@@ -356,7 +421,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 1,
+   "latency_ms": 8,
    "cost": 0,
    "ranking": [
     "EX_MEDICALLY_FRAIL"
@@ -369,7 +434,12 @@
    ],
    "want": [
     "EX_MEDICALLY_FRAIL"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C07",
@@ -396,7 +466,12 @@
    ],
    "want": [
     "EX_MEDICALLY_FRAIL"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C08",
@@ -423,7 +498,12 @@
    ],
    "want": [
     "EX_MEDICALLY_FRAIL"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C09",
@@ -437,7 +517,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 2,
    "cost": 0,
    "ranking": [
     "EX_MEDICALLY_FRAIL"
@@ -446,7 +526,12 @@
    "want_gaps": [],
    "want": [
     "EX_MEDICALLY_FRAIL"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C10",
@@ -460,7 +545,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 6,
+   "latency_ms": 2,
    "cost": 0,
    "ranking": [
     "EX_CAREGIVER_CHILD"
@@ -469,7 +554,12 @@
    "want_gaps": [],
    "want": [
     "EX_CAREGIVER_CHILD"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C11",
@@ -483,7 +573,7 @@
    "tp": 3,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 2,
+   "latency_ms": 7,
    "cost": 0,
    "ranking": [
     "NONE"
@@ -500,7 +590,12 @@
    ],
    "want": [
     "NONE"
-   ]
+   ],
+   "outcome": "transition",
+   "want_outcome": "transition",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": false
   },
   {
    "case_id": "C12",
@@ -514,7 +609,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 3,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "EX_CAREGIVER_CHILD"
@@ -527,7 +622,12 @@
    ],
    "want": [
     "EX_CAREGIVER_CHILD"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C13",
@@ -541,7 +641,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 1,
+   "latency_ms": 3,
    "cost": 0,
    "ranking": [
     "EX_CAREGIVER_DISABLED"
@@ -550,7 +650,12 @@
    "want_gaps": [],
    "want": [
     "EX_CAREGIVER_DISABLED"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C14",
@@ -564,7 +669,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 1,
+   "latency_ms": 5,
    "cost": 0,
    "ranking": [
     "EX_CAREGIVER_DISABLED"
@@ -577,7 +682,12 @@
    ],
    "want": [
     "EX_CAREGIVER_DISABLED"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C15",
@@ -591,7 +701,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 4,
+   "latency_ms": 5,
    "cost": 0,
    "ranking": [
     "EX_CAREGIVER_CHILD",
@@ -604,7 +714,12 @@
     "EX_CAREGIVER_CHILD",
     "WORK_80",
     "INCOME_580"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C16",
@@ -618,7 +733,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 5,
+   "latency_ms": 3,
    "cost": 0,
    "ranking": [
     "EX_CAREGIVER_CHILD",
@@ -629,7 +744,12 @@
    "want": [
     "EX_PREGNANT_POSTPARTUM",
     "EX_CAREGIVER_CHILD"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C17",
@@ -658,7 +778,12 @@
    "want": [
     "EX_PREGNANT_POSTPARTUM",
     "EX_CAREGIVER_CHILD"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C18",
@@ -683,7 +808,12 @@
    "want": [
     "WORK_80",
     "INCOME_580"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C19",
@@ -697,7 +827,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 2,
    "cost": 0,
    "ranking": [
     "EX_PREGNANT_POSTPARTUM"
@@ -706,7 +836,12 @@
    "want_gaps": [],
    "want": [
     "EX_PREGNANT_POSTPARTUM"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C20",
@@ -720,7 +855,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 2,
    "cost": 0,
    "ranking": [
     "COMBINATION"
@@ -729,7 +864,12 @@
    "want_gaps": [],
    "want": [
     "COMBINATION"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C21",
@@ -758,7 +898,12 @@
    "want": [
     "COMBINATION",
     "EDUCATION"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C22",
@@ -772,7 +917,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "EDUCATION"
@@ -781,7 +926,12 @@
    "want_gaps": [],
    "want": [
     "EDUCATION"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C23",
@@ -808,7 +958,12 @@
    ],
    "want": [
     "EDUCATION"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C24",
@@ -822,7 +977,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 2,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "EDUCATION"
@@ -831,7 +986,12 @@
    "want_gaps": [],
    "want": [
     "EDUCATION"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C25",
@@ -845,7 +1005,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 1,
+   "latency_ms": 2,
    "cost": 0,
    "ranking": [
     "INCOME_580"
@@ -854,7 +1014,12 @@
    "want_gaps": [],
    "want": [
     "INCOME_580"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C26",
@@ -883,7 +1048,12 @@
    ],
    "want": [
     "NONE"
-   ]
+   ],
+   "outcome": "transition",
+   "want_outcome": "transition",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": false
   },
   {
    "case_id": "C27",
@@ -897,7 +1067,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 7,
+   "latency_ms": 2,
    "cost": 0,
    "ranking": [
     "INCOME_580"
@@ -906,7 +1076,12 @@
    "want_gaps": [],
    "want": [
     "INCOME_580"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C28",
@@ -933,7 +1108,12 @@
    ],
    "want": [
     "WORK_80"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C29",
@@ -947,7 +1127,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 9,
+   "latency_ms": 2,
    "cost": 0,
    "ranking": [
     "WORK_80",
@@ -962,7 +1142,12 @@
    "want": [
     "INCOME_580",
     "WORK_80"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C30",
@@ -976,7 +1161,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 1,
+   "latency_ms": 7,
    "cost": 0,
    "ranking": [
     "WORK_80"
@@ -985,7 +1170,12 @@
    "want_gaps": [],
    "want": [
     "WORK_80"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C31",
@@ -999,7 +1189,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 2,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "WORK_80"
@@ -1008,7 +1198,12 @@
    "want_gaps": [],
    "want": [
     "WORK_80"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C32",
@@ -1022,7 +1217,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 2,
+   "latency_ms": 5,
    "cost": 0,
    "ranking": [
     "WORK_80"
@@ -1035,7 +1230,12 @@
    ],
    "want": [
     "WORK_80"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C33",
@@ -1049,7 +1249,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 3,
+   "latency_ms": 4,
    "cost": 0,
    "ranking": [
     "WORK_80",
@@ -1060,7 +1260,12 @@
    "want": [
     "WORK_80",
     "INCOME_580"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C34",
@@ -1074,7 +1279,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 1,
+   "latency_ms": 2,
    "cost": 0,
    "ranking": [
     "WORK_80",
@@ -1089,7 +1294,12 @@
    "want": [
     "WORK_80",
     "INCOME_580"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C35",
@@ -1103,7 +1313,7 @@
    "tp": 3,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "NONE"
@@ -1120,7 +1330,12 @@
    ],
    "want": [
     "NONE"
-   ]
+   ],
+   "outcome": "transition",
+   "want_outcome": "transition",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": false
   },
   {
    "case_id": "C36",
@@ -1134,7 +1349,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 1,
+   "latency_ms": 2,
    "cost": 0,
    "ranking": [
     "OUT_OF_SCOPE_AGE"
@@ -1143,7 +1358,12 @@
    "want_gaps": [],
    "want": [
     "OUT_OF_SCOPE_AGE"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C37",
@@ -1157,7 +1377,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 5,
+   "latency_ms": 2,
    "cost": 0,
    "ranking": [
     "OUT_OF_SCOPE_MEDICARE",
@@ -1168,7 +1388,12 @@
    "want": [
     "OUT_OF_SCOPE_MEDICARE",
     "EX_DISABILITY"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C38",
@@ -1182,7 +1407,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 5,
+   "latency_ms": 2,
    "cost": 0,
    "ranking": [
     "EX_VETERAN_TOTAL"
@@ -1191,7 +1416,12 @@
    "want_gaps": [],
    "want": [
     "EX_VETERAN_TOTAL"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C39",
@@ -1214,7 +1444,12 @@
    "want_gaps": [],
    "want": [
     "WORK_80"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C40",
@@ -1228,7 +1463,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 2,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "EX_SNAP_TAFDC"
@@ -1237,7 +1472,12 @@
    "want_gaps": [],
    "want": [
     "EX_SNAP_TAFDC"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C41",
@@ -1251,7 +1491,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 8,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "EX_CAREGIVER_CHILD"
@@ -1260,7 +1500,12 @@
    "want_gaps": [],
    "want": [
     "EX_CAREGIVER_CHILD"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C42",
@@ -1274,7 +1519,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 2,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "EX_FORMER_FOSTER"
@@ -1283,7 +1528,12 @@
    "want_gaps": [],
    "want": [
     "EX_FORMER_FOSTER"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C43",
@@ -1297,7 +1547,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 7,
    "cost": 0,
    "ranking": [
     "EX_INCARCERATION"
@@ -1306,7 +1556,12 @@
    "want_gaps": [],
    "want": [
     "EX_INCARCERATION"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C44",
@@ -1320,7 +1575,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "EX_AIAN"
@@ -1329,7 +1584,12 @@
    "want_gaps": [],
    "want": [
     "EX_AIAN"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C45",
@@ -1352,7 +1612,12 @@
    "want_gaps": [],
    "want": [
     "EX_SUD_TREATMENT"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
   },
   {
    "case_id": "C46",
@@ -1366,7 +1631,7 @@
    "tp": 2,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 4,
+   "latency_ms": 6,
    "cost": 0,
    "ranking": [
     "EX_CAREGIVER_DISABLED"
@@ -1381,8 +1646,265 @@
    ],
    "want": [
     "EX_CAREGIVER_DISABLED"
-   ]
+   ],
+   "outcome": "retain",
+   "want_outcome": "retain",
+   "outcome_ok": true,
+   "key_date_ok": null,
+   "told_eligible": null
+  },
+  {
+   "case_id": "C47",
+   "title": "DEMO RECOVER - dropped 20 days ago because a pay stub never arrived",
+   "split": "dev",
+   "language": "en",
+   "case_type": "work/income",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 5,
+   "cost": 0,
+   "ranking": [
+    "WORK_80",
+    "INCOME_580"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "WORK_80",
+    "INCOME_580"
+   ],
+   "outcome": "recover",
+   "want_outcome": "recover",
+   "outcome_ok": true,
+   "key_date_ok": true,
+   "told_eligible": null
+  },
+  {
+   "case_id": "C48",
+   "title": "Recover window closed - dropped 120 days ago",
+   "split": "test",
+   "language": "es",
+   "case_type": "work/income",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 4,
+   "cost": 0,
+   "ranking": [
+    "WORK_80",
+    "INCOME_580"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "WORK_80",
+    "INCOME_580"
+   ],
+   "outcome": "recover_expired",
+   "want_outcome": "recover_expired",
+   "outcome_ok": true,
+   "key_date_ok": true,
+   "told_eligible": null
+  },
+  {
+   "case_id": "C49",
+   "title": "Recover - dropped 30 days ago for paperwork, now pregnant (exempt)",
+   "split": "dev",
+   "language": "en",
+   "case_type": "pregnancy/postpartum",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 2,
+   "cost": 0,
+   "ranking": [
+    "EX_PREGNANT_POSTPARTUM"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "EX_PREGNANT_POSTPARTUM"
+   ],
+   "outcome": "recover",
+   "want_outcome": "recover",
+   "outcome_ok": true,
+   "key_date_ok": true,
+   "told_eligible": null
+  },
+  {
+   "case_id": "C50",
+   "title": "DEMO TRANSITION - income rose above the limit after a new job",
+   "split": "test",
+   "language": "en",
+   "case_type": "work/income",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 4,
+   "cost": 0,
+   "ranking": [
+    "WORK_80",
+    "INCOME_580"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "WORK_80",
+    "INCOME_580"
+   ],
+   "outcome": "transition",
+   "want_outcome": "transition",
+   "outcome_ok": true,
+   "key_date_ok": true,
+   "told_eligible": false
+  },
+  {
+   "case_id": "C51",
+   "title": "Transition - postpartum coverage ending",
+   "split": "dev",
+   "language": "es",
+   "case_type": "pregnancy/postpartum",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 3,
+   "cost": 0,
+   "ranking": [
+    "EX_CAREGIVER_CHILD",
+    "EX_PREGNANT_POSTPARTUM"
+   ],
+   "gaps": [],
+   "want_gaps": [],
+   "want": [
+    "EX_PREGNANT_POSTPARTUM",
+    "EX_CAREGIVER_CHILD"
+   ],
+   "outcome": "transition",
+   "want_outcome": "transition",
+   "outcome_ok": true,
+   "key_date_ok": true,
+   "told_eligible": false
+  },
+  {
+   "case_id": "C52",
+   "title": "Transition - turns 65 next month (Medicare)",
+   "split": "test",
+   "language": "en",
+   "case_type": "no pathway",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 1,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 0,
+   "cost": 0,
+   "ranking": [
+    "NONE"
+   ],
+   "gaps": [
+    "NO_QUALIFYING_PATHWAY"
+   ],
+   "want_gaps": [
+    "NO_QUALIFYING_PATHWAY"
+   ],
+   "want": [
+    "NONE"
+   ],
+   "outcome": "transition",
+   "want_outcome": "transition",
+   "outcome_ok": true,
+   "key_date_ok": true,
+   "told_eligible": false
+  },
+  {
+   "case_id": "C53",
+   "title": "Transition - moved out of state",
+   "split": "dev",
+   "language": "en",
+   "case_type": "no pathway",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 3,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 10,
+   "cost": 0,
+   "ranking": [
+    "NONE"
+   ],
+   "gaps": [
+    "HOURS_SHORT",
+    "INCOME_SHORT",
+    "NO_QUALIFYING_PATHWAY"
+   ],
+   "want_gaps": [
+    "HOURS_SHORT",
+    "INCOME_SHORT",
+    "NO_QUALIFYING_PATHWAY"
+   ],
+   "want": [
+    "NONE"
+   ],
+   "outcome": "transition",
+   "want_outcome": "transition",
+   "outcome_ok": true,
+   "key_date_ok": true,
+   "told_eligible": false
+  },
+  {
+   "case_id": "C54",
+   "title": "Transition - no pathway and no exemption",
+   "split": "test",
+   "language": "en",
+   "case_type": "no pathway",
+   "top1": true,
+   "top2": true,
+   "sufficiency": true,
+   "tp": 3,
+   "fp": 0,
+   "fn": 0,
+   "latency_ms": 3,
+   "cost": 0,
+   "ranking": [
+    "NONE"
+   ],
+   "gaps": [
+    "HOURS_SHORT",
+    "INCOME_SHORT",
+    "NO_QUALIFYING_PATHWAY"
+   ],
+   "want_gaps": [
+    "HOURS_SHORT",
+    "INCOME_SHORT",
+    "NO_QUALIFYING_PATHWAY"
+   ],
+   "want": [
+    "NONE"
+   ],
+   "outcome": "transition",
+   "want_outcome": "transition",
+   "outcome_ok": true,
+   "key_date_ok": true,
+   "told_eligible": false
   }
  ],
- "note": "46 synthetic cases (23 dev / 23 test); headline numbers on the 'test' split. The deterministic engine was written alongside the synthetic document templates (all splits), so its scores are an upper bound on template-like documents, not evidence of generalisation. Small n: one case = ~4 points."
+ "note": "54 synthetic cases (27 dev / 27 test); headline numbers on the 'test' split. The deterministic engine was written alongside the synthetic document templates (all splits), so its scores are an upper bound on template-like documents, not evidence of generalisation. Small n: one case = ~4 points."
 }

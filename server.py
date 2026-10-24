@@ -22,6 +22,8 @@ CASES = ROOT / "data" / "cases"
 CUSTOM = ROOT / "data" / "custom"  # navigator-entered cases; git-ignored
 app = FastAPI(title="Coverage Keeper")
 app.mount("/static", StaticFiles(directory=ROOT / "static"), name="static")
+(ROOT / "data" / "documents").mkdir(parents=True, exist_ok=True)
+app.mount("/documents", StaticFiles(directory=ROOT / "data" / "documents"), name="documents")  # rendered synthetic PDFs/PNGs
 
 MAX_FILE_BYTES = 10 * 1024 * 1024  # 10 MB per document
 MAX_FILES = 10
@@ -62,7 +64,8 @@ def index():
 
 @app.get("/api/status")
 def status():
-    return {"mode": config.MODE, "api_key": bool(os.environ.get("ANTHROPIC_API_KEY")), "models": config.MODELS,
+    return {"mode": config.MODE, "api_key": bool(config.keys_present()), "providers": config.keys_present(),
+            "preset": config.PRESET, "models": config.MODELS,
             "as_of": config.AS_OF.isoformat(), "languages": config.LANGUAGES}
 
 
@@ -85,7 +88,13 @@ def cases():
 
 @app.get("/api/cases/{cid}")
 def case(cid: str):
-    return load_case(cid)
+    c = load_case(cid)
+    for d in c["documents"]:
+        img = ROOT / "data" / "documents" / cid / f"{d['doc_id']}.png"
+        if img.exists():
+            d["image"] = f"/documents/{cid}/{d['doc_id']}.png"
+            d["pdf"] = f"/documents/{cid}/{d['doc_id']}.pdf"
+    return c
 
 
 class NewCase(BaseModel):

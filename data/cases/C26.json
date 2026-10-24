@@ -30,7 +30,8 @@
       "INCOME_SHORT",
       "NO_QUALIFYING_PATHWAY"
     ],
-    "notes": ""
+    "notes": "",
+    "outcome": "transition"
   },
   "split": "test"
 }

@@ -7,7 +7,7 @@ const ALLOWED = [".pdf", ".png", ".jpg", ".jpeg", ".webp", ".gif", ".txt", ".md"
 async function initUpload() {
   if (U.ready) return;
   U.ready = true;
-  const meta = await api("/api/countries");
+  const meta = await api("api/countries");
   const opts = '<option value="">Select…</option>' + meta.countries.map((c) => `<option value="${c.code}">${esc(c.name)}</option>`).join("");
   $("#u-nationality").innerHTML = opts;
   $("#u-country").innerHTML = opts;
@@ -47,15 +47,15 @@ async function submitUpload(e) {
   $("#u-submit").disabled = true;
   $("#u-msg").innerHTML = '<p class="muted">Reading documents, encrypting and checking policies…</p>';
   try {
-    const r = await fetch("/api/upload", { method: "POST", body: fd });
+    const r = await fetch("api/upload", { method: "POST", body: fd });
     const data = await r.json();
     if (!r.ok) throw new Error(data.detail || r.statusText);
     U.caseId = data.case_id; U.match = data.match; U.check = data.check; U.pack = data.check.pack;
-    U.docs = (await api("/api/cases/" + U.caseId)).documents;
+    U.docs = (await api("api/cases/" + U.caseId)).documents;
     Secure.setViewer(profile.name || "Coverage Keeper user");
     $("#u-msg").innerHTML = `<p class="muted small">Saved as case <b>${U.caseId}</b>, encrypted on the server. Only the text read from your files is kept.</p>`;
     renderUpload();
-    S.cases = await api("/api/cases");
+    S.cases = await api("api/cases");
     $("#case-select").innerHTML = S.cases.map((c) => `<option value="${c.case_id}">${c.case_id} · ${esc(c.title)} [${c.split}]</option>`).join("");
   } catch (err) {
     $("#u-msg").innerHTML = `<div class="removed">Upload failed: ${esc(err.message)}</div>`;
@@ -66,7 +66,7 @@ async function submitUpload(e) {
 
 async function choosePack(id) {
   U.pack = id;
-  U.check = await api(`/api/check/${U.caseId}?pack=${encodeURIComponent(id)}`);
+  U.check = await api(`api/check/${U.caseId}?pack=${encodeURIComponent(id)}`);
   renderUpload();
 }
 
@@ -139,10 +139,10 @@ async function uRunPipeline() {
 
 async function uDelete() {
   if (!confirm("Delete this case and its documents from the server? This can't be undone.")) return;
-  await fetch("/api/cases/" + U.caseId, { method: "DELETE" });
+  await fetch("api/cases/" + U.caseId, { method: "DELETE" });
   U.caseId = null; U.docs = [];
   $("#u-results").innerHTML = '<div class="card"><p>Deleted. Nothing from this upload is stored any more.</p></div>';
   $("#u-form").reset(); listFiles();
-  S.cases = await api("/api/cases");
+  S.cases = await api("api/cases");
   $("#case-select").innerHTML = S.cases.map((c) => `<option value="${c.case_id}">${c.case_id} · ${esc(c.title)} [${c.split}]</option>`).join("");
 }

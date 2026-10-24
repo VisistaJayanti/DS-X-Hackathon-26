@@ -30,7 +30,8 @@
     "gaps": [
       "POSTPARTUM_ENDING"
     ],
-    "notes": "Delivery 2025-11-10: postpartum placeholder window ends 2026-11-10, within 30 days of today."
+    "notes": "Delivery 2025-11-10: postpartum placeholder window ends 2026-11-10, within 30 days of today.",
+    "outcome": "retain"
   },
   "split": "dev"
 }

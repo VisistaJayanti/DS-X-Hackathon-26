@@ -23,6 +23,22 @@ T = {
         "zh": "{first}您好，这里是您健康计划的护理团队。您关于保留保险的 {agency} 信件需要在 {due} 前回复。我们可免费帮助您——回复“是”，我们会给您打电话。"
               "您也可以拨打 {contact}。回复 STOP 退订。",
     },
+    "sms_recover": {
+        "en": "Hi {first}, this is your health plan's care team. Your {agency} coverage ended on {term} because paperwork was missing. "
+              "You may be able to get it back without a new application if the missing papers arrive by {recon_end}. We can help for free - "
+              "reply YES and we'll call you. You can also call {contact}. Reply STOP to opt out.",
+        "es": "Hola {first}, le escribe el equipo de atención de su plan de salud. Su cobertura de {agency} terminó el {term} porque faltaban "
+              "papeles. Es posible que pueda recuperarla sin una nueva solicitud si los papeles llegan antes del {recon_end}. Le ayudamos gratis: "
+              "responda SÍ y le llamamos. También puede llamar a {contact}. Responda STOP para no recibir más mensajes.",
+    },
+    "sms_transition": {
+        "en": "Hi {first}, this is your health plan's care team. Something changed that may affect your {agency} coverage. So you don't "
+              "end up without insurance, we can help you look at your options for free - reply YES and we'll call you. You can also call "
+              "{contact}. Reply STOP to opt out.",
+        "es": "Hola {first}, le escribe el equipo de atención de su plan de salud. Algo cambió que puede afectar su cobertura de {agency}. "
+              "Para que no se quede sin seguro, le ayudamos gratis a ver sus opciones: responda SÍ y le llamamos. También puede llamar a "
+              "{contact}. Responda STOP para no recibir más mensajes.",
+    },
     "sms_photo": {
         "en": "Thanks {first}! To finish your {agency} paperwork, please send a photo of: {items}. Please don't text your Social Security number.",
         "es": "¡Gracias, {first}! Para terminar sus papeles de {agency}, envíe una foto de: {items}. Por favor no envíe su número de Seguro Social por mensaje.",
@@ -113,16 +129,36 @@ def _localize(lines, lang, fallback, meter, use_llm):
     return lines, "english_fallback"
 
 
+def _variant(member):
+    """Which outreach story fits: retain (answer the notice), recover (already dropped), transition (may no longer qualify)."""
+    cov = member.get("coverage") or {}
+    if cov.get("status") == "terminated_procedural" and rulebook.active().get("reconsideration"):
+        return "recover"
+    triggers = (rulebook.active().get("transitions") or {}).get("triggers", {})
+    if cov.get("status") == "terminated_ineligible" or any(c.get("type") in triggers for c in member.get("reported_changes", [])):
+        return "transition"
+    return "retain"
+
+
 def initial(member, deadline, meter, use_llm=True):
     lang = member.get("language", "en")
     kw = _kw(member, deadline)
+    variant = _variant(member)
+    recon = rulebook.active().get("reconsideration")
+    if variant == "recover" and recon:
+        from datetime import date, timedelta
+        term = member["coverage"]["termination_date"]
+        kw.update(term=term, recon_end=(date.fromisoformat(term) + timedelta(days=recon["window_days"])).isoformat())
     msgs = []
     for ch, why in choose_channels(member):
         if ch == "sms":
-            text, fb = _t("sms", lang, **kw)
+            text, fb = _t({"recover": "sms_recover", "transition": "sms_transition"}.get(variant, "sms"), lang, **kw)
             lines, eng = _localize([text], lang, fb, meter, use_llm)
         elif ch == "phone":
             lines, fb = _t("phone", lang, **kw)
+            if variant != "retain":  # dropped / may no longer qualify: open with that story, keep screening + direct-contact lines
+                opener, fb2 = _t("sms_" + variant, lang, **kw)
+                lines, fb = [lines[0], opener.split(". ", 1)[1].rsplit(" Reply STOP", 1)[0]] + lines[2:], fb or fb2
             lines, eng = _localize(lines, lang, fb, meter, use_llm)
         elif ch == "mail":
             lines, fb = _t("mail", lang, **kw)
@@ -132,7 +168,7 @@ def initial(member, deadline, meter, use_llm=True):
             lines, eng = _localize([text, "• " + kw["notice"] + f" ({kw['agency']})", "• Photo ID"], lang, True, meter, use_llm) \
                 if fb else ([text, f"• {kw['notice']} ({kw['agency']})", "• ID"], "template")
         msgs.append({"channel": ch, "why": why, "language": lang, "lines": lines, "engine": eng})
-    return {"channels": [c for c, _ in choose_channels(member)], "messages": msgs,
+    return {"variant": variant, "channels": [c for c, _ in choose_channels(member)], "messages": msgs,
             "out_of_scope": "TV/radio awareness campaigns are population-level and not generated per member."}
 
 

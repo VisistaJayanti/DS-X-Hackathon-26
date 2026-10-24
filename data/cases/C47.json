@@ -1,0 +1,41 @@
+{
+  "case_id": "C47",
+  "title": "DEMO RECOVER - dropped 20 days ago because a pay stub never arrived",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Devon K. (illustrative composite)",
+    "age": 38,
+    "language": "en",
+    "household": "Lives with partner",
+    "notice_received_date": "2026-08-20",
+    "coverage": {
+      "status": "terminated_procedural",
+      "termination_date": "2026-10-04",
+      "termination_reason": "renewal: requested pay stub was not received"
+    }
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "paystubs_sept.txt",
+      "text": "REVERE BEACH LOGISTICS\nEARNINGS STATEMENT\nEmployee: Devon K.\nPay period: 09/01/2026 - 09/15/2026\nPay date: 09/15/2026\nRate: $16.00/hr\nRegular Hours worked: 43.0\nGross pay: $688.00\nNet pay: $605.44\nYTD gross: $9,632.00\n\n- - - - - - - - - - - - - - -\n\nREVERE BEACH LOGISTICS\nEARNINGS STATEMENT\nEmployee: Devon K.\nPay period: 09/16/2026 - 09/30/2026\nPay date: 09/30/2026\nRate: $16.00/hr\nRegular Hours worked: 43.0\nGross pay: $688.00\nNet pay: $605.44\nYTD gross: $9,632.00"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "WORK_80",
+      "INCOME_580"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": "Dropped 2026-10-04; 90-day reconsideration ends 2027-01-02 (70 days left).",
+    "outcome": "recover",
+    "key_date": "2027-01-02"
+  },
+  "split": "dev"
+}

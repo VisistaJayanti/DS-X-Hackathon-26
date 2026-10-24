@@ -1,0 +1,47 @@
+{
+  "case_id": "C50",
+  "title": "DEMO TRANSITION - income rose above the limit after a new job",
+  "member": {
+    "lookback_months": [
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "notice_type": "Request for Information (RFI)",
+    "name": "Kofi A. (illustrative composite)",
+    "age": 41,
+    "language": "en",
+    "household": "Lives alone",
+    "notice_received_date": "2026-10-10",
+    "coverage": {
+      "status": "at_risk",
+      "expected_end_date": "2026-11-30"
+    },
+    "reported_changes": [
+      {
+        "type": "income_above_limit",
+        "date": "2026-10-01",
+        "detail": "New full-time job; member reports income above the limit"
+      }
+    ]
+  },
+  "documents": [
+    {
+      "doc_id": "D1",
+      "filename": "offer_letter.txt",
+      "text": "NORTHEAST MEDICAL SUPPLY CO.\nSeptember 18, 2026\n\nDear Kofi A.,\nWe are pleased to offer you the position of Warehouse Supervisor, starting October 1, 2026.\nThis is a full-time position, 40 hours per week, at $26.00 per hour.\n\nHuman Resources"
+    }
+  ],
+  "labels": {
+    "correct_pathways": [
+      "WORK_80",
+      "INCOME_580"
+    ],
+    "evidence_sufficient": true,
+    "gaps": [],
+    "notes": "Member-reported income change; the tool does not compute the income limit.",
+    "outcome": "transition",
+    "key_date": "2027-02-28"
+  },
+  "split": "test"
+}

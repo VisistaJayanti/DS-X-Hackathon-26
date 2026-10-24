@@ -34,7 +34,8 @@
     "gaps": [
       "DOC_CONFLICT"
     ],
-    "notes": "Log 72 hrs vs ~25/wk (108/mo)."
+    "notes": "Log 72 hrs vs ~25/wk (108/mo).",
+    "outcome": "retain"
   },
   "split": "test"
 }

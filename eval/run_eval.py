@@ -9,8 +9,9 @@ Runs the pipeline on every synthetic case and reports:
   - risk-flag precision / recall at top-k on the 200-member roster
 Writes eval/results.json (shown in the UI) and eval/RESULTS.md.
 
---llm runs the LLM engines (needs ANTHROPIC_API_KEY, or a filled cache in replay mode). Responses are cached,
-so re-runs are fast and free. Without --llm only the deterministic baseline runs.
+--llm runs the LLM engines (needs an API key for each provider in config.MODELS, or a filled cache in replay
+mode). Responses are cached, so re-runs are fast and free, and a run interrupted by a free tier's daily quota
+resumes where it stopped. Without --llm only the deterministic baseline runs.
 """
 import argparse
 import json
@@ -54,7 +55,7 @@ def all_claims(trace, which):
 def judge(case, trace, claims, use_llm, meter):
     """Independent judge: deterministic grounding checks, plus (LLM runs) an entailment check by a different, stronger model."""
     st = {s["key"]: s["output"] for s in trace["stages"]}
-    ctx = verify.context(case, st["extract"], st["rules"], st["gaps"])
+    ctx = verify.context(case, st["extract"], st["rules"], st["gaps"], st.get("outcome"))
     bad = {c["claim_id"] for c in claims if verify.check_claim(c, ctx)}
     if use_llm and claims:
         try:
@@ -65,8 +66,19 @@ def judge(case, trace, claims, use_llm, meter):
     return len(bad), len(claims)
 
 
+RETAIN_SENTENCES = ("you may qualify through", "your documents look complete", "the new work rules may not apply")
+
+
+def told_still_eligible(trace):
+    """A transition case must not be told it can keep coverage the usual way (retain framing or a ready packet)."""
+    fin = trace["final"]
+    text = " ".join(s["en"] for s in fin["member"]["sentences"]).lower()
+    return any(k in text for k in RETAIN_SENTENCES) or fin["packet"].get("status") not in (None, "none")
+
+
 def score_case(c, trace):
     lab, s = c["labels"], trace["summary"]
+    want_oc = lab.get("outcome", "retain")
     ranking = s["ranking"]
     want, got_gaps = set(lab["gaps"]), set(s["gaps"])
     return {
@@ -77,6 +89,9 @@ def score_case(c, trace):
         "tp": len(want & got_gaps), "fp": len(got_gaps - want), "fn": len(want - got_gaps),
         "latency_ms": s["latency_ms"], "cost": s["cost_usd"], "ranking": ranking[:3], "gaps": sorted(got_gaps), "want_gaps": sorted(want),
         "want": lab["correct_pathways"],
+        "outcome": s.get("outcome"), "want_outcome": want_oc, "outcome_ok": s.get("outcome") == want_oc,
+        "key_date_ok": (s.get("key_date") == lab["key_date"]) if lab.get("key_date") else None,
+        "told_eligible": told_still_eligible(trace) if want_oc == "transition" else None,
     }
 
 
@@ -88,7 +103,17 @@ def aggregate(rows):
         "sufficiency_acc": sum(r["sufficiency"] for r in rows) / n,
         "gap_precision": tp / (tp + fp) if tp + fp else 1.0, "gap_recall": tp / (tp + fn) if tp + fn else 1.0,
         "latency_ms_mean": round(sum(r["latency_ms"] for r in rows) / n), "cost_usd_mean": sum(r["cost"] for r in rows) / n,
+        **outcome_metrics(rows),
     }
+
+
+def outcome_metrics(rows):
+    keyed = [r for r in rows if r.get("key_date_ok") is not None]
+    trans = [r for r in rows if r.get("told_eligible") is not None]
+    return {"outcome_acc": sum(r["outcome_ok"] for r in rows) / len(rows) if rows else None,
+            "key_date_acc": sum(r["key_date_ok"] for r in keyed) / len(keyed) if keyed else None, "key_date_n": len(keyed),
+            "transition_told_eligible_rate": sum(r["told_eligible"] for r in trans) / len(trans) if trans else None,
+            "transition_n": len(trans)}
 
 
 def run_engine(cases, name, use_llm, split):
@@ -113,7 +138,7 @@ def run_engine(cases, name, use_llm, split):
 
 def fairness(rows):
     out = {}
-    for dim in ("language", "case_type"):
+    for dim in ("language", "case_type", "want_outcome"):
         groups = defaultdict(list)
         for r in rows:
             groups[r[dim]].append(r)
@@ -123,7 +148,7 @@ def fairness(rows):
 
 
 def risk_eval(ks=(20, 40, 60)):
-    roster = json.loads((ROOT / "data" / "roster.json").read_text(encoding="utf-8"))
+    roster = [m for m in json.loads((ROOT / "data" / "roster.json").read_text(encoding="utf-8")) if m.get("group", "at_risk") == "at_risk"]
     pos = {m["member_id"] for m in roster if m["would_lose_paperwork"]}
     ranked = [s["member"]["member_id"] for s in risk.rank_roster(roster)]
     by_deadline = [m["member_id"] for m in sorted(roster, key=lambda m: m["notice_received_date"])]
@@ -139,7 +164,9 @@ def risk_eval(ks=(20, 40, 60)):
         {"name": "Baseline: soonest deadline first", "at": at(by_deadline)},
         {"name": "Baseline: random order", "at": at(rand)},
     ], "note": "Labels come from a synthetic latent model (with noise and unobserved factors) using the same feature families; the "
-               "hand-set points were not fit to these labels. This tests ranking under assumed dynamics, not real-world accuracy."}
+               "hand-set points were not fit to these labels. The roster's city and language mix and its base rates are calibrated to "
+               "public CMS (MassHealth renewal outcomes) and ACS data, but the member-level dynamics are assumed. This tests ranking "
+               "under assumed dynamics, not real-world accuracy."}
 
 
 def main():
@@ -190,12 +217,13 @@ def main():
 
     (ROOT / "eval" / "results.json").write_text(json.dumps(results, indent=1, ensure_ascii=False), encoding="utf-8")
     md = ["# Coverage Keeper evaluation results", "", f"Generated {results['generated']} · as-of date {results['as_of']} · pack `{results['pack']}`", "",
-          results["note"], "", "| Run | Split | n | Top-1 | Top-2 | Sufficiency | Gap P | Gap R | Unsupported claims | Latency/case | Cost/case |",
-          "|---|---|---|---|---|---|---|---|---|---|---|"]
+          results["note"], "", "| Run | Split | n | Top-1 | Top-2 | Sufficiency | Gap P | Gap R | Outcome (R/R/T) | Key date | Transition told eligible | Unsupported claims | Latency/case | Cost/case |",
+          "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
     pct = lambda x: "–" if x is None else f"{100 * x:.0f}%"
     for r in results["runs"]:
         md.append(f"| {r['name']} | {r['split']} | {r['n']} | {pct(r['top1'])} | {pct(r['top2'])} | {pct(r['sufficiency_acc'])} | "
-                  f"{pct(r['gap_precision'])} | {pct(r['gap_recall'])} | {r['unsupported']}/{r['claims']} ({pct(r['unsupported_rate'])}) | "
+                  f"{pct(r['gap_precision'])} | {pct(r['gap_recall'])} | {pct(r['outcome_acc'])} | {pct(r['key_date_acc'])} (n={r['key_date_n']}) | "
+                  f"{pct(r['transition_told_eligible_rate'])} (n={r['transition_n']}) | {r['unsupported']}/{r['claims']} ({pct(r['unsupported_rate'])}) | "
                   f"{r['latency_ms_mean']} ms | ${r['cost_usd_mean']:.4f} |")
     md += ["", "**Verifier ablation:** " + results["ablation"]["summary"], "", "## Risk flagging", "",
            "| Method | " + " | ".join(f"P@{k} | R@{k}" for k in results["risk"]["ks"]) + " |", "|---|" + "---|---|" * len(results["risk"]["ks"])]

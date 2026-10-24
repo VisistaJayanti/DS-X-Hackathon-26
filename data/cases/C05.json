@@ -33,7 +33,8 @@
     ],
     "evidence_sufficient": true,
     "gaps": [],
-    "notes": "Stable recovery (5+ yrs) is excluded from SUD frailty; work pathway applies."
+    "notes": "Stable recovery (5+ yrs) is excluded from SUD frailty; work pathway applies.",
+    "outcome": "retain"
   },
   "split": "dev"
 }

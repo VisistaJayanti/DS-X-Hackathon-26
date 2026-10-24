@@ -1,0 +1,683 @@
+{
+ "_meta": {
+  "generated_by": "data/fetch_calibration.py",
+  "retrieved": "2026-10-24",
+  "note": "Real, public, aggregate data only (state- and area-level counts). The roster built from these parameters is still entirely synthetic; no real member appears in it.",
+  "sources": [
+   {
+    "id": "CMS_RENEWALS",
+    "title": "CMS, Medicaid and CHIP Updated Renewal Outcomes (Unwinding Data Report, Oct 2024 release)",
+    "url": "https://data.medicaid.gov/dataset/e6205a51-e6d7-4849-9882-4483b8a28c41",
+    "file": "https://download.medicaid.gov/data/updated-renewal-outcomes-october-2024-releasefinal.csv"
+   },
+   {
+    "id": "ACS_C16001",
+    "title": "US Census Bureau, ACS 2020-2024 5-year, C16001 Language Spoken at Home by Ability to Speak English (places)",
+    "url": "https://www.census.gov/programs-surveys/acs/data/summary-file.html",
+    "file": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-c16001.dat"
+   },
+   {
+    "id": "ACS_B16001",
+    "title": "US Census Bureau, ACS 2020-2024 5-year, B16001 detailed languages (PUMAs; splits Haitian and Portuguese)",
+    "url": "https://www.census.gov/programs-surveys/acs/data/summary-file.html",
+    "file": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b16001.dat"
+   },
+   {
+    "id": "ACS_C27007",
+    "title": "US Census Bureau, ACS 2020-2024 5-year, C27007 Medicaid/Means-Tested Public Coverage by Sex by Age (places)",
+    "url": "https://www.census.gov/programs-surveys/acs/data/summary-file.html",
+    "file": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-c27007.dat"
+   }
+  ],
+  "method": [
+   "Preferred roster language = a non-English language only for residents who speak English less than 'very well' (limited English proficiency, LEP); everyone else (English-only, or bilingual 'very well') is 'en'.",
+   "es, zh, vi come straight from C16001 at city level. ht and pt are C16001's collapsed groups ('French, Haitian, or Cajun'; 'Other Indo-European') times the Haitian / Portuguese share of that group in the city's PUMA(s) from B16001.",
+   "LEP residents who speak a language the tool doesn't support yet are left out of the roster mix and reported per city as unsupported_lep_share_of_pop.",
+   "City weights = Medicaid/means-tested public coverage among adults 19-64 (C27007).",
+   "p_subject_to_requirement = MassHealth's share of renewals NOT completed ex parte (a form was needed).",
+   "target_p_lose_given_subject = procedural terminations / renewals that needed a form; the generator solves the latent model's intercept so the expected label rate among subject members matches it."
+  ],
+  "caveats": [
+   "Unwinding renewals (2023-24) are a proxy for the 2027 community-engagement verification, not the same process.",
+   "Procedural terminations include some people who were in fact ineligible, and some who were reinstated later; CMS data can't separate them, so the label rate is an upper-bound proxy for 'eligible but lost to paperwork'.",
+   "ACS language and English ability cover all residents 5+, not MassHealth members specifically; Medicaid adults are likely more often LEP, so the language mismatch rate is probably conservative.",
+   "PUMAs used for the Haitian/Portuguese split include neighbouring towns for Lawrence (Andover), Chelsea (Revere, Winthrop), New Bedford and Fall River. ACS estimates for small groups carry wide margins of error."
+  ]
+ },
+ "cms_renewals_ma": {
+  "dataset": "Medicaid and CHIP Updated Renewal Outcomes (data type 'Updated': pending renewals resolved 3 months after due)",
+  "state": "MA",
+  "reporting_periods": [
+   "202305",
+   "202403"
+  ],
+  "months": 11,
+  "totals": {
+   "due": 1437124,
+   "renewed_ex_parte": 473634,
+   "renewed_via_form": 314834,
+   "ineligible_via_form": 209352,
+   "procedural_terminations": 437061,
+   "pending": 2243
+  },
+  "derived": {
+   "ex_parte_share": 0.3296,
+   "form_needed_share": 0.6704,
+   "procedural_share_of_form_renewals": 0.4536,
+   "procedural_share_of_due": 0.3041,
+   "procedural_share_of_terminations": 0.6761
+  },
+  "monthly": [
+   {
+    "reporting_period": "202305",
+    "due": 44706,
+    "procedural_share_of_form_renewals": 0.2303
+   },
+   {
+    "reporting_period": "202306",
+    "due": 91769,
+    "procedural_share_of_form_renewals": 0.5124
+   },
+   {
+    "reporting_period": "202307",
+    "due": 96563,
+    "procedural_share_of_form_renewals": 0.3527
+   },
+   {
+    "reporting_period": "202308",
+    "due": 154548,
+    "procedural_share_of_form_renewals": 0.5225
+   },
+   {
+    "reporting_period": "202309",
+    "due": 123681,
+    "procedural_share_of_form_renewals": 0.5522
+   },
+   {
+    "reporting_period": "202310",
+    "due": 299095,
+    "procedural_share_of_form_renewals": 0.4249
+   },
+   {
+    "reporting_period": "202311",
+    "due": 125118,
+    "procedural_share_of_form_renewals": 0.5772
+   },
+   {
+    "reporting_period": "202312",
+    "due": 94780,
+    "procedural_share_of_form_renewals": 0.3851
+   },
+   {
+    "reporting_period": "202401",
+    "due": 138528,
+    "procedural_share_of_form_renewals": 0.4184
+   },
+   {
+    "reporting_period": "202402",
+    "due": 84408,
+    "procedural_share_of_form_renewals": 0.4272
+   },
+   {
+    "reporting_period": "202403",
+    "due": 183928,
+    "procedural_share_of_form_renewals": 0.4036
+   }
+  ]
+ },
+ "acs_cities": {
+  "Boston": {
+   "place_geoid": "1600000US2507000",
+   "pumas": [
+    "795P200US2500801",
+    "795P200US2500802",
+    "795P200US2500803",
+    "795P200US2500804",
+    "795P200US2500805"
+   ],
+   "puma_note": "Boston City PUMAs 00801-00805",
+   "medicaid_adults_19_64": 100208,
+   "medicaid_share_of_adults_19_64": 0.2167,
+   "pop_5plus": 635495,
+   "lep_share": 0.1581,
+   "lep_counts": {
+    "es": 46586,
+    "pt": 5233,
+    "ht": 10950,
+    "vi": 7124,
+    "zh": 14928
+   },
+   "split_ratios_from_puma": {
+    "haitian_of_french_haitian_cajun_lep": 0.8891,
+    "portuguese_of_other_indo_european_lep": 0.5297
+   },
+   "unsupported_lep_share_of_pop": 0.0247,
+   "top_unsupported_lep_languages_puma": [
+    {
+     "language": "Russian",
+     "share_of_lep": 0.018
+    },
+    {
+     "language": "Amharic/Somali/Afro-Asiatic",
+     "share_of_lep": 0.014
+    },
+    {
+     "language": "French",
+     "share_of_lep": 0.0136
+    }
+   ],
+   "roster_language_probs": {
+    "en": 0.8632,
+    "es": 0.0752,
+    "pt": 0.0084,
+    "ht": 0.0177,
+    "vi": 0.0115,
+    "zh": 0.0241
+   }
+  },
+  "Worcester": {
+   "place_geoid": "1600000US2582000",
+   "pumas": [
+    "795P200US2500504",
+    "795P200US2500505"
+   ],
+   "puma_note": "Worcester City (East) + (West) PUMAs",
+   "medicaid_adults_19_64": 41377,
+   "medicaid_share_of_adults_19_64": 0.3082,
+   "pop_5plus": 195294,
+   "lep_share": 0.1765,
+   "lep_counts": {
+    "es": 16647,
+    "pt": 4104,
+    "ht": 560,
+    "vi": 2916,
+    "zh": 1043
+   },
+   "split_ratios_from_puma": {
+    "haitian_of_french_haitian_cajun_lep": 0.6459,
+    "portuguese_of_other_indo_european_lep": 0.5307
+   },
+   "unsupported_lep_share_of_pop": 0.0471,
+   "top_unsupported_lep_languages_puma": [
+    {
+     "language": "Other Indo-European",
+     "share_of_lep": 0.0621
+    },
+    {
+     "language": "West African",
+     "share_of_lep": 0.0431
+    },
+    {
+     "language": "Arabic",
+     "share_of_lep": 0.0406
+    }
+   ],
+   "roster_language_probs": {
+    "en": 0.8642,
+    "es": 0.0895,
+    "pt": 0.0221,
+    "ht": 0.003,
+    "vi": 0.0157,
+    "zh": 0.0056
+   }
+  },
+  "Springfield": {
+   "place_geoid": "1600000US2567000",
+   "pumas": [
+    "795P200US2500402"
+   ],
+   "puma_note": "Hampden County (Central)--Springfield PUMA",
+   "medicaid_adults_19_64": 43901,
+   "medicaid_share_of_adults_19_64": 0.4685,
+   "pop_5plus": 144708,
+   "lep_share": 0.1731,
+   "lep_counts": {
+    "es": 20853,
+    "pt": 295,
+    "ht": 118,
+    "vi": 790,
+    "zh": 209
+   },
+   "split_ratios_from_puma": {
+    "haitian_of_french_haitian_cajun_lep": 0.5514,
+    "portuguese_of_other_indo_european_lep": 0.2489
+   },
+   "unsupported_lep_share_of_pop": 0.0192,
+   "top_unsupported_lep_languages_puma": [
+    {
+     "language": "Nepali/other Indic",
+     "share_of_lep": 0.02
+    },
+    {
+     "language": "Amharic/Somali/Afro-Asiatic",
+     "share_of_lep": 0.0171
+    },
+    {
+     "language": "Arabic",
+     "share_of_lep": 0.0101
+    }
+   ],
+   "roster_language_probs": {
+    "en": 0.8431,
+    "es": 0.1469,
+    "pt": 0.0021,
+    "ht": 0.0008,
+    "vi": 0.0056,
+    "zh": 0.0015
+   }
+  },
+  "Lowell": {
+   "place_geoid": "1600000US2537000",
+   "pumas": [
+    "795P200US2500602"
+   ],
+   "puma_note": "Middlesex County--Lowell PUMA",
+   "medicaid_adults_19_64": 23691,
+   "medicaid_share_of_adults_19_64": 0.3149,
+   "pop_5plus": 111418,
+   "lep_share": 0.2073,
+   "lep_counts": {
+    "es": 7052,
+    "pt": 3903,
+    "ht": 354,
+    "vi": 1472,
+    "zh": 282
+   },
+   "split_ratios_from_puma": {
+    "haitian_of_french_haitian_cajun_lep": 0.6556,
+    "portuguese_of_other_indo_european_lep": 0.7926
+   },
+   "unsupported_lep_share_of_pop": 0.09,
+   "top_unsupported_lep_languages_puma": [
+    {
+     "language": "Khmer",
+     "share_of_lep": 0.2736
+    },
+    {
+     "language": "Central/East/Southern African",
+     "share_of_lep": 0.0317
+    },
+    {
+     "language": "Thai/Lao/Tai-Kadai",
+     "share_of_lep": 0.0287
+    }
+   ],
+   "roster_language_probs": {
+    "en": 0.8712,
+    "es": 0.0696,
+    "pt": 0.0385,
+    "ht": 0.0035,
+    "vi": 0.0145,
+    "zh": 0.0028
+   }
+  },
+  "Brockton": {
+   "place_geoid": "1600000US2509000",
+   "pumas": [
+    "795P200US2501101"
+   ],
+   "puma_note": "Plymouth County--Brockton PUMA",
+   "medicaid_adults_19_64": 24614,
+   "medicaid_share_of_adults_19_64": 0.3964,
+   "pop_5plus": 98464,
+   "lep_share": 0.2181,
+   "lep_counts": {
+    "es": 3823,
+    "pt": 6356,
+    "ht": 9682,
+    "vi": 509,
+    "zh": 251
+   },
+   "split_ratios_from_puma": {
+    "haitian_of_french_haitian_cajun_lep": 0.9653,
+    "portuguese_of_other_indo_european_lep": 0.9723
+   },
+   "unsupported_lep_share_of_pop": 0.0087,
+   "top_unsupported_lep_languages_puma": [
+    {
+     "language": "French",
+     "share_of_lep": 0.0162
+    },
+    {
+     "language": "Greek",
+     "share_of_lep": 0.0068
+    },
+    {
+     "language": "Tagalog",
+     "share_of_lep": 0.0042
+    }
+   ],
+   "roster_language_probs": {
+    "en": 0.7887,
+    "es": 0.0392,
+    "pt": 0.0651,
+    "ht": 0.0992,
+    "vi": 0.0052,
+    "zh": 0.0026
+   }
+  },
+  "Lynn": {
+   "place_geoid": "1600000US2537490",
+   "pumas": [
+    "795P200US2500705"
+   ],
+   "puma_note": "Essex County--Lynn & Nahant PUMA",
+   "medicaid_adults_19_64": 23165,
+   "medicaid_share_of_adults_19_64": 0.3739,
+   "pop_5plus": 94673,
+   "lep_share": 0.2704,
+   "lep_counts": {
+    "es": 19354,
+    "pt": 846,
+    "ht": 703,
+    "vi": 228,
+    "zh": 36
+   },
+   "split_ratios_from_puma": {
+    "haitian_of_french_haitian_cajun_lep": 0.848,
+    "portuguese_of_other_indo_european_lep": 0.5316
+   },
+   "unsupported_lep_share_of_pop": 0.0468,
+   "top_unsupported_lep_languages_puma": [
+    {
+     "language": "Khmer",
+     "share_of_lep": 0.0577
+    },
+    {
+     "language": "Russian",
+     "share_of_lep": 0.0277
+    },
+    {
+     "language": "Thai/Lao/Tai-Kadai",
+     "share_of_lep": 0.016
+    }
+   ],
+   "roster_language_probs": {
+    "en": 0.7654,
+    "es": 0.2145,
+    "pt": 0.0094,
+    "ht": 0.0078,
+    "vi": 0.0025,
+    "zh": 0.0004
+   }
+  },
+  "New Bedford": {
+   "place_geoid": "1600000US2545000",
+   "pumas": [
+    "795P200US2501004"
+   ],
+   "puma_note": "Bristol County (South)--New Bedford, Dartmouth & Westport PUMA",
+   "medicaid_adults_19_64": 25640,
+   "medicaid_share_of_adults_19_64": 0.4273,
+   "pop_5plus": 94132,
+   "lep_share": 0.1677,
+   "lep_counts": {
+    "es": 7558,
+    "pt": 6423,
+    "ht": 773,
+    "vi": 42,
+    "zh": 112
+   },
+   "split_ratios_from_puma": {
+    "haitian_of_french_haitian_cajun_lep": 0.8518,
+    "portuguese_of_other_indo_european_lep": 0.9722
+   },
+   "unsupported_lep_share_of_pop": 0.0094,
+   "top_unsupported_lep_languages_puma": [
+    {
+     "language": "Other and unspecified",
+     "share_of_lep": 0.0244
+    },
+    {
+     "language": "French",
+     "share_of_lep": 0.0076
+    },
+    {
+     "language": "Greek",
+     "share_of_lep": 0.0039
+    }
+   ],
+   "roster_language_probs": {
+    "en": 0.8401,
+    "es": 0.0811,
+    "pt": 0.0689,
+    "ht": 0.0083,
+    "vi": 0.0005,
+    "zh": 0.0012
+   }
+  },
+  "Fall River": {
+   "place_geoid": "1600000US2523000",
+   "pumas": [
+    "795P200US2501003"
+   ],
+   "puma_note": "Bristol County (Central)--Fall River, Somerset & Acushnet PUMA",
+   "medicaid_adults_19_64": 23634,
+   "medicaid_share_of_adults_19_64": 0.3998,
+   "pop_5plus": 89628,
+   "lep_share": 0.173,
+   "lep_counts": {
+    "es": 4639,
+    "pt": 9219,
+    "ht": 379,
+    "vi": 134,
+    "zh": 194
+   },
+   "split_ratios_from_puma": {
+    "haitian_of_french_haitian_cajun_lep": 0.7667,
+    "portuguese_of_other_indo_european_lep": 0.9763
+   },
+   "unsupported_lep_share_of_pop": 0.0105,
+   "top_unsupported_lep_languages_puma": [
+    {
+     "language": "Khmer",
+     "share_of_lep": 0.0242
+    },
+    {
+     "language": "Arabic",
+     "share_of_lep": 0.0126
+    },
+    {
+     "language": "French",
+     "share_of_lep": 0.0079
+    }
+   ],
+   "roster_language_probs": {
+    "en": 0.8358,
+    "es": 0.0523,
+    "pt": 0.1039,
+    "ht": 0.0043,
+    "vi": 0.0015,
+    "zh": 0.0022
+   }
+  },
+  "Lawrence": {
+   "place_geoid": "1600000US2534550",
+   "pumas": [
+    "795P200US2500702"
+   ],
+   "puma_note": "Essex County (West)--Lawrence & Andover PUMA",
+   "medicaid_adults_19_64": 27332,
+   "medicaid_share_of_adults_19_64": 0.5044,
+   "pop_5plus": 82443,
+   "lep_share": 0.4182,
+   "lep_counts": {
+    "es": 32991,
+    "pt": 258,
+    "ht": 17,
+    "vi": 359,
+    "zh": 138
+   },
+   "split_ratios_from_puma": {
+    "haitian_of_french_haitian_cajun_lep": 0.2436,
+    "portuguese_of_other_indo_european_lep": 0.6708
+   },
+   "unsupported_lep_share_of_pop": 0.0086,
+   "top_unsupported_lep_languages_puma": [
+    {
+     "language": "Arabic",
+     "share_of_lep": 0.0078
+    },
+    {
+     "language": "Korean",
+     "share_of_lep": 0.0034
+    },
+    {
+     "language": "Italian",
+     "share_of_lep": 0.0032
+    }
+   ],
+   "roster_language_probs": {
+    "en": 0.5869,
+    "es": 0.4037,
+    "pt": 0.0032,
+    "ht": 0.0002,
+    "vi": 0.0044,
+    "zh": 0.0017
+   }
+  },
+  "Chelsea": {
+   "place_geoid": "1600000US2513205",
+   "pumas": [
+    "795P200US2500806"
+   ],
+   "puma_note": "Suffolk County (North)--Revere, Chelsea & Winthrop PUMA",
+   "medicaid_adults_19_64": 12515,
+   "medicaid_share_of_adults_19_64": 0.4932,
+   "pop_5plus": 36778,
+   "lep_share": 0.4437,
+   "lep_counts": {
+    "es": 14134,
+    "pt": 369,
+    "ht": 281,
+    "vi": 155,
+    "zh": 80
+   },
+   "split_ratios_from_puma": {
+    "haitian_of_french_haitian_cajun_lep": 0.8268,
+    "portuguese_of_other_indo_european_lep": 0.6577
+   },
+   "unsupported_lep_share_of_pop": 0.0353,
+   "top_unsupported_lep_languages_puma": [
+    {
+     "language": "Arabic",
+     "share_of_lep": 0.0462
+    },
+    {
+     "language": "Italian",
+     "share_of_lep": 0.0218
+    },
+    {
+     "language": "Serbo-Croatian",
+     "share_of_lep": 0.0086
+    }
+   ],
+   "roster_language_probs": {
+    "en": 0.5767,
+    "es": 0.3984,
+    "pt": 0.0104,
+    "ht": 0.0079,
+    "vi": 0.0044,
+    "zh": 0.0023
+   }
+  }
+ },
+ "roster_params": {
+  "city_weights": {
+   "Boston": 0.2896,
+   "Worcester": 0.1196,
+   "Springfield": 0.1269,
+   "Lowell": 0.0685,
+   "Brockton": 0.0711,
+   "Lynn": 0.0669,
+   "New Bedford": 0.0741,
+   "Fall River": 0.0683,
+   "Lawrence": 0.079,
+   "Chelsea": 0.0362
+  },
+  "language_probs_by_city": {
+   "Boston": {
+    "en": 0.8632,
+    "es": 0.0752,
+    "pt": 0.0084,
+    "ht": 0.0177,
+    "vi": 0.0115,
+    "zh": 0.0241
+   },
+   "Worcester": {
+    "en": 0.8642,
+    "es": 0.0895,
+    "pt": 0.0221,
+    "ht": 0.003,
+    "vi": 0.0157,
+    "zh": 0.0056
+   },
+   "Springfield": {
+    "en": 0.8431,
+    "es": 0.1469,
+    "pt": 0.0021,
+    "ht": 0.0008,
+    "vi": 0.0056,
+    "zh": 0.0015
+   },
+   "Lowell": {
+    "en": 0.8712,
+    "es": 0.0696,
+    "pt": 0.0385,
+    "ht": 0.0035,
+    "vi": 0.0145,
+    "zh": 0.0028
+   },
+   "Brockton": {
+    "en": 0.7887,
+    "es": 0.0392,
+    "pt": 0.0651,
+    "ht": 0.0992,
+    "vi": 0.0052,
+    "zh": 0.0026
+   },
+   "Lynn": {
+    "en": 0.7654,
+    "es": 0.2145,
+    "pt": 0.0094,
+    "ht": 0.0078,
+    "vi": 0.0025,
+    "zh": 0.0004
+   },
+   "New Bedford": {
+    "en": 0.8401,
+    "es": 0.0811,
+    "pt": 0.0689,
+    "ht": 0.0083,
+    "vi": 0.0005,
+    "zh": 0.0012
+   },
+   "Fall River": {
+    "en": 0.8358,
+    "es": 0.0523,
+    "pt": 0.1039,
+    "ht": 0.0043,
+    "vi": 0.0015,
+    "zh": 0.0022
+   },
+   "Lawrence": {
+    "en": 0.5869,
+    "es": 0.4037,
+    "pt": 0.0032,
+    "ht": 0.0002,
+    "vi": 0.0044,
+    "zh": 0.0017
+   },
+   "Chelsea": {
+    "en": 0.5767,
+    "es": 0.3984,
+    "pt": 0.0104,
+    "ht": 0.0079,
+    "vi": 0.0044,
+    "zh": 0.0023
+   }
+  },
+  "p_subject_to_requirement": 0.6704,
+  "target_p_lose_given_subject": 0.4536
+ }
+}

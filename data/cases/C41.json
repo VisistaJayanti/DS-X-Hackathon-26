@@ -32,7 +32,8 @@
     ],
     "evidence_sufficient": true,
     "gaps": [],
-    "notes": "SNAP-exempt is not the SNAP exemption; caregiving applies."
+    "notes": "SNAP-exempt is not the SNAP exemption; caregiving applies.",
+    "outcome": "retain"
   },
   "split": "dev"
 }

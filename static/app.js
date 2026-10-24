@@ -17,12 +17,12 @@ function tab(name) {
 document.querySelectorAll("#tabs button").forEach((b) => (b.onclick = () => tab(b.dataset.tab)));
 
 async function init() {
-  S.status = await api("/api/status");
+  S.status = await api("api/status");
   $("#status").textContent = `mode: ${S.status.mode}${S.status.api_key ? "" : " (no API key: cached/deterministic)"} · as of ${S.status.as_of}`;
   $("#lang").innerHTML = Object.entries(S.status.languages).map(([k, v]) => `<option value="${k}">${v}</option>`).join("");
-  S.packs = await api("/api/packs");
+  S.packs = await api("api/packs");
   await loadPack(S.pack);
-  S.cases = await api("/api/cases");
+  S.cases = await api("api/cases");
   $("#case-select").innerHTML = S.cases.map((c) => `<option value="${c.case_id}">${c.case_id} · ${esc(c.title)} [${c.split}]</option>`).join("");
   $("#case-select").onchange = () => openCase($("#case-select").value, false);
   $("#run").onclick = run;
@@ -36,14 +36,14 @@ window.addEventListener("error", (e) => {
 
 async function loadPack(id) {
   S.pack = id;
-  S.packData = await api("/api/packs/" + id);
+  S.packData = await api("api/packs/" + id);
   S.rules = Object.fromEntries(S.packData.rulebook.rules.map((r) => [r.id, r]));
   S.sources = S.packData.rulebook._meta.sources;
 }
 
 // ------------------------------------------------------------------ plan view
 async function loadPlan() {
-  const p = await api("/api/plan");
+  const p = await api("api/plan");
   const r = p.retention;
   $("#kpis").innerHTML = [
     ["Members on roster", r.members], ["Flagged (top-" + p.top_k + ")", r.flagged], ["On track (packet ready / submitted)", r.on_track],
@@ -62,13 +62,29 @@ async function loadPlan() {
       <td>${x.flagged ? `<span class="badge ${x.status === "submitted" || x.status === "packet_ready" ? "ok" : ""}">${STATUS_LABEL[x.status]}</span>` : '<span class="muted small">not flagged</span>'}</td></tr>`).join("")}
     </table></div>`;
   $("#maria-timeline").innerHTML = p.maria_timeline.map((e) => `<li><b>Day ${e.day}</b> ${esc(e.event)}</li>`).join("");
+  const o = p.outcomes;
+  $("#outcomes").innerHTML = `
+    <div class="kpi out retain"><div class="l">RETAIN</div><div class="v">${o.retained_on_track}</div><div class="l">at-risk members on track to keep coverage</div></div>
+    <div class="kpi out recover"><div class="l">RECOVER</div><div class="v">${o.recovered_on_track} <span class="muted small">of ${o.recoverable_open}</span></div><div class="l">dropped for paperwork, still inside the reconsideration window</div></div>
+    <div class="kpi out transition"><div class="l">TRANSITION</div><div class="v">${o.transitioned_handoff_done} <span class="muted small">of ${o.transitioned_handoff_done + o.transition_pending}</span></div><div class="l">likely to lose eligibility, handed off to next coverage</div></div>
+    <div class="muted small" style="grid-column:1/-1">${esc(o.note)}</div>`;
+  const click = (x) => (x.case_id ? `class="click" onclick="openCase('${x.case_id}')"` : "");
+  $("#recover-group").innerHTML = `<table class="tbl"><tr><th>Member</th><th>Dropped</th><th>Reason</th><th>Window ends</th><th>Status</th></tr>
+    ${p.recover.map((x) => `<tr ${click(x)}><td><b>${esc(x.name)}</b><div class="muted small">${x.member_id} · ${LANG_NAMES[x.language] || x.language}${x.case_id ? " · case " + x.case_id : ""}</div></td>
+      <td>${x.termination_date}</td><td class="small">${esc(x.reason || "")}</td>
+      <td>${x.window_ends}<div><b class="${x.days_left < 0 ? "bad-t" : x.days_left <= 21 ? "warn-t" : "ok-t"}">${x.days_left < 0 ? "closed " + -x.days_left + " d ago" : x.days_left + " days left"}</b></div></td>
+      <td><span class="badge ${x.recoverable ? (x.status === "packet_ready" || x.status === "submitted" ? "ok" : "") : "bad"}">${STATUS_LABEL[x.status] || x.status}</span></td></tr>`).join("")}</table>`;
+  $("#transition-group").innerHTML = `<table class="tbl"><tr><th>Member</th><th>Why</th><th>Coverage ends</th><th>Enrol by (no gap) / window closes</th><th>Hand-off</th></tr>
+    ${p.transition.map((x) => `<tr ${click(x)}><td><b>${esc(x.name)}</b><div class="muted small">${x.member_id} · ${LANG_NAMES[x.language] || x.language}${x.case_id ? " · case " + x.case_id : ""}</div></td>
+      <td class="small">${esc(x.trigger)}</td><td>${x.coverage_end || "-"}</td><td>${x.avoid_gap_by || "-"} / ${x.window_closes || "-"}</td>
+      <td>${x.handoff_done ? '<span class="badge ok">done</span>' : '<span class="badge warn">pending</span>'}</td></tr>`).join("")}</table>`;
 }
 
 // ------------------------------------------------------------------ case view
 async function openCase(cid, switchTab = true) {
   if (switchTab) tab("case");
   $("#case-select").value = cid;
-  S.caseData = await api("/api/cases/" + cid);
+  S.caseData = await api("api/cases/" + cid);
   S.trace = null;
   const m = S.caseData.member;
   $("#lang").value = m.language || "en";
@@ -88,6 +104,13 @@ function renderDocs(hl) {
   $("#doclist").innerHTML = docs.map((d) => `<div class="doc-item ${d.doc_id === active ? "active" : ""}" onclick="showDoc('${d.doc_id}')">
     <span><b>${d.doc_id}</b> ${esc(d.filename)}</span>${types[d.doc_id] ? `<span class="badge">${types[d.doc_id]}</span>` : ""}</div>`).join("");
   const doc = docs.find((d) => d.doc_id === active);
+  if (hl) S.docMode = "text";
+  const mode = doc.image ? (S.docMode || "original") : "text";
+  $("#docmode").innerHTML = doc.image ? `<button class="ghost ${mode === "original" ? "on" : ""}" onclick="S.docMode='original';renderDocs()">Original document</button>
+    <button class="ghost ${mode === "text" ? "on" : ""}" onclick="S.docMode='text';renderDocs()">Extracted text (what the agents read)</button>
+    <a class="small" href="${doc.pdf}" target="_blank">open PDF</a>` : "";
+  $("#docimg").innerHTML = mode === "original" ? `<img src="${doc.image}" alt="${esc(doc.filename)}">` : "";
+  $("#docview").style.display = mode === "original" ? "none" : "block";
   const q = hl?.quote ? hl.quote.toLowerCase().replace(/\s+/g, " ") : null;
   $("#docview").innerHTML = doc.text.split("\n").map((l, i) => {
     const hit = q && (l.toLowerCase().replace(/\s+/g, " ").includes(q.slice(0, 40)) || (hl.line === i + 1));
@@ -97,7 +120,7 @@ function renderDocs(hl) {
   const hitEl = $("#docview .hit");
   if (hitEl) hitEl.scrollIntoView({ block: "center", behavior: "smooth" });
 }
-function showDoc(id, quote, line) { S.activeDoc = id; renderDocs(quote || line ? { doc_id: id, quote, line } : null); }
+function showDoc(id, quote, line) { S.activeDoc = id; if (!quote && !line) S.docMode = "original"; renderDocs(quote || line ? { doc_id: id, quote, line } : null); }
 
 const stageOut = (k) => S.trace?.stages.find((s) => s.key === k)?.output;
 
@@ -107,7 +130,7 @@ function run() {
   $("#results").innerHTML = "";
   $("#stagelist").innerHTML = "";
   const params = new URLSearchParams({ lang: $("#lang").value, verifier: $("#verifier").checked ? 1 : 0, engine: $("#engine").value, pack: S.pack });
-  const es = new EventSource(`/api/run/${S.caseData.case_id}?${params}`);
+  const es = new EventSource(`api/run/${S.caseData.case_id}?${params}`);
   const q = [];
   let timer = null;
   const pump = () => {
@@ -148,12 +171,13 @@ function summarize(r) {
   const o = r.output;
   switch (r.key) {
     case "risk": return o.walk_in ? o.note : `risk score ${o.score} · ${o.reasons.length} reasons`;
-    case "outreach": return `channels: ${o.channels.join(", ")}`;
+    case "outreach": return `${o.variant || "retain"} message · channels: ${o.channels.join(", ")}`;
     case "intake": return o.documents.map((d) => `${d.doc_id}=${d.doc_type}`).join(", ");
     case "extract": return `${o.facts.length} grounded facts${o.ungrounded_dropped.length ? `, ${o.ungrounded_dropped.length} ungrounded dropped` : ""}`;
     case "rules": return `${o.pathways.length} pathways checked · leading: ${o.ranking.slice(0, 2).join(", ")}`;
     case "gaps": return `${o.gaps.length} gap(s) · due ${o.deadline?.due} (${o.deadline?.days_left} days)`;
     case "followup": return `${o.messages.length} follow-up message(s)`;
+    case "outcome": return `${o.outcome.toUpperCase().replace("_", " ")}${o.key_date ? " · key date " + o.key_date : ""}`;
     case "draft": return `packet: ${o.packet.status} · request letter: ${o.request ? "yes" : "no"} · member sentences: ${o.member_en.length}`;
     case "verify": return `${o.stats.claims} claims checked · ${o.stats.removed} removed · ${o.stats.flagged} flagged`;
     case "translate": return `member explanation in ${LANG_NAMES[o.language] || o.language}`;
@@ -188,15 +212,33 @@ function renderResults() {
   const t = S.trace, rules = stageOut("rules"), gaps = stageOut("gaps"), out = stageOut("outreach"), fu = stageOut("followup");
   const ver = stageOut("verify"), fin = t.final, sum = t.summary;
   const paths = [...rules.pathways].sort((a, b) => (rules.ranking.indexOf(a.pathway) + 1 || 99) - (rules.ranking.indexOf(b.pathway) + 1 || 99));
-  const dl = gaps.deadline;
+  const oc = stageOut("outcome") || { outcome: "retain" };
+  const dl = oc.outcome === "retain" ? gaps.deadline : oc.deadline;
   let h = "";
+  const OC = { retain: ["RETAIN", "Keep this member covered: answer the notice before the deadline."],
+    recover: ["RECOVER", "Dropped for paperwork and still inside the reconsideration window: send the missing papers; a new application may not be needed."],
+    recover_expired: ["RECOVER: WINDOW CLOSED", "The reconsideration window has passed: help the member apply again (and look at next coverage if needed)."],
+    transition: ["TRANSITION", "Evidence suggests the member may no longer qualify. Hand off to the right next coverage before a gap opens. The agency decides; a navigator confirms."] };
+  h += `<div class="card full outcome-banner ${oc.outcome}"><span class="ob-tag">${OC[oc.outcome][0]}</span> <b>${esc(OC[oc.outcome][1])}</b>
+    <div class="muted small">${(oc.reasons || []).map(esc).join(" ")}</div></div>`;
+  if (oc.transition && (oc.outcome === "transition" || oc.outcome === "recover_expired")) {
+    const tp = oc.transition, w = tp.window || {};
+    h += `<div class="card full"><h2>Transition plan: next coverage without a gap</h2>
+      <p><b>Why:</b> ${esc(tp.trigger_label)} ${ruleChip(tp.trigger_rule_id)}${tp.coverage_end ? ` · coverage expected to end <b>${tp.coverage_end}</b>` : ""}</p>
+      ${w.closes ? `<p><b>Enrol by ${w.avoid_gap_by}</b> to avoid a gap · window opens ${w.opens}, closes <b>${w.closes}</b> ${ruleChip(w.rule_id)}${w.advance_rule_id ? " " + ruleChip(w.advance_rule_id) : ""}</p>` : ""}
+      <h3>Options (listed without preference; the member chooses)</h3>
+      ${tp.options.map((o) => `<div class="claim">• <b>${esc(o.name)}</b>: ${esc(o.contact)} ${o.rule_id ? ruleChip(o.rule_id) : '<span class="badge warn">needs confirmation</span>'}</div>`).join("")}
+      <h3>Documents to have ready</h3><ul>${tp.documents.map((d) => `<li>${esc(d)}</li>`).join("")}</ul>
+      <h3>Warm hand-off note for a navigator</h3><div class="letter small">${esc(tp.handoff_note)}</div>
+      <p class="muted small">${esc(tp.neutral_routing_note)}</p></div>`;
+  }
   h += `<div class="card"><h2>Likely pathway</h2>
     ${sum.best_pathway === "NONE" ? '<p><span class="badge bad">No supported pathway</span> The documents do not support any pathway. Do not invent one: review exemptions with the member and refer to resources.</p>' +
       gaps.resources.map((r) => `<div><a href="${r.url}" target="_blank">${esc(r.name)}</a></div>`).join("")
       : `<p style="font-size:16px"><b>${esc(paths[0].name)}</b> <span class="badge ${PSTAT[paths[0].status][0]}">${PSTAT[paths[0].status][1]}</span></p>
          <p class="muted">Evidence suggests this pathway; the agency decides. ${sum.evidence_sufficient ? "Documents look complete." : "Evidence is incomplete — see gaps."}</p>`}
-    <h3>Deadline</h3>${dl ? `<div class="deadline ${dl.urgency}">${dl.days_left < 0 ? "Overdue" : dl.days_left + " days left"}</div>
-      <div class="muted">Due ${dl.due} (notice received ${dl.notice_received} + ${S.packData.program.response_window_days} days) ${ruleChip(dl.rule_id)}</div>` : "No notice date"}
+    <h3>${oc.outcome === "retain" ? "Deadline" : esc((dl && dl.label) || "Deadline")}</h3>${dl && dl.due ? `<div class="deadline ${dl.urgency}">${dl.days_left < 0 ? "Closed " + -dl.days_left + " days ago" : dl.days_left + " days left"}</div>
+      <div class="muted">${oc.outcome === "retain" ? `Due ${dl.due} (notice received ${dl.notice_received} + ${S.packData.program.response_window_days} days)` : `${oc.outcome === "transition" ? "Window closes" : "Ends"} ${dl.due}${dl.avoid_gap_by ? ` · enrol by ${dl.avoid_gap_by} to avoid a gap` : ""}`} ${ruleChip(dl.rule_id)}</div>` : "No deadline"}
   </div>`;
   h += `<div class="card"><h2>Gaps &amp; fixes</h2>${gaps.gaps.length ? gaps.gaps.map((g) => `<div class="claim"><span class="badge warn">${g.code}</span>
       <b>${esc(g.detail)}</b><div>${esc(g.fix)}</div><div class="muted small">Ask: ${g.ask}${g.pathway ? " · for " + g.pathway : ""}</div></div>`).join("")
@@ -240,14 +282,15 @@ function msgHTML(m) {
 
 // ------------------------------------------------------------------ evaluation
 async function loadEval() {
-  const e = await api("/api/eval");
+  const e = await api("api/eval");
   if (e.available === false) { $("#eval").innerHTML = '<div class="card">No results yet. Run <code>python eval/run_eval.py</code>.</div>'; return; }
   const pct = (x) => (x == null ? "–" : (100 * x).toFixed(0) + "%");
   const runs = e.runs;
   let h = `<div class="card"><h2>Evaluation</h2><p class="muted">${esc(e.note)}</p>
-    <table class="tbl"><tr><th>Run</th><th>Split</th><th>n</th><th>Pathway top-1</th><th>Pathway top-2</th><th>Sufficiency acc.</th><th>Gap precision</th><th>Gap recall</th><th>Unsupported claims</th><th>Latency / case</th><th>Cost / case</th></tr>
+    <table class="tbl"><tr><th>Run</th><th>Split</th><th>n</th><th>Pathway top-1</th><th>Pathway top-2</th><th>Sufficiency acc.</th><th>Gap precision</th><th>Gap recall</th><th>Retain/Recover/Transition</th><th>Key date</th><th>Transition told "still eligible"</th><th>Unsupported claims</th><th>Latency / case</th><th>Cost / case</th></tr>
     ${runs.map((r) => `<tr><td><b>${esc(r.name)}</b></td><td>${r.split}</td><td>${r.n}</td><td>${pct(r.top1)}</td><td>${pct(r.top2)}</td><td>${pct(r.sufficiency_acc)}</td>
-      <td>${pct(r.gap_precision)}</td><td>${pct(r.gap_recall)}</td><td>${r.unsupported_rate == null ? "–" : pct(r.unsupported_rate) + ` <span class="muted small">(${r.unsupported}/${r.claims})</span>`}</td>
+      <td>${pct(r.gap_precision)}</td><td>${pct(r.gap_recall)}</td><td>${pct(r.outcome_acc)}</td><td>${pct(r.key_date_acc)} <span class="muted small">n=${r.key_date_n}</span></td>
+      <td>${pct(r.transition_told_eligible_rate)} <span class="muted small">n=${r.transition_n}</span></td><td>${r.unsupported_rate == null ? "–" : pct(r.unsupported_rate) + ` <span class="muted small">(${r.unsupported}/${r.claims})</span>`}</td>
       <td>${r.latency_ms_mean} ms</td><td>$${r.cost_usd_mean.toFixed(4)}</td></tr>`).join("")}</table></div>`;
   if (e.ablation) h += `<div class="card"><h2>Verifier ablation (headline)</h2><p>${esc(e.ablation.summary)}</p></div>`;
   if (e.risk) {

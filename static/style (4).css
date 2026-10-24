@@ -81,6 +81,16 @@ select { padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px; ba
 .bar { height: 8px; background: #eef0f4; border-radius: 4px; overflow: hidden; min-width: 80px; }
 .bar > i { display: block; height: 100%; background: var(--accent); }
 @media (max-width: 1000px) { .two, .case-grid, .results { display: block; } .side { width: auto; } }
+.docmode { display: flex; gap: 6px; align-items: center; margin-top: 8px; flex-wrap: wrap; }
+.docmode .on { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.docimg img { width: 100%; border: 1px solid var(--line); border-radius: 6px; margin-top: 8px; box-shadow: 0 2px 8px rgba(0,0,0,.06); max-height: 720px; object-fit: contain; object-position: top; background: #fff; }
+.kpis.outcomes { grid-template-columns: repeat(3, 1fr); }
+.kpi.out { border-left: 5px solid var(--accent); } .kpi.out.recover { border-left-color: #2563eb; } .kpi.out.transition { border-left-color: var(--warn); }
+.outcome-banner { border-left: 6px solid var(--accent); } .outcome-banner.recover { border-left-color: #2563eb; }
+.outcome-banner.recover_expired { border-left-color: var(--bad); } .outcome-banner.transition { border-left-color: var(--warn); }
+.ob-tag { display: inline-block; font-weight: 800; letter-spacing: .04em; font-size: 12px; padding: 2px 8px; border-radius: 4px; background: var(--accent-soft); color: var(--accent); margin-right: 6px; }
+.recover .ob-tag { background: #dbeafe; color: #1d4ed8; } .transition .ob-tag { background: var(--warn-soft); color: var(--warn); } .recover_expired .ob-tag { background: var(--bad-soft); color: var(--bad); }
+.ok-t { color: var(--ok); } .warn-t { color: var(--warn); } .bad-t { color: var(--bad); }
 
 /* ---------- Upload & check tab ---------- */
 .uform { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px 14px; margin-top: 8px; }

@@ -79,6 +79,46 @@ T = {
     },
 }
 
+T.update({
+    "recover_intro": {
+        "en": "Your {agency} coverage ended on {term} because paperwork was missing.",
+        "es": "Su cobertura de {agency} terminó el {term} porque faltaban papeles.",
+    },
+    "recover_window": {
+        "en": "You may be able to get it back without a new application if you send {submit} by {date}. That is {days} days from today.",
+        "es": "Es posible que pueda recuperarla sin una nueva solicitud si envía {submit} antes del {date}. Faltan {days} días.",
+    },
+    "recover_no_promise": {
+        "en": "This is not a promise: {agency} reviews what you send and decides.",
+        "es": "Esto no es una promesa: {agency} revisa lo que usted envíe y decide.",
+    },
+    "recover_expired": {
+        "en": "The time to get coverage back without a new application ended on {date}. You can still apply again, and your navigator can help today.",
+        "es": "El plazo para recuperar la cobertura sin una nueva solicitud terminó el {date}. Todavía puede volver a solicitarla y su navegador le puede ayudar hoy.",
+    },
+    "transition_intro": {
+        "en": "Based on your documents and what you told us, you may no longer qualify for {agency} because {trigger}. {agency} makes the final decision.",
+        "es": "Según sus documentos y lo que nos dijo, es posible que ya no califique para {agency} porque {trigger}. {agency} toma la decisión final.",
+    },
+    "transition_options": {
+        "en": "So you are not left without coverage, here are options to look at. You choose:",
+        "es": "Para que no se quede sin cobertura, estas son opciones que puede considerar. Usted decide:",
+    },
+    "transition_deadline": {
+        "en": "To avoid a gap, try to enroll before {avoid}. The window to enroll closes on {closes}.",
+        "es": "Para no quedarse sin cobertura, trate de inscribirse antes del {avoid}. El plazo para inscribirse termina el {closes}.",
+    },
+    "transition_docs": {
+        "en": "Papers to have ready: {docs}.",
+        "es": "Papeles que debe tener listos: {docs}.",
+    },
+    "transition_wrong": {
+        "en": "If anything here is wrong, tell your navigator. Your navigator will help you with the next step.",
+        "es": "Si algo aquí no es correcto, dígaselo a su navegador. Su navegador le ayudará con el siguiente paso.",
+    },
+})
+
+
 def pathway_name(pid, lang):
     from . import rulebook
     names = rulebook.pathway(pid)["member_name"]

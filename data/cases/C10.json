@@ -32,7 +32,8 @@
     ],
     "evidence_sufficient": true,
     "gaps": [],
-    "notes": "Child born 2013-02-03 is 13 as of Oct 2026."
+    "notes": "Child born 2013-02-03 is 13 as of Oct 2026.",
+    "outcome": "retain"
   },
   "split": "test"
 }

@@ -29,7 +29,8 @@
     "gaps": [
       "CAREGIVER_DISABILITY_PROOF"
     ],
-    "notes": ""
+    "notes": "",
+    "outcome": "retain"
   },
   "split": "test"
 }
