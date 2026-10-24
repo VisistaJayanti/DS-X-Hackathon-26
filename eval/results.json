@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-24 14:31",
+ "generated": "2026-10-24 15:18",
  "as_of": "2026-10-24",
  "pack": "masshealth_ce_2027",
  "split": "test",
@@ -12,7 +12,7 @@
    "sufficiency_acc": 1.0,
    "gap_precision": 1.0,
    "gap_recall": 1.0,
-   "latency_ms_mean": 2,
+   "latency_ms_mean": 1,
    "cost_usd_mean": 0.0,
    "split": "test",
    "name": "Deterministic - verifier OFF",
@@ -27,7 +27,7 @@
    "sufficiency_acc": 1.0,
    "gap_precision": 1.0,
    "gap_recall": 1.0,
-   "latency_ms_mean": 2,
+   "latency_ms_mean": 1,
    "cost_usd_mean": 0.0,
    "split": "test",
    "name": "Deterministic - verifier ON",
@@ -149,7 +149,7 @@
  },
  "risk": {
   "n": 200,
-  "positives": 74,
+  "positives": 51,
   "ks": [
    20,
    40,
@@ -162,17 +162,17 @@
      {
       "k": 20,
       "precision": 0.8,
-      "recall": 0.21621621621621623
+      "recall": 0.3137254901960784
      },
      {
       "k": 40,
-      "precision": 0.675,
-      "recall": 0.36486486486486486
+      "precision": 0.625,
+      "recall": 0.49019607843137253
      },
      {
       "k": 60,
-      "precision": 0.6166666666666667,
-      "recall": 0.5
+      "precision": 0.5833333333333334,
+      "recall": 0.6862745098039216
      }
     ]
    },
@@ -181,18 +181,18 @@
     "at": [
      {
       "k": 20,
-      "precision": 0.55,
-      "recall": 0.14864864864864866
+      "precision": 0.15,
+      "recall": 0.058823529411764705
      },
      {
       "k": 40,
-      "precision": 0.45,
-      "recall": 0.24324324324324326
+      "precision": 0.275,
+      "recall": 0.21568627450980393
      },
      {
       "k": 60,
-      "precision": 0.5,
-      "recall": 0.40540540540540543
+      "precision": 0.25,
+      "recall": 0.29411764705882354
      }
     ]
    },
@@ -201,23 +201,23 @@
     "at": [
      {
       "k": 20,
-      "precision": 0.3,
-      "recall": 0.08108108108108109
+      "precision": 0.35,
+      "recall": 0.13725490196078433
      },
      {
       "k": 40,
       "precision": 0.2,
-      "recall": 0.10810810810810811
+      "recall": 0.1568627450980392
      },
      {
       "k": 60,
-      "precision": 0.3,
-      "recall": 0.24324324324324326
+      "precision": 0.25,
+      "recall": 0.29411764705882354
      }
     ]
    }
   ],
-  "note": "Labels come from a synthetic latent model (with noise and unobserved factors) using the same feature families; the hand-set points were not fit to these labels. This tests ranking under assumed dynamics, not real-world accuracy."
+  "note": "Labels come from a synthetic latent model (with noise and unobserved factors) using the same feature families; the hand-set points were not fit to these labels. The roster's city and language mix and its base rates are calibrated to public CMS (MassHealth renewal outcomes) and ACS data, but the member-level dynamics are assumed. This tests ranking under assumed dynamics, not real-world accuracy."
  },
  "errors": [],
  "per_case": [
@@ -233,7 +233,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 15,
+   "latency_ms": 12,
    "cost": 0,
    "ranking": [
     "EX_MEDICALLY_FRAIL"
@@ -260,7 +260,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 3,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "EX_MEDICALLY_FRAIL"
@@ -283,7 +283,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 3,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "EX_MEDICALLY_FRAIL"
@@ -306,7 +306,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 5,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "EX_MEDICALLY_FRAIL",
@@ -331,7 +331,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 6,
+   "latency_ms": 13,
    "cost": 0,
    "ranking": [
     "WORK_80",
@@ -383,7 +383,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 1,
+   "latency_ms": 2,
    "cost": 0,
    "ranking": [
     "EX_MEDICALLY_FRAIL"
@@ -460,7 +460,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 6,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "EX_CAREGIVER_CHILD"
@@ -483,7 +483,7 @@
    "tp": 3,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 2,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "NONE"
@@ -514,7 +514,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 3,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "EX_CAREGIVER_CHILD"
@@ -541,7 +541,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 1,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "EX_CAREGIVER_DISABLED"
@@ -564,7 +564,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 1,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "EX_CAREGIVER_DISABLED"
@@ -591,7 +591,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 4,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "EX_CAREGIVER_CHILD",
@@ -618,7 +618,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 5,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "EX_CAREGIVER_CHILD",
@@ -643,7 +643,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 2,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "EX_CAREGIVER_CHILD",
@@ -672,7 +672,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 4,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "WORK_80",
@@ -743,7 +743,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 1,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "EDUCATION",
@@ -795,7 +795,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 1,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "EDUCATION"
@@ -822,7 +822,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 2,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "EDUCATION"
@@ -845,7 +845,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 1,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "INCOME_580"
@@ -897,7 +897,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 7,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "INCOME_580"
@@ -920,7 +920,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 6,
+   "latency_ms": 7,
    "cost": 0,
    "ranking": [
     "WORK_80"
@@ -947,7 +947,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 9,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "WORK_80",
@@ -976,7 +976,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 1,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "WORK_80"
@@ -999,7 +999,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 2,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "WORK_80"
@@ -1022,7 +1022,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 2,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "WORK_80"
@@ -1049,7 +1049,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 3,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "WORK_80",
@@ -1074,7 +1074,7 @@
    "tp": 1,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 1,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "WORK_80",
@@ -1103,7 +1103,7 @@
    "tp": 3,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 0,
+   "latency_ms": 3,
    "cost": 0,
    "ranking": [
     "NONE"
@@ -1157,7 +1157,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 5,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "OUT_OF_SCOPE_MEDICARE",
@@ -1182,7 +1182,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 5,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "EX_VETERAN_TOTAL"
@@ -1228,7 +1228,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 2,
+   "latency_ms": 8,
    "cost": 0,
    "ranking": [
     "EX_SNAP_TAFDC"
@@ -1251,7 +1251,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 8,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "EX_CAREGIVER_CHILD"
@@ -1274,7 +1274,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 2,
+   "latency_ms": 1,
    "cost": 0,
    "ranking": [
     "EX_FORMER_FOSTER"
@@ -1343,7 +1343,7 @@
    "tp": 0,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 2,
+   "latency_ms": 0,
    "cost": 0,
    "ranking": [
     "EX_SUD_TREATMENT"
@@ -1366,7 +1366,7 @@
    "tp": 2,
    "fp": 0,
    "fn": 0,
-   "latency_ms": 4,
+   "latency_ms": 8,
    "cost": 0,
    "ranking": [
     "EX_CAREGIVER_DISABLED"

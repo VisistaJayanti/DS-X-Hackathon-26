@@ -48,6 +48,8 @@ def plan(top_k=risk.TOP_K_DEFAULT):
                       "on_track": done, "at_risk_unresolved": len(flagged) - done,
                       "assumed_pmpm_usd": ASSUMED_PMPM_USD,
                       "annual_revenue_on_track_usd": done * ASSUMED_PMPM_USD * 12,
-                      "note": "PMPM capitation is an illustrative assumption, not a sourced figure. Statuses are synthetic."},
+                      "note": "PMPM capitation is an illustrative assumption, not a sourced figure. Statuses are synthetic. "
+                              "Members are synthetic; their city and language mix and base rates are calibrated to public "
+                              "CMS (MassHealth renewal outcomes) and ACS data."},
         "maria_timeline": MARIA_TIMELINE,
     }

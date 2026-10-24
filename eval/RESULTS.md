@@ -1,13 +1,13 @@
 # Coverage Keeper evaluation results
 
-Generated 2026-10-24 14:31 · as-of date 2026-10-24 · pack `masshealth_ce_2027`
+Generated 2026-10-24 15:18 · as-of date 2026-10-24 · pack `masshealth_ce_2027`
 
 46 synthetic cases (23 dev / 23 test); headline numbers on the 'test' split. The deterministic engine was written alongside the synthetic document templates (all splits), so its scores are an upper bound on template-like documents, not evidence of generalisation. Small n: one case = ~4 points.
 
 | Run | Split | n | Top-1 | Top-2 | Sufficiency | Gap P | Gap R | Unsupported claims | Latency/case | Cost/case |
 |---|---|---|---|---|---|---|---|---|---|---|
-| Deterministic - verifier OFF | test | 23 | 100% | 100% | 100% | 100% | 100% | 0/376 (0%) | 2 ms | $0.0000 |
-| Deterministic - verifier ON | test | 23 | 100% | 100% | 100% | 100% | 100% | 0/376 (0%) | 2 ms | $0.0000 |
+| Deterministic - verifier OFF | test | 23 | 100% | 100% | 100% | 100% | 100% | 0/376 (0%) | 1 ms | $0.0000 |
+| Deterministic - verifier ON | test | 23 | 100% | 100% | 100% | 100% | 100% | 0/376 (0%) | 1 ms | $0.0000 |
 
 **Verifier ablation:** Deterministic: unsupported claims 0/376 (0.0%) without the verifier vs 0/376 (0.0%) with it, judged by grounding checks. Deterministic drafts are template-built from grounded facts, so they are supported by construction; the ablation is meaningful for the LLM drafter (run with --llm).
 
@@ -15,11 +15,11 @@ Generated 2026-10-24 14:31 · as-of date 2026-10-24 · pack `masshealth_ce_2027`
 
 | Method | P@20 | R@20 | P@40 | R@40 | P@60 | R@60 |
 |---|---|---|---|---|---|---|
-| Coverage Keeper risk points | 80% | 22% | 68% | 36% | 62% | 50% |
-| Baseline: soonest deadline first | 55% | 15% | 45% | 24% | 50% | 41% |
-| Baseline: random order | 30% | 8% | 20% | 11% | 30% | 24% |
+| Coverage Keeper risk points | 80% | 31% | 62% | 49% | 58% | 69% |
+| Baseline: soonest deadline first | 15% | 6% | 28% | 22% | 25% | 29% |
+| Baseline: random order | 35% | 14% | 20% | 16% | 25% | 29% |
 
-Labels come from a synthetic latent model (with noise and unobserved factors) using the same feature families; the hand-set points were not fit to these labels. This tests ranking under assumed dynamics, not real-world accuracy.
+Labels come from a synthetic latent model (with noise and unobserved factors) using the same feature families; the hand-set points were not fit to these labels. The roster's city and language mix and its base rates are calibrated to public CMS (MassHealth renewal outcomes) and ACS data, but the member-level dynamics are assumed. This tests ranking under assumed dynamics, not real-world accuracy.
 
 ## Fairness by language (Deterministic, all cases)
 
