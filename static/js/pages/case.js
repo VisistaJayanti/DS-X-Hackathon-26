@@ -124,6 +124,13 @@ function claimHTML(cl, c, cid) {
   return `<p class="claim" data-kind="${esc(cl.kind)}">${esc(cl.text)}${cites ? ` <span class="cites">${cites}</span>` : ""}</p>`;
 }
 const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : "");
+// A request letter only when a gap needs a third party to provide something (runs saved before the drafter
+// enforced this can hold an empty or unneeded AI-drafted one).
+function neededRequest(t) {
+  const r = t.final.request;
+  const gaps = outOf(t, "gaps")?.gaps || [];
+  return r?.claims?.length && gaps.some((g) => S.packData.gap_codes?.[g.code]?.requests?.length) ? r : null;
+}
 // The outcome stage words the trigger in the member's language for their letter; coordinator pages use English.
 const triggerLabel = (tr) => S.packData.transitions?.triggers?.[tr.trigger]?.label?.en || tr.trigger_label;
 // Gap details are written for the trace ("D2 is in 'es'."); name the document and language instead.
@@ -143,7 +150,7 @@ function summary(c, t, cid) {
   const first = firstName(c.member.name);
   const O = OUTCOME[oc.outcome] || OUTCOME.retain;
   const dl = gaps.deadline;
-  const req = t.final.request;
+  const req = neededRequest(t);
   const pk = t.final.packet;
   let head, lines = [], bar = "", steps = [];
 
@@ -267,7 +274,7 @@ function letters(c, t, cid) {
   const prov = !ver ? provenance("warn", "The verifier was off for this run, so these drafts are unchecked. Turn it on in Run settings before using them.")
     : draft.engine === "llm" ? provenance("ai", `Drafted by an AI model (${esc(modelNames(draft).join(", "))}).${checked} Read every letter before approving it.`)
     : provenance("template", `Written from fixed, reviewed templates${oc !== "retain" ? ", which recover and new-coverage letters always use so they never promise an outcome" : ""}.${checked}`);
-  const pk = fin.packet, req = fin.request;
+  const pk = fin.packet, req = neededRequest(t);
   const out = outOf(t, "outreach"), fu = outOf(t, "followup");
   const PK = { ready: "Ready for review", hold: "On hold until the missing evidence arrives", none: "No packet for this case" };
   return `${prov}
@@ -342,7 +349,8 @@ function agents(c, t, cid, _params, run) {
     <div><dt>AI calls</dt><dd>${sum.llm_calls}</dd></div>
     <div><dt>Total time</dt><dd>${sum.latency_ms < 1000 ? `${sum.latency_ms} ms (saved responses)` : `${(sum.latency_ms / 1000).toFixed(1)} s`}</dd></div>
     <div><dt>Cost</dt><dd>$${sum.cost_usd.toFixed(4)}</dd></div>
-    <div><dt>Mode</dt><dd>${esc(t.mode)}</dd></div></dl>` : ""}
+    <div><dt>Mode</dt><dd>${esc(t.mode)}</dd></div>
+    <div><dt>Policy used by this run</dt><dd>${esc(S.packs.find((p) => p.id === sum.pack)?.name || sum.pack)}</dd></div></dl>` : ""}
   <ol class="stage-list">${stages.map((r) => `<li class="stage">
     <div class="stage-head"><h3>${esc(r.label)}</h3><span class="engine engine-${esc(r.engine.split("+")[0])}">${esc(ENGINE[r.engine] || r.engine)}</span>
       <span class="sub">${r.ms} ms${r.llm_calls.length ? `, ${r.llm_calls.length} AI call${r.llm_calls.length > 1 ? "s" : ""}${r.cached_calls ? ` (${r.cached_calls} saved)` : ""}: ${esc(modelNames(r).join(", "))}` : ""}</span></div>

@@ -234,8 +234,8 @@ def llm(case, intake_out, extract_out, rules_out, gaps_out, meter):
     packet = {"status": "none" if lead == "NONE" else ("ready" if gaps_out["evidence_sufficient"] else "hold"),
               "sections": [{"heading": "Cover letter", "claims": packet_claims}] if packet_claims else []}
     req = None
-    if data["request"]:
-        gap = next((g["code"] for g in gaps_out["gaps"] if g["code"] in REQUESTS()), None)
+    gap = next((g["code"] for g in gaps_out["gaps"] if g["code"] in REQUESTS()), None)
+    if data["request"] and gap:  # like the template drafter: a request letter only when a gap needs a third party
         req = {"to": data["request_to"] or "clinician", "title": ASK_TITLE.get(data["request_to"] or "", "Request for documentation"),
                "gap": gap, "claims": [norm(c, "Q", i) for i, c in enumerate(data["request"])]}
     member = [norm(c, "M", i) for i, c in enumerate(data["member"])]
