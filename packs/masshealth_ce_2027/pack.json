@@ -26,7 +26,12 @@
   "review_months_default": 3,
   "currency": "USD",
   "domain_context": "MassHealth (Massachusetts Medicaid) community engagement requirement under 42 CFR 435.550-435.563: expansion adults 19-64 must demonstrate 80 hours/month of work, community service or a work program, half-time education, a combination, or monthly income of at least $580, unless a specified exclusion or exception applies (e.g. medically frail, parent/caregiver of a child 13 or under or of a disabled individual, pregnant/postpartum, Medicare, SNAP work rules, former foster youth, 100% VA rating, recent incarceration, American Indian/Alaska Native).",
-  "frailty_definition": "An individual who is medically frail or otherwise has special medical needs is defined as an individual whose physical, mental, or other behavioral health condition significantly impairs the individual's ability to comply with the community engagement requirement"
+  "frailty_definition": "An individual who is medically frail or otherwise has special medical needs is defined as an individual whose physical, mental, or other behavioral health condition significantly impairs the individual's ability to comply with the community engagement requirement",
+  "screener": {
+   "en": "Many people don't have to meet the new rules. Can I ask a few questions? Do you care for a child 13 or younger, or an adult with a disability? Do you have a health condition that makes it hard to work? Do you work, volunteer, or go to school?",
+   "es": "Muchas personas no tienen que cumplir las nuevas reglas. ¿Le puedo hacer unas preguntas? ¿Cuida a un niño de 13 años o menos, o a un adulto con discapacidad? ¿Tiene una condición de salud que le dificulta trabajar? ¿Trabaja, hace voluntariado o estudia?"
+  },
+  "always_numbers": "80 580 13 19 64 65 30"
  },
  "languages": [
   "en",

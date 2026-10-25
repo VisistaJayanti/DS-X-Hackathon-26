@@ -10,3 +10,5 @@ data/custom/
 sources_raw/
 __pycache__/
 *.pyc
+docs/
+demo_video/

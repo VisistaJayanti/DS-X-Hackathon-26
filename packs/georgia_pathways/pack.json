@@ -1,0 +1,622 @@
+{
+ "id": "georgia_pathways",
+ "name": "Georgia Pathways to Coverage (80 qualifying hours, 2025)",
+ "line_of_business": "Medicaid (Section 1115 demonstration)",
+ "jurisdiction": "Georgia, USA",
+ "illustrative": false,
+ "summary": "Georgia Pathways to Coverage requires adults 19 to 64 to complete at least 80 hours of qualifying activities every month, with no general exemptions. Work, self-employment, training, community service and college credit hours count, and so does being the parent or legal guardian of a child under 6.",
+ "program": {
+  "agency": "Georgia DFCS",
+  "payer_type": "Medicaid (Georgia Pathways)",
+  "notice_name": "Pathways verification request",
+  "notice_conventions": [],
+  "contact_line": {
+   "en": "1-877-423-4746 (711 for TTY)",
+   "es": "1-877-423-4746 (711 para TTY)",
+   "pt": "1-877-423-4746 (711 para TTY)",
+   "ht": "1-877-423-4746 (711 pou TTY)",
+   "vi": "1-877-423-4746 (711 cho người dùng TTY)",
+   "zh": "1-877-423-4746（TTY 请拨 711）"
+  },
+  "response_window_days": 30,
+  "deadline_rule": "R-GA-PROC-RESPOND",
+  "review_months_default": 3,
+  "currency": "USD",
+  "domain_context": "Georgia Pathways to Coverage, a Section 1115 Medicaid demonstration: adults 19-64 with household income up to 100% of the federal poverty level must complete at least 80 hours of qualifying activities each month (employment including self-employment, on-the-job training, job readiness, community service, vocational education, Georgia Vocational Rehabilitation Agency programs, college credit hours counted in tiers, or being the parent or legal guardian of a child under 6). There are no general exemptions: a disability can qualify for a reasonable modification, and good cause can excuse missed hours in a month.",
+  "frailty_definition": "",
+  "rule_label": "Georgia Pathways rule",
+  "screener": {
+   "en": "Can I ask a few questions? Do you work, volunteer, train for a job, or take college classes? Are you the parent or guardian of a child under 6? If a disability makes 80 hours hard, you can ask for a reasonable modification.",
+   "es": "¿Le puedo hacer unas preguntas? ¿Trabaja, hace voluntariado, se capacita para un empleo o toma clases en la universidad? ¿Es padre, madre o tutor de un niño menor de 6 años? Si una discapacidad le dificulta cumplir 80 horas, puede pedir una modificación razonable."
+  },
+  "always_numbers": "80 19 64 6 5 30 90 120 11.5 5.5 40 20"
+ },
+ "languages": [
+  "en",
+  "es",
+  "pt",
+  "ht",
+  "vi",
+  "zh"
+ ],
+ "doc_types": [
+  "pay_stub",
+  "employer_letter",
+  "gig_earnings_statement",
+  "volunteer_record",
+  "job_training_record",
+  "school_enrollment_letter",
+  "clinician_letter",
+  "treatment_program_letter",
+  "caregiver_attestation",
+  "birth_record",
+  "hospital_discharge_or_prenatal",
+  "snap_notice",
+  "tafdc_notice",
+  "va_rating_letter",
+  "medicare_card",
+  "ssa_disability_letter",
+  "foster_care_letter",
+  "release_paperwork",
+  "tribal_enrollment",
+  "id_card",
+  "insurer_notice",
+  "other"
+ ],
+ "doc_labels": {
+  "pay_stub": "Pay stub",
+  "employer_letter": "Employer letter",
+  "gig_earnings_statement": "Gig earnings statement",
+  "volunteer_record": "Volunteer record",
+  "job_training_record": "Job training record",
+  "school_enrollment_letter": "School enrollment letter",
+  "clinician_letter": "Clinician letter",
+  "treatment_program_letter": "Treatment program letter",
+  "caregiver_attestation": "Caregiver statement",
+  "birth_record": "Birth record",
+  "hospital_discharge_or_prenatal": "Hospital / prenatal record",
+  "snap_notice": "SNAP notice",
+  "tafdc_notice": "TAFDC notice",
+  "va_rating_letter": "VA rating letter",
+  "medicare_card": "Medicare card",
+  "ssa_disability_letter": "SSA award letter",
+  "foster_care_letter": "DCF foster care letter",
+  "release_paperwork": "Release certificate",
+  "tribal_enrollment": "Tribal enrollment letter",
+  "id_card": "ID card",
+  "other": "Document",
+  "insurer_notice": "Agency notice"
+ },
+ "doc_keywords": [
+  [
+   "insurer_notice",
+   "request for information|renewal notice|we need more information"
+  ],
+  [
+   "medicare_card",
+   "\\bmedicare\\b"
+  ],
+  [
+   "va_rating_letter",
+   "veterans affairs|service-connected"
+  ],
+  [
+   "snap_notice",
+   "\\bsnap\\b|transitional assistance"
+  ],
+  [
+   "ssa_disability_letter",
+   "social security administration"
+  ],
+  [
+   "foster_care_letter",
+   "children and families|foster care"
+  ],
+  [
+   "release_paperwork",
+   "house of correction|certificate of release|date of release|sheriff"
+  ],
+  [
+   "tribal_enrollment",
+   "\\btribe\\b|tribal enrollment"
+  ],
+  [
+   "treatment_program_letter",
+   "treatment program|outpatient program|rehabilitation program|recovery services"
+  ],
+  [
+   "hospital_discharge_or_prenatal",
+   "discharge summary|date of delivery|delivered:|prenatal|due date|obstetric"
+  ],
+  [
+   "clinician_letter",
+   "\\bpatient\\b|\\bpaciente\\b|diagnos|\\bdra?\\. |disorder|counseling|,\\s*(md|do|np|cnm|licsw|lmhc|pmhnp-bc)\\b"
+  ],
+  [
+   "school_enrollment_letter",
+   "registrar|enrollment verification|enrolled as a|certification of enrollment|community college|university"
+  ],
+  [
+   "job_training_record",
+   "masshire|wioa|training participation"
+  ],
+  [
+   "volunteer_record",
+   "volunteer"
+  ],
+  [
+   "gig_earnings_statement",
+   "driver earnings|shopper|payouts?\\b|orders completed"
+  ],
+  [
+   "pay_stub",
+   "earnings statement|pay period|gross pay"
+  ],
+  [
+   "birth_record",
+   "birth (record|certificate)|child's name|name of child"
+  ],
+  [
+   "caregiver_attestation",
+   "caregiver|statement of care|take care of|cuidador|cuido a mi|declaraci\\w+ de cuidad"
+  ],
+  [
+   "employer_letter",
+   "employed with us|declara\\w+ de trabalho|trabalha em nossa|hr department|hours per week"
+  ],
+  [
+   "id_card",
+   "identification card"
+  ]
+ ],
+ "pathways": [
+  {
+   "id": "OUT_OF_SCOPE_AGE",
+   "rule_id": "R-GA-SCOPE",
+   "kind": "out_of_scope",
+   "evaluator": "age_scope",
+   "params": {
+    "min_age": 19,
+    "max_age": 64
+   },
+   "member_name": {
+    "en": "the age rule (Pathways covers ages 19 to 64)",
+    "es": "la regla de edad (Pathways cubre de 19 a 64 años)",
+    "pt": "a regra de idade (o Pathways cobre de 19 a 64 anos)",
+    "ht": "règ laj la (Pathways kouvri moun 19 rive 64 an)",
+    "vi": "quy định về tuổi (Pathways dành cho người từ 19 đến 64 tuổi)",
+    "zh": "年龄规定（Pathways 适用于19至64岁）"
+   }
+  },
+  {
+   "id": "QA_WORK_80",
+   "rule_id": "R-GA-80HRS",
+   "kind": "compliance",
+   "evaluator": "threshold",
+   "params": {
+    "fact_type": "work_hours",
+    "key": "hours",
+    "threshold": 80,
+    "unit": "hours",
+    "short_gap": "HOURS_SHORT",
+    "weekly_multiplier": 4.33,
+    "conflict_tolerance": 0.15
+   },
+   "member_name": {
+    "en": "80 hours of qualifying activities in a month",
+    "es": "80 horas de actividades que cuentan en un mes",
+    "pt": "80 horas de atividades que contam em um mês",
+    "ht": "80 èdtan aktivite ki konte nan yon mwa",
+    "vi": "80 giờ hoạt động được tính trong một tháng",
+    "zh": "一个月内80小时的合格活动"
+   }
+  },
+  {
+   "id": "QA_EDUCATION",
+   "rule_id": "R-GA-EDU",
+   "kind": "compliance",
+   "evaluator": "enrollment",
+   "params": {
+    "accepted": [],
+    "min_credits": 11.5
+   },
+   "member_name": {
+    "en": "college enrollment of 11.5 or more credit hours",
+    "es": "estar inscrito en la universidad con 11.5 créditos o más",
+    "pt": "matrícula na faculdade com 11,5 créditos ou mais",
+    "ht": "enskripsyon nan inivèsite ak 11.5 kredi oswa plis",
+    "vi": "đăng ký học đại học từ 11,5 tín chỉ trở lên",
+    "zh": "大学注册11.5个或以上学分"
+   }
+  },
+  {
+   "id": "QA_COMBINATION",
+   "rule_id": "R-GA-COMBO",
+   "kind": "compliance",
+   "evaluator": "combination",
+   "params": {
+    "threshold": 80,
+    "credit_tiers": [
+     [
+      11.5,
+      80
+     ],
+     [
+      5.5,
+      40
+     ],
+     [
+      0.01,
+      20
+     ]
+    ],
+    "min_credits_alone": 11.5,
+    "accepted_alone": []
+   },
+   "member_name": {
+    "en": "activities plus college credit hours adding up to 80 hours",
+    "es": "actividades más créditos universitarios que suman 80 horas",
+    "pt": "atividades mais créditos da faculdade somando 80 horas",
+    "ht": "aktivite plis kredi inivèsite ki fè 80 èdtan",
+    "vi": "hoạt động cộng tín chỉ đại học đủ 80 giờ",
+    "zh": "活动加上大学学分合计80小时"
+   }
+  },
+  {
+   "id": "QA_PARENT_UNDER_6",
+   "rule_id": "R-GA-PARENT6",
+   "kind": "compliance",
+   "evaluator": "dependent_child",
+   "params": {
+    "max_age": 5
+   },
+   "member_name": {
+    "en": "being the parent or legal guardian of a child under 6",
+    "es": "ser padre, madre o tutor legal de un niño menor de 6 años",
+    "pt": "ser pai, mãe ou responsável legal de uma criança com menos de 6 anos",
+    "ht": "se paran oswa gadyen legal yon timoun ki poko gen 6 an",
+    "vi": "là cha mẹ hoặc người giám hộ hợp pháp của trẻ dưới 6 tuổi",
+    "zh": "是6岁以下儿童的父母或法定监护人"
+   }
+  }
+ ],
+ "gap_codes": {
+  "FRAILTY_NO_WORK_IMPACT": {
+   "ask": "clinician",
+   "fix": "Ask the clinician for an updated letter that (1) names the diagnosis and (2) states in plain words that the condition significantly impairs the member's ability to work 80 hours a month (and for how long). A diagnosis list alone is usually not enough.",
+   "member_text": {
+    "en": "A new letter from your doctor that says how your health condition makes it hard for you to work.",
+    "es": "Una nueva carta de su médico que diga cómo su condición de salud le dificulta trabajar.",
+    "pt": "Uma nova carta do seu médico dizendo como sua condição de saúde dificulta o seu trabalho.",
+    "ht": "Yon nouvo lèt doktè w ki di kijan pwoblèm sante w la fè li difisil pou w travay.",
+    "vi": "Một thư mới từ bác sĩ nói rõ tình trạng sức khỏe khiến quý vị khó làm việc như thế nào.",
+    "zh": "一封医生的新信，说明您的健康状况如何使您难以工作。"
+   },
+   "requests": [
+    "Please state whether {first}'s condition(s) significantly impair their ability to work, volunteer or attend job training for 80 hours per month.",
+    "If so, please state how long you expect this to last.",
+    "Please keep the diagnosis names and include your signature, credentials and the date."
+   ]
+  },
+  "FRAILTY_NO_DIAGNOSIS": {
+   "ask": "clinician",
+   "fix": "Ask the clinician to add the specific diagnosis or condition to the letter.",
+   "member_text": {
+    "en": "Your doctor's letter needs to name your health condition.",
+    "es": "La carta de su médico debe nombrar su condición de salud.",
+    "pt": "A carta do seu médico precisa citar sua condição de saúde.",
+    "ht": "Lèt doktè w la bezwen bay non pwoblèm sante w la.",
+    "vi": "Thư của bác sĩ cần ghi rõ tên bệnh của quý vị.",
+    "zh": "医生的信需要写明您的病症名称。"
+   },
+   "requests": [
+    "Please add the specific diagnosis or condition to your letter."
+   ]
+  },
+  "CHILD_AGE_PROOF": {
+   "ask": "member",
+   "fix": "Get a document showing the child's date of birth (birth certificate, school record, or DFCS notice listing the child).",
+   "member_text": {
+    "en": "A paper that shows your child's date of birth, like a birth certificate.",
+    "es": "Un documento que muestre la fecha de nacimiento de su hijo/a, como el acta de nacimiento.",
+    "pt": "Um documento com a data de nascimento do seu filho/a, como a certidão de nascimento.",
+    "ht": "Yon papye ki montre dat nesans pitit ou, tankou yon batistè.",
+    "vi": "Giấy tờ ghi ngày sinh của con quý vị, ví dụ giấy khai sinh.",
+    "zh": "能证明您孩子出生日期的文件，例如出生证明。"
+   },
+   "requests": []
+  },
+  "CAREGIVER_DISABILITY_PROOF": {
+   "ask": "member",
+   "fix": "Get proof of the care recipient's disability: an SSA/SSI award letter or a clinician letter about the person being cared for.",
+   "member_text": {
+    "en": "A paper that shows the person you care for has a disability (for example, a Social Security letter or a doctor's letter).",
+    "es": "Un documento que muestre que la persona que usted cuida tiene una discapacidad (por ejemplo, una carta del Seguro Social o de un médico).",
+    "pt": "Um documento que mostre que a pessoa de quem você cuida tem uma deficiência (por exemplo, uma carta da Previdência Social ou de um médico).",
+    "ht": "Yon papye ki montre moun w ap okipe a gen yon andikap (pa egzanp, yon lèt Sekirite Sosyal oswa yon lèt doktè).",
+    "vi": "Giấy tờ cho thấy người quý vị chăm sóc bị khuyết tật (ví dụ thư của Sở An sinh Xã hội hoặc của bác sĩ).",
+    "zh": "能证明您照顾的人有残障的文件（例如社会安全局的信或医生的信）。"
+   },
+   "requests": []
+  },
+  "ENROLLMENT_STATUS_UNSTATED": {
+   "ask": "school",
+   "fix": "Ask the registrar for an enrollment verification that states the credit hours for this term. Pathways counts 11.5 or more credit hours as 80 hours a month, 5.5 to 11.49 as 40, and fewer as 20.",
+   "member_text": {
+    "en": "A letter from your school that says if you are full-time, half-time or less, and how many credits you take.",
+    "es": "Una carta de su escuela que diga si estudia tiempo completo, medio tiempo o menos, y cuántos créditos toma.",
+    "pt": "Uma carta da sua escola dizendo se você estuda em tempo integral, meio período ou menos, e quantos créditos faz.",
+    "ht": "Yon lèt lekòl ou ki di si w ale aplentan, mwatye tan oswa mwens, ak konbyen kredi w ap pran.",
+    "vi": "Thư của trường ghi rõ quý vị học toàn thời gian, bán thời gian hay ít hơn, và số tín chỉ.",
+    "zh": "学校的信，说明您是全日制、半日制还是更少，以及修读的学分。"
+   },
+   "requests": [
+    "Please provide an enrollment verification for the current term stating the enrollment status as determined by the school (full-time, half-time, or less than half-time).",
+    "Please include the number of credit hours and the term start and end dates."
+   ]
+  },
+  "DOC_CONFLICT": {
+   "ask": "employer",
+   "fix": "Documents disagree. Ask the employer/organisation for one signed record of the actual hours (and pay) for a single month, or submit the record that covers the full month with a short explanation.",
+   "member_text": {
+    "en": "Your papers show different hours or pay. We need one clear record for one month from your employer or organization.",
+    "es": "Sus documentos muestran horas o pagos diferentes. Necesitamos un registro claro de un mes de su empleador u organización.",
+    "pt": "Seus documentos mostram horas ou pagamentos diferentes. Precisamos de um registro claro de um mês do seu empregador ou organização.",
+    "ht": "Papye w yo montre èdtan oswa peman ki diferan. Nou bezwen yon dosye klè pou yon mwa nan men patwon w oswa òganizasyon an.",
+    "vi": "Giấy tờ của quý vị ghi số giờ hoặc tiền lương khác nhau. Cần một bản ghi rõ ràng cho một tháng từ chủ lao động hoặc tổ chức.",
+    "zh": "您的文件显示的工时或收入不一致。需要雇主或机构提供一个月的明确记录。"
+   },
+   "requests": [
+    "Please provide one signed statement of the actual hours worked (and gross pay) for a single recent month.",
+    "If hours vary week to week, please list each week."
+   ]
+  },
+  "OUTSIDE_LOOKBACK": {
+   "ask": "member",
+   "fix": "Collect pay stubs or records for one of the review months listed on the notice.",
+   "member_text": {
+    "en": "Pay stubs or records from one of the months listed on your DFCS letter.",
+    "es": "Talones de pago o registros de uno de los meses que aparecen en su carta de DFCS.",
+    "pt": "Contracheques ou registros de um dos meses indicados na sua carta do DFCS.",
+    "ht": "Souch chèk oswa dosye pou youn nan mwa ki ekri sou lèt DFCS ou a.",
+    "vi": "Phiếu lương hoặc hồ sơ của một trong các tháng ghi trong thư DFCS.",
+    "zh": "DFCS 信中所列月份之一的工资单或记录。"
+   },
+   "requests": []
+  },
+  "HOURS_SHORT": {
+   "ask": "member",
+   "fix": "Hours are below 80. Add any other qualifying hours for the same month (second job, self-employment, community service, job training, college credit hours). Georgia Pathways has no general exemptions: if the hours were missed for a reason such as illness, ask about good cause; if a disability makes 80 hours hard, ask for a reasonable modification.",
+   "member_text": {
+    "en": "More hours in the same month (another job, volunteering, job training or classes all count).",
+    "es": "Más horas en el mismo mes (otro trabajo, voluntariado, capacitación o clases cuentan).",
+    "pt": "Mais horas no mesmo mês (outro emprego, voluntariado, treinamento ou aulas contam).",
+    "ht": "Plis èdtan nan menm mwa a (yon lòt travay, volontarya, fòmasyon oswa kou konte).",
+    "vi": "Thêm giờ trong cùng tháng (việc làm khác, tình nguyện, học nghề hoặc lớp học đều được tính).",
+    "zh": "同一个月内更多的时数（其他工作、志愿服务、职业培训或课程都算）。"
+   },
+   "requests": []
+  },
+  "INCOME_SHORT": {
+   "ask": "member",
+   "fix": "Georgia Pathways counts hours of qualifying activities, not a monthly income amount; document the hours instead.",
+   "member_text": {
+    "en": "Proof of any other pay in the same month (other jobs, tips, apps).",
+    "es": "Prueba de cualquier otro pago en el mismo mes (otros trabajos, propinas, aplicaciones).",
+    "pt": "Comprovante de qualquer outro pagamento no mesmo mês (outros empregos, gorjetas, aplicativos).",
+    "ht": "Prèv nenpòt lòt peman nan menm mwa a (lòt travay, poubwa, aplikasyon).",
+    "vi": "Bằng chứng về các khoản thu nhập khác trong cùng tháng (việc khác, tiền boa, ứng dụng).",
+    "zh": "同月其他收入的证明（其他工作、小费、应用平台）。"
+   },
+   "requests": []
+  },
+  "POSTPARTUM_ENDING": {
+   "ask": "navigator",
+   "fix": "Submit before the postpartum window closes and identify the pathway that will apply afterwards (e.g. parent of a child under 6).",
+   "member_text": {
+    "en": "Your after-birth exemption may end soon, so please respond quickly.",
+    "es": "Su exención por posparto puede terminar pronto; por favor responda rápido.",
+    "pt": "Sua isenção pós-parto pode terminar em breve; por favor responda rápido.",
+    "ht": "Egzanpsyon apre akouchman w lan ka fini byento, tanpri reponn vit.",
+    "vi": "Miễn trừ sau sinh của quý vị có thể sắp hết, vui lòng trả lời sớm.",
+    "zh": "您的产后豁免可能即将结束，请尽快回复。"
+   },
+   "requests": []
+  },
+  "DOC_TRANSLATION": {
+   "ask": "navigator",
+   "fix": "Document is not in English. Check whether DFCS needs a translation and attach one if so (needs confirmation).",
+   "member_text": {
+    "en": "Your navigator will check if a translation of your document is needed.",
+    "es": "Su navegador verificará si se necesita una traducción de su documento.",
+    "pt": "Seu navegador vai verificar se é necessária uma tradução do seu documento.",
+    "ht": "Navigatè w la ap tcheke si yo bezwen yon tradiksyon dokiman w lan.",
+    "vi": "Người hướng dẫn sẽ kiểm tra xem có cần dịch giấy tờ của quý vị không.",
+    "zh": "您的导航员会确认是否需要翻译您的文件。"
+   },
+   "requests": []
+  },
+  "NO_QUALIFYING_PATHWAY": {
+   "ask": "navigator",
+   "fix": "No pathway is supported by the current documents. Do not invent one: go over qualifying activities with the member (work, community service, training, college credit hours, parent of a child under 6). If a disability makes 80 hours hard, ask DFCS for a reasonable modification; refer to Georgia DFCS (1-877-423-4746) or gateway.ga.gov.",
+   "member_text": {
+    "en": "Let's talk about other options, including exemptions that might fit you.",
+    "es": "Hablemos de otras opciones, incluidas exenciones que podrían aplicarse a usted.",
+    "pt": "Vamos conversar sobre outras opções, incluindo isenções que podem se aplicar a você.",
+    "ht": "Ann pale sou lòt opsyon, tankou egzanpsyon ki ka aplike pou ou.",
+    "vi": "Hãy cùng trao đổi các lựa chọn khác, kể cả các trường hợp miễn trừ có thể phù hợp.",
+    "zh": "我们来谈谈其他选择，包括可能适用于您的豁免。"
+   },
+   "requests": []
+  },
+  "CAREGIVER_DISABILITY_STATEMENT": {
+   "ask": "clinician",
+   "fix": "Ask the care recipient's clinician for a letter that states the person has a disability (a physical or mental impairment that substantially limits one or more major life activities) and what daily help they need, and that the member provides that care.",
+   "member_text": {
+    "en": "A letter from your family member's doctor that says they have a disability and need your help every day.",
+    "es": "Una carta del médico de su familiar que diga que tiene una discapacidad y necesita su ayuda todos los días.",
+    "pt": "Uma carta do médico do seu familiar dizendo que ele tem uma deficiência e precisa da sua ajuda todos os dias.",
+    "ht": "Yon lèt doktè fanmi w lan ki di li gen yon andikap epi li bezwen èd ou chak jou.",
+    "vi": "Thư của bác sĩ của người thân nói rằng họ bị khuyết tật và cần quý vị giúp đỡ hằng ngày.",
+    "zh": "您家人的医生写的信，说明他们有残障，每天需要您的帮助。"
+   },
+   "requests": [
+    "Please state whether {recipient} has a physical or mental impairment that substantially limits one or more major life activities (for example walking, bathing, dressing or managing medications).",
+    "Please describe the daily help {recipient} needs and state that {first} provides this care.",
+    "Please include the diagnosis, your signature, credentials and the date."
+   ]
+  }
+ },
+ "resources": [
+  {
+   "name": "Georgia Pathways to Coverage",
+   "url": "https://pathways.georgia.gov/"
+  },
+  {
+   "name": "Georgia Gateway: apply, report hours, request good cause",
+   "url": "https://gateway.ga.gov/"
+  }
+ ],
+ "rulebook_patch": {},
+ "reconsideration": {
+  "window_days": 90,
+  "rule_id": "R-GA-SUSPEND",
+  "related_rules": [
+   "R-GA-REINSTATE"
+  ],
+  "applies_to": [
+   "terminated_procedural"
+  ],
+  "submit": {
+   "en": "proof of 80 hours of qualifying activities for one month",
+   "es": "prueba de 80 horas de actividades que cuentan durante un mes"
+  },
+  "reinstatement_note": "Georgia lifts a suspension when one month of 80 qualifying hours is verified, and coverage restarts from the next month (STC 35(b)). Here the 90 days are counted from the date coverage ended; the STC counts them from the suspension notice."
+ },
+ "transitions": {
+  "neutral_routing_note": "Options are listed without preference; the member chooses. Plan contracts may bar steering members to the plan's own marketplace product.",
+  "triggers": {
+   "income_above_limit": {
+    "label": {
+     "en": "income went above the program limit",
+     "es": "sus ingresos superaron el límite del programa"
+    },
+    "rule_id": "R-GA-SCOPE",
+    "options": [
+     "agency_rescreen",
+     "georgia_access"
+    ],
+    "window": {
+     "kind": "sep",
+     "days_before": 60,
+     "days_after": 90,
+     "rule_id": "R-TR-SEP-MEDICAID",
+     "advance_rule_id": "R-TR-SEP-ADVANCE"
+    },
+    "documents": [
+     "Recent pay stubs or an offer letter showing the new income",
+     "Photo ID",
+     "Immigration documents, if applicable",
+     "The latest DFCS notice"
+    ]
+   },
+   "turning_65": {
+    "label": {
+     "en": "turning 65 (Medicare age)",
+     "es": "cumple 65 años (edad de Medicare)"
+    },
+    "rule_id": "R-GA-SCOPE",
+    "options": [
+     "medicare",
+     "agency_rescreen"
+    ],
+    "window": {
+     "kind": "medicare_iep",
+     "months_before": 3,
+     "months_after": 3,
+     "rule_id": "R-TR-MEDICARE-IEP"
+    },
+    "documents": [
+     "Proof of age (birth certificate or ID)",
+     "Social Security number",
+     "The latest DFCS notice"
+    ]
+   },
+   "moved_out_of_state": {
+    "label": {
+     "en": "moved out of Georgia",
+     "es": "se mudó fuera de Georgia"
+    },
+    "rule_id": "R-TR-MOVE",
+    "options": [
+     "new_state_medicaid",
+     "new_state_marketplace"
+    ],
+    "window": {
+     "kind": "sep",
+     "days_before": 0,
+     "days_after": 60,
+     "rule_id": "R-TR-SEP-GENERAL"
+    },
+    "documents": [
+     "Proof of new address (lease or utility bill)",
+     "Photo ID",
+     "Recent pay stubs"
+    ]
+   },
+   "no_pathway": {
+    "label": {
+     "en": "no qualifying activities are shown yet",
+     "es": "todavía no se muestran actividades que cuenten"
+    },
+    "rule_id": "R-GA-80HRS",
+    "options": [
+     "agency_rescreen",
+     "georgia_access"
+    ],
+    "window": {
+     "kind": "sep",
+     "days_before": 60,
+     "days_after": 90,
+     "rule_id": "R-TR-SEP-MEDICAID",
+     "advance_rule_id": "R-TR-SEP-ADVANCE"
+    },
+    "documents": [
+     "Any proof of work, volunteer, school or training hours",
+     "Recent pay stubs",
+     "Photo ID"
+    ]
+   }
+  },
+  "options": {
+   "agency_rescreen": {
+    "name": "Ask Georgia DFCS to check every other kind of Medicaid",
+    "contact": "Georgia DFCS 1-877-423-4746 (711 for TTY)",
+    "rule_id": null,
+    "needs_confirmation": true
+   },
+   "medicare": {
+    "name": "Medicare (Parts A and B)",
+    "contact": "Social Security / Medicare (see medicare.gov)",
+    "rule_id": "R-TR-MEDICARE-IEP"
+   },
+   "new_state_medicaid": {
+    "name": "Medicaid in the new state",
+    "contact": "the new state's Medicaid agency",
+    "rule_id": null,
+    "needs_confirmation": true
+   },
+   "new_state_marketplace": {
+    "name": "Marketplace in the new state (HealthCare.gov or the state exchange)",
+    "contact": "HealthCare.gov",
+    "rule_id": "R-TR-MOVE"
+   },
+   "georgia_access": {
+    "name": "Georgia Access (Georgia's health insurance marketplace)",
+    "contact": "georgiaaccess.gov",
+    "url": "https://georgiaaccess.gov/",
+    "rule_id": "R-GA-MARKETPLACE"
+   }
+  }
+ }
+}

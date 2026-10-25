@@ -45,9 +45,19 @@ async function render({ keepScroll = false } = {}) {
   else if (!params.get("line")) window.scrollTo(0, 0);
 }
 
+const showPolicy = () => {
+  document.getElementById("policy-status").innerHTML = `Policy for case pages: <a href="#/policies">${esc(S.packData.name)}</a>`;
+};
+
 window.addEventListener("hashchange", () => render());
-// Live run progress: re-render only the case pages of the case being run.
-onChange(({ cid } = {}) => { if (current?.nav === "case" && current.args[0] === cid) render({ keepScroll: true }); });
+// Live run progress re-renders only the case pages of the case being run; a policy switch re-renders the
+// pages that depend on it.
+onChange(({ cid, pack } = {}) => {
+  if (pack) {
+    showPolicy();
+    if (current?.nav === "case" || current?.nav === "policies") render({ keepScroll: true });
+  } else if (current?.nav === "case" && current.args[0] === cid) render({ keepScroll: true });
+});
 
 // Legacy deep link used in the README and demo script: #autorun=C46
 async function start() {
@@ -57,6 +67,7 @@ async function start() {
   document.getElementById("engine-status").innerHTML = st.mode === "live"
     ? `Models: live, ${esc(st.preset)} preset (${esc(models.join(", "))})`
     : st.mode === "replay" ? "Models: saved responses only, rules elsewhere" : "Models: off, rules only";
+  showPolicy();
   const legacy = location.hash.match(/autorun=(\w+)/);
   if (legacy) {
     location.hash = `#/case/${legacy[1]}`;

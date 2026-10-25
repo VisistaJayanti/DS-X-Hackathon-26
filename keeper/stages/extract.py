@@ -410,6 +410,8 @@ def _uncovered(facts, reference, hard_only=False):
     for r in reference:
         if hard_only and r["type"] in INTERPRETIVE:
             continue
+        if r["type"] == "work_impact":  # the letter-interpretation step owns this judgement; a rules guess would contradict it
+            continue
         same = [f for f in facts if f["doc_id"] == r["doc_id"] and f["type"] == r["type"]]
         if r["type"] in INTERPRETIVE:
             # A judgement the AI gave counts; one it left without its status (e.g. work impact) does not.

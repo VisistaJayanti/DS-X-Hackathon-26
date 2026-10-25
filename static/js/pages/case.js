@@ -2,7 +2,7 @@
 //   summary   - the recommendation, worked out by rules        documents - the member's papers
 //   letters   - drafted by an AI model or templates, verified   evidence  - every pathway and fact
 //   agents    - how it was decided: each agent, engine, timing and the verifier log
-import { S, clearRunError, getCase, outOf, runCase, stageOf } from "../store.js";
+import { S, clearRunError, getCase, outOf, rk, runCase, setPack, stageOf } from "../store.js";
 import {
   ASK, KIND, LANG, OUTCOME, PATH_STATUS, daysLeftText, docLink, empty, esc, findLine, firstName, fmtDate, modelNames,
   nameHTML, provenance, ruleLink, splitName, windowBar,
@@ -24,8 +24,8 @@ export const title = ([cid, sub]) => `${S.caseData[cid] ? splitName(S.caseData[c
 export async function render(el, [cid, sub = "summary"], params) {
   if (!SUBS[sub]) sub = "summary";
   const c = await getCase(cid);
-  const t = S.runs[cid];
-  const run = S.running[cid];
+  const t = S.runs[rk(cid)];
+  const run = S.running[rk(cid)];
   const needsResult = sub !== "documents" && !(sub === "agents" && run);
   const body = !t && needsResult
     ? (run ? empty("The agents are working on this case", `Results appear here as soon as the run finishes. <a href="#/case/${cid}/agents">Watch each agent work</a>`) : notRun(c))
@@ -52,6 +52,8 @@ function header(c, cid, t, run) {
       </dl>
     </div>
     <form class="run-box" data-run>
+      <label class="policy-pick">Policy<select data-pack ${run && !run.error ? "disabled" : ""}>${S.packs.map((p) =>
+        `<option value="${p.id}" ${p.id === S.pack ? "selected" : ""}>${esc(p.name)}${p.illustrative ? " (illustrative)" : ""}</option>`).join("")}</select></label>
       <button class="btn btn-primary" type="submit" ${run && !run.error ? "disabled" : ""}>${run && !run.error ? "Running…" : t ? "Run the agents again" : "Run the agents"}</button>
       <details class="run-settings"><summary>Run settings</summary>
         <label>Letter language<select name="lang">${Object.entries(S.status.languages).map(([k, v]) => `<option value="${k}" ${k === lang ? "selected" : ""}>${esc(v)}</option>`).join("")}</select></label>
@@ -97,6 +99,7 @@ function wire(el, cid, c, sub) {
   form.onsubmit = (e) => { e.preventDefault(); start(); };
   el.querySelectorAll("[data-action=run]").forEach((b) => (b.onclick = start));
   el.querySelector("[data-switch]").onchange = (e) => { location.hash = `#/case/${e.target.value}${sub === "summary" ? "" : "/" + sub}`; };
+  el.querySelector("[data-pack]").onchange = (e) => setPack(e.target.value);  // re-renders through onChange
   const consent = el.querySelector("[data-consent]");
   if (consent) {
     const btn = el.querySelector("[data-approve]");
@@ -121,6 +124,8 @@ function claimHTML(cl, c, cid) {
   return `<p class="claim" data-kind="${esc(cl.kind)}">${esc(cl.text)}${cites ? ` <span class="cites">${cites}</span>` : ""}</p>`;
 }
 const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : "");
+// The outcome stage words the trigger in the member's language for their letter; coordinator pages use English.
+const triggerLabel = (tr) => S.packData.transitions?.triggers?.[tr.trigger]?.label?.en || tr.trigger_label;
 // Gap details are written for the trace ("D2 is in 'es'."); name the document and language instead.
 function gapTitle(g, c, t) {
   const m = g.code === "DOC_TRANSLATION" && g.detail.match(/^(\w+) is in '(\w+)'/);
@@ -175,7 +180,7 @@ function summary(c, t, cid) {
     }
   } else {
     const tr = oc.transition, w = tr.window || {};
-    head = cap(tr.trigger_label);
+    head = cap(triggerLabel(tr));
     lines.push(`${esc(first)} may no longer qualify. The agency decides, and a navigator confirms before anything changes.`);
     if (w.avoid_gap_by) lines.push(`To avoid a gap in coverage, enroll by ${fmtDate(w.avoid_gap_by, asOf)}. The enrollment window closes ${fmtDate(w.closes, asOf)}.`);
     bar = windowBar({ start: w.opens, end: w.closes, today: asOf, tone: "transition", startLabel: "Window opens", endLabel: "Window closes",
@@ -194,7 +199,7 @@ function summary(c, t, cid) {
     ${!best && gaps.resources?.length ? `<p class="sub">Where to refer: ${gaps.resources.map((r) => `<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.name)}</a>`).join(", ")}</p>` : ""}</section>`;
   const used = [...new Set((best?.evidence || []).map((fid) => facts.find((f) => f.fact_id === fid)?.doc_id).filter(Boolean))];
 
-  return `${provenance("rules", `Worked out by rules from ${facts.length} facts read out of ${c.documents.length} document${c.documents.length === 1 ? "" : "s"}. ${esc(prog.agency)} decides eligibility.`)}
+  return `${provenance("rules", `Worked out under <a href="#/policies">${esc(S.packData.name)}</a> by rules, from ${facts.length} facts read out of ${c.documents.length} document${c.documents.length === 1 ? "" : "s"}. ${esc(prog.agency)} decides eligibility.`)}
   <section class="answer tone-${O.tone}">
     <p class="outcome-tag">${O.label}</p>
     <h2 class="answer-head">${esc(head)}</h2>
@@ -213,7 +218,7 @@ function summary(c, t, cid) {
 function transitionPlan(tr) {
   const w = tr.window || {};
   return `<section class="plan" aria-labelledby="plan-h"><h2 id="plan-h">Next coverage, without a gap</h2>
-    <p>${esc(cap(tr.trigger_label))}.${tr.coverage_end ? ` Coverage is expected to end ${fmtDate(tr.coverage_end, S.status.as_of)}.` : ""}</p>
+    <p>${esc(cap(triggerLabel(tr)))}.${tr.coverage_end ? ` Coverage is expected to end ${fmtDate(tr.coverage_end, S.status.as_of)}.` : ""}</p>
     <p class="sub">Rules behind this: ${[tr.trigger_rule_id, w.rule_id, w.advance_rule_id].filter(Boolean).map((r) => ruleLink(S.rules, S.sources, r)).join(" ")}</p>
     <div class="plan-grid">
       <div><h3>Options for the member to choose from</h3><ul class="options">${tr.options.map((o) => `<li><b>${esc(o.name)}</b><span>${esc(o.contact)}</span></li>`).join("")}</ul></div>

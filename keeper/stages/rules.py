@@ -125,6 +125,17 @@ def ev_enrollment(ctx, pw):
     if not enr:
         return _result(pid, "not_met", ["No school enrollment document."], strength=0)
     f, st = enr[0], enr[0].get("status", "unspecified")
+    min_cr = pw["params"].get("min_credits")
+    if min_cr is not None:  # programs that count credit hours rather than enrollment status
+        cr = f.get("credits")
+        if cr is None:
+            return _result(pid, "insufficient", ["The school letter does not state how many credit hours the member takes."], [f],
+                           [_gap("ENROLLMENT_STATUS_UNSTATED", "The school letter does not state the credit hours for this term.", [f])],
+                           strength=0.6)
+        if cr >= min_cr:
+            return _result(pid, "met", [f"School states {cr:g} credit hours ({min_cr:g} or more count on their own)."], [f])
+        return _result(pid, "not_met", [f"{cr:g} credit hours count for fewer hours than required on their own; see the combination pathway."],
+                       [f], strength=0)
     if st in pw["params"]["accepted"]:
         return _result(pid, "met", [f"School states enrollment status: {st.replace('_', '-')}."], [f])
     if st == "less_than_half":
@@ -138,8 +149,22 @@ def ev_combination(ctx, pw):
     p, pid = pw["params"], pw["id"]
     enr, work = _of(ctx["facts"], "enrollment"), _activity(ctx)
     if not enr or not work:
-        return _result(pid, "not_met", ["Needs both activity hours and less-than-half-time enrollment."], strength=0)
+        need = "school enrollment with credit hours" if p.get("credit_tiers") else "less-than-half-time enrollment"
+        return _result(pid, "not_met", [f"Needs both activity hours and {need}."], strength=0)
     f, st = enr[0], enr[0].get("status", "unspecified")
+    if p.get("credit_tiers"):  # credit hours count as a fixed number of activity hours, by tier
+        cr = f.get("credits")
+        if cr is None:
+            return _result(pid, "insufficient", [f"{work['total']:g} activity hours documented, but the school letter gives no credit hours "
+                                                 f"to convert."], work["facts"] + [f],
+                           [_gap("ENROLLMENT_STATUS_UNSTATED", "Need the school to state the credit hours for this term.", [f])], strength=0.6)
+        if p.get("min_credits_alone") is not None and cr >= p["min_credits_alone"]:
+            return _result(pid, "not_met", ["Enrollment at this level counts on its own (education pathway)."], strength=0)
+        edu = next((hours for lowest, hours in p["credit_tiers"] if cr >= lowest), 0)
+        total = round(work["total"] + edu, 2)
+        status = "met" if total >= p["threshold"] else "not_met"
+        return _result(pid, status, [f"{work['total']:g} activity hours + {edu:g} hours for {cr:g} credit hours = {total:g} hours."],
+                       work["facts"] + [f], strength=1.0 if status == "met" else 0, extra={"computed": total})
     if st in p["accepted_alone"]:
         return _result(pid, "not_met", ["Enrollment at this level counts on its own (education pathway)."], strength=0)
     if st == "less_than_half" and f.get("credits"):

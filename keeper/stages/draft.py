@@ -74,7 +74,8 @@ def deterministic(case, intake_out, extract_out, rules_out, gaps_out):
         r = rulebook.rules()[p["rule_id"]]
         ev = [facts[e] for e in g["evidence"] if e in facts and shown(facts[e])][:3]
         claims = [fact_claim("Q", f) for f in ev]
-        claims.append(_claim(nid("Q"), "rule", f"The federal rule ({r['cite']}) reads: “{r['quote']}”", rule_id=r["id"]))
+        label = rulebook.program().get("rule_label", "federal rule")
+        claims.append(_claim(nid("Q"), "rule", f"The {label} ({r['cite']}) reads: “{r['quote']}”", rule_id=r["id"]))
         recipient = next((f.get("name") for f in ev if f.get("name")), "the person you care for")
         claims += [_claim(nid("Q"), "request", s.format(first=_first(case), recipient=recipient)) for s in REQUESTS()[g["code"]]]
         if dl:
@@ -223,7 +224,8 @@ def llm(case, intake_out, extract_out, rules_out, gaps_out, meter):
         "ranking": rules_out["ranking"],
         "pathways": paths,
         "gaps": gaps_out["gaps"],
-        "rules": {rid: {k: rb[rid][k] for k in ("name", "cite", "quote")} for rid in used_rules},
+        # sorted: a set's order changes between Python processes, which changed the prompt and so missed the response cache
+        "rules": {rid: {k: rb[rid][k] for k in ("name", "cite", "quote")} for rid in sorted(used_rules)},
     }
     data, _ = call_json("draft", SYSTEM.format(context=prog["domain_context"], agency=prog["agency"]), json.dumps(ctx, ensure_ascii=False, indent=1), SCHEMA, meter=meter)
     norm = lambda c, pre, i: dict({k: v for k, v in c.items() if v not in (None, [])}, claim_id=f"{pre}{i + 1}")

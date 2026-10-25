@@ -1,0 +1,271 @@
+{
+ "_meta": {
+  "description": "Georgia Pathways to Coverage rulebook. Georgia rules quote the Georgia DCH copy of the Special Terms and Conditions and the 2025 Pathways FAQ word for word (downloaded 2026-10-24); the federal marketplace and Medicare rules are shared with the MassHealth pack.",
+  "fetched_on": "2026-10-24",
+  "sources": {
+   "GA_STC": {
+    "title": "Georgia Pathways to Coverage Special Terms and Conditions (approval period Oct 15, 2020 - Sept 30, 2025), Georgia Department of Community Health copy",
+    "url": "https://dch.georgia.gov/document/document/gapathways-special-terms-and-conditions-2023/download",
+    "status": "fetched_verbatim (PDF text)",
+    "file": "georgia_pathways/stcs_2023.txt"
+   },
+   "GA_FAQ": {
+    "title": "Georgia Pathways General Frequently Asked Questions (2025, with 2026 income guidelines)",
+    "url": "https://pathways.georgia.gov/document/document/ga-pathwaysgeneralfaqs2025/download",
+    "status": "fetched_verbatim (PDF text)",
+    "file": "georgia_pathways/faq_2025.txt"
+   },
+   "GA_ACCESS": {
+    "title": "Georgia Access home page",
+    "url": "https://georgiaaccess.gov/",
+    "status": "fetched_verbatim",
+    "file": "georgia_access/home.html"
+   },
+   "ECFR_155420": {
+    "title": "eCFR 45 CFR 155.420, Special enrollment periods",
+    "url": "https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-B/part-155/subpart-E/section-155.420",
+    "status": "fetched_verbatim (eCFR renderer API)",
+    "file": "transitions/ecfr_155420.json"
+   },
+   "ECFR_40714": {
+    "title": "eCFR 42 CFR 407.14, Initial enrollment period (Medicare Part B)",
+    "url": "https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-407/subpart-B/section-407.14",
+    "status": "fetched_verbatim (eCFR renderer API)",
+    "file": "transitions/ecfr_40714.json"
+   }
+  }
+ },
+ "rules": [
+  {
+   "id": "R-GA-SCOPE",
+   "pathway": "OUT_OF_SCOPE_AGE",
+   "kind": "out_of_scope",
+   "name": "Under 19 or 65 and older: not covered by Pathways",
+   "logic": "age < 19 or age > 64",
+   "source": "GA_FAQ",
+   "cite": "Georgia Pathways FAQ (2025), question 3",
+   "quote": "Be between 19 and 64 years of age",
+   "quote_2": "Have a household income of up to 100% of the Federal Poverty Level",
+   "source_status": "fetched_verbatim",
+   "needs_confirmation": false
+  },
+  {
+   "id": "R-GA-80HRS",
+   "pathway": "QA_WORK_80",
+   "kind": "compliance",
+   "name": "Qualifying activities: 80+ hours in a month",
+   "logic": "work, self-employment, on-the-job training, job readiness, community service or vocational hours in a review month >= 80",
+   "source": "GA_FAQ",
+   "cite": "Georgia Pathways FAQ (2025), questions 3 and 5",
+   "quote": "Complete at least 80 hours of qualifying activities per month",
+   "quote_2": "To be eligible for Pathways, you can perform one or more qualifying activities for 80 hours each month.",
+   "source_status": "fetched_verbatim",
+   "needs_confirmation": false
+  },
+  {
+   "id": "R-GA-80HRS-STC",
+   "pathway": null,
+   "kind": "process",
+   "name": "The 80-hour requirement in the approved terms",
+   "logic": "informational",
+   "source": "GA_STC",
+   "cite": "STCs, Section II",
+   "quote": "As a condition of eligibility, individuals must complete a minimum of 80 hours of qualifying activities monthly unless they require a reasonable accommodation due to a disability or experience a circumstance that gives rise to good cause for non-compliance after enrollment.",
+   "quote_2": "individuals ages 19 through 64 who have household incomes up to 95 percent of the federal poverty level (FPL) (effectively 100 percent with the 5 percent income disregard)",
+   "source_status": "fetched_verbatim",
+   "needs_confirmation": true,
+   "confirmation_note": "From the 2023 Special Terms and Conditions (approval period through September 30, 2025); confirm against the current approval."
+  },
+  {
+   "id": "R-GA-EDU",
+   "pathway": "QA_EDUCATION",
+   "kind": "compliance",
+   "name": "College enrollment: 11.5 or more credit hours (counts as 80 hours)",
+   "logic": "credit hours >= 11.5",
+   "source": "GA_FAQ",
+   "cite": "Georgia Pathways FAQ (2025), question 5",
+   "quote": "At least 11.5 credit hours will count as 80 hours per month",
+   "quote_2": "Current college course-load credit hours will be granted qualifying activity hours as follows:",
+   "source_status": "fetched_verbatim",
+   "needs_confirmation": false
+  },
+  {
+   "id": "R-GA-COMBO",
+   "pathway": "QA_COMBINATION",
+   "kind": "compliance",
+   "name": "Activities plus credit hours adding up to 80 hours",
+   "logic": "activity hours + credit-hour tier (5.5-11.49 credits = 40 h, 0.01-5.49 = 20 h) >= 80",
+   "source": "GA_FAQ",
+   "cite": "Georgia Pathways FAQ (2025), questions 5 and 6",
+   "quote": "If you are not working 80 hours per month, then you can perform other qualifying activities to reach 80 hours each month to be eligible for Pathways.",
+   "quote_2": "Between 5.50 and 11.49 credit hours will count as 40 hours per month",
+   "source_status": "fetched_verbatim",
+   "needs_confirmation": false
+  },
+  {
+   "id": "R-GA-PARENT6",
+   "pathway": "QA_PARENT_UNDER_6",
+   "kind": "compliance",
+   "name": "Parent or legal guardian of a child under 6",
+   "logic": "youngest child's age <= 5",
+   "source": "GA_FAQ",
+   "cite": "Georgia Pathways FAQ (2025), question 5",
+   "quote": "Parent and legal guardian of a child under the age of six (6)",
+   "source_status": "fetched_verbatim",
+   "needs_confirmation": true,
+   "confirmation_note": "Listed as a qualifying activity in the 2025 FAQ but not in the 2023 STCs fetched here, and the FAQ does not say how many hours it counts for; treated here as meeting the requirement."
+  },
+  {
+   "id": "R-GA-SUSPEND",
+   "pathway": null,
+   "kind": "process",
+   "name": "Suspension: 90 days to meet the hours again",
+   "logic": "not meeting the hours -> eligibility suspended; 90 days from the suspension notice to meet them",
+   "source": "GA_STC",
+   "cite": "STC 35(a)",
+   "quote": "will have eligibility suspended on the first day of the month following notification to the beneficiary of his or her non-compliance, consistent with the requirements in 42 CFR 431.211 and will have ninety (90) days from the notice of suspension to meet the qualifying hours and activities requirement for the suspension to be lifted.",
+   "source_status": "fetched_verbatim",
+   "needs_confirmation": true,
+   "confirmation_note": "From the 2023 Special Terms and Conditions (approval period through September 30, 2025); confirm against the current approval."
+  },
+  {
+   "id": "R-GA-REINSTATE",
+   "pathway": null,
+   "kind": "process",
+   "name": "Reinstatement after one compliant month",
+   "logic": "one verified month of 80 hours lifts a suspension",
+   "source": "GA_STC",
+   "cite": "STC 35(b)",
+   "quote": "Beneficiaries may have coverage prospectively reinstated after a suspension if the beneficiary provides verification of compliance with the qualifying hours and activities requirement for one month.",
+   "source_status": "fetched_verbatim",
+   "needs_confirmation": true,
+   "confirmation_note": "From the 2023 Special Terms and Conditions (approval period through September 30, 2025); confirm against the current approval."
+  },
+  {
+   "id": "R-GA-GOODCAUSE",
+   "pathway": null,
+   "kind": "process",
+   "name": "Good cause can excuse missed hours (up to 120 a year)",
+   "logic": "informational",
+   "source": "GA_STC",
+   "cite": "STC 36",
+   "quote": "Beneficiaries may request a good cause from the qualifying hours and activities requirement up to a maximum of 120 hours during a 12 month benefit year.",
+   "source_status": "fetched_verbatim",
+   "needs_confirmation": true,
+   "confirmation_note": "From the 2023 Special Terms and Conditions (approval period through September 30, 2025); confirm against the current approval."
+  },
+  {
+   "id": "R-GA-MODIFICATION",
+   "pathway": null,
+   "kind": "process",
+   "name": "A disability can qualify for a reasonable modification",
+   "logic": "informational",
+   "source": "GA_FAQ",
+   "cite": "Georgia Pathways FAQ (2025), question 16",
+   "quote": "If you need help doing 80 hours of qualifying activities per month, you can ask for a Reasonable Modification when you apply such as a referral to GVRA or the option for extra time to do your 80 hours.",
+   "source_status": "fetched_verbatim",
+   "needs_confirmation": false
+  },
+  {
+   "id": "R-GA-REPORTING",
+   "pathway": null,
+   "kind": "process",
+   "name": "Hours are reported at application and at annual renewal",
+   "logic": "informational",
+   "source": "GA_FAQ",
+   "cite": "Georgia Pathways FAQ (2025), question 12",
+   "quote": "You must report your qualifying activity hours at the time of application and at annual renewal.",
+   "source_status": "fetched_verbatim",
+   "needs_confirmation": false
+  },
+  {
+   "id": "R-GA-PROC-RESPOND",
+   "pathway": null,
+   "kind": "process",
+   "name": "Time to answer a verification request (30-day placeholder)",
+   "logic": "placeholder: notice received date + 30 days",
+   "source": "GA_FAQ",
+   "cite": "not stated in the fetched Pathways documents",
+   "quote": "",
+   "source_status": "not_found_in_source",
+   "needs_confirmation": true,
+   "confirmation_note": "Georgia's response window for verification requests was not in the downloaded Pathways documents; 30 days is a placeholder, not a quoted rule."
+  },
+  {
+   "id": "R-GA-MARKETPLACE",
+   "pathway": null,
+   "kind": "process",
+   "name": "Georgia Access (state health insurance marketplace)",
+   "logic": "informational: destination for people leaving Pathways",
+   "source": "GA_ACCESS",
+   "cite": "georgiaaccess.gov",
+   "quote": "Find out if you can enroll in a health plan and see if you qualify for low-cost or even no-cost coverage.",
+   "quote_2": "Qualifying Life Events (QLEs) could make you eligible for a Special Enrollment Period (SEP).",
+   "source_status": "fetched_verbatim",
+   "needs_confirmation": true,
+   "confirmation_note": "Plan, subsidy and enrollment details were not on the fetched page and are not encoded."
+  },
+  {
+   "id": "R-TR-SEP-MEDICAID",
+   "pathway": null,
+   "kind": "process",
+   "name": "Marketplace special enrollment after losing Medicaid: 90 days after",
+   "logic": "loss of Medicaid -> 90 days after the loss to pick a marketplace plan",
+   "source": "ECFR_155420",
+   "cite": "45 CFR 155.420(c)(6)",
+   "quote": "a qualified individual or their dependent(s) who is described in paragraph (d)(1)(i) of this section and whose loss of coverage is a loss of Medicaid or CHIP coverage shall have 90 days after the triggering event to select a QHP.",
+   "source_status": "fetched_verbatim",
+   "needs_confirmation": true,
+   "confirmation_note": "Federal rule; how the Massachusetts Health Connector applies it (and any longer state window) was not verified."
+  },
+  {
+   "id": "R-TR-SEP-ADVANCE",
+   "pathway": null,
+   "kind": "process",
+   "name": "Special enrollment can start 60 days before losing coverage",
+   "logic": "a member may pick a plan up to 60 days before the loss, so coverage can start without a gap",
+   "source": "ECFR_155420",
+   "cite": "45 CFR 155.420(c)(2)",
+   "quote": "A qualified individual or their dependent who is described in paragraph (d)(1), (d)(6)(iii), or (d)(15) of this section has 60 days before and, unless the Exchange exercises the option in paragraph (c)(6) of this section, 60 days after the triggering event to select a QHP.",
+   "source_status": "fetched_verbatim",
+   "needs_confirmation": false
+  },
+  {
+   "id": "R-TR-SEP-GENERAL",
+   "pathway": null,
+   "kind": "process",
+   "name": "General special enrollment window: 60 days",
+   "logic": "default window after a triggering event such as a permanent move",
+   "source": "ECFR_155420",
+   "cite": "45 CFR 155.420(c)(1)",
+   "quote": "Unless specifically stated otherwise herein, a qualified individual or enrollee has 60 days from the date of a triggering event to select a QHP.",
+   "source_status": "fetched_verbatim",
+   "needs_confirmation": false
+  },
+  {
+   "id": "R-TR-MOVE",
+   "pathway": null,
+   "kind": "process",
+   "name": "A permanent move is a special-enrollment trigger",
+   "logic": "moving out of state -> marketplace in the new state",
+   "source": "ECFR_155420",
+   "cite": "45 CFR 155.420(d)(7)",
+   "quote": "The qualified individual or enrollee, or his or her dependent, gains access to new QHPs as a result of a permanent move",
+   "source_status": "fetched_verbatim",
+   "needs_confirmation": true,
+   "confirmation_note": "Medicaid in the new state is decided by that state; its rules are not encoded."
+  },
+  {
+   "id": "R-TR-MEDICARE-IEP",
+   "pathway": null,
+   "kind": "process",
+   "name": "Medicare initial enrollment period around turning 65",
+   "logic": "7 months: 3 months before the month of eligibility, that month, 3 months after",
+   "source": "ECFR_40714",
+   "cite": "42 CFR 407.14(a)(1)",
+   "quote": "The initial enrollment period is the 7-month period that begins 3 months before the month an individual first meets the eligibility requirements of § 407.10 and ends 3 months after that first month of eligibility.",
+   "source_status": "fetched_verbatim",
+   "needs_confirmation": false
+  }
+ ]
+}

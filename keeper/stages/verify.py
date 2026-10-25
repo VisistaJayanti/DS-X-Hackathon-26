@@ -118,7 +118,7 @@ def context(case, extract_out, rules_out, gaps_out, outcome_out=None):
     dl = gaps_out.get("deadline") or {}
     m = case["member"]
     always = " ".join(str(x) for x in [m.get("age"), m.get("notice_received_date"), dl.get("due"), dl.get("days_left"), dl.get("ask_third_party_by"),
-                                       " ".join(m.get("lookback_months", [])), "80 580 13 19 64 65 30", m.get("name")])
+                                       " ".join(m.get("lookback_months", [])), rulebook.program().get("always_numbers", ""), m.get("name")])
     always += " " + _outcome_numbers(outcome_out)
     always += " " + " ".join(f"{d['doc_id']} line {i}" for d in case["documents"] for i in range(1, len(d["text"].splitlines()) + 1))
     return {"docs": {d["doc_id"]: d for d in case["documents"]}, "facts": {f["fact_id"]: f for f in extract_out["facts"]},

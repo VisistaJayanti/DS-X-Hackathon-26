@@ -27,7 +27,8 @@ python server.py                           # UI at http://127.0.0.1:8000  (#auto
 python scripts/smoke.py [CASE_ID]          # fast offline check of stages 1-4 vs labels (expects 46/46)
 python eval/run_eval.py                    # deterministic eval -> eval/results.json + eval/RESULTS.md
 python eval/run_eval.py --llm              # LLM agents + independent judge (needs API key; responses cached)
-python scripts/check_rulebook_quotes.py    # verify verbatim quotes against sources_raw/ downloads
+python scripts/check_rulebook_quotes.py [pack]  # verify verbatim quotes against sources_raw/ downloads (all packs by default)
+python scripts/record_website.py --url http://127.0.0.1:8000 --case <never-run case id>  # 2:55 walkthrough video -> demo_video/ (script: docs/VIDEO_SCRIPT.md)
 ```
 
 Environment variables:
@@ -110,3 +111,6 @@ Key design points:
 - mass.gov blocked automated fetching (HTTP 403). MassHealth-specific wording ($580 phrasing, "part-time", 45-day renewal form, blue envelope, postpartum length) is marked `needs_confirmation`. Fetch and quote it properly if you can, then clear the flag.
 - Nice to have: a paraphrased "stress" case set (to show where the deterministic engine breaks), a population/EJ prioritisation view (`h2`/healthcare kit data, area-level only), and native-speaker review of the translations in `keeper/i18n.py`, `keeper/stages/outreach.py` and the packs.
 - The second pack (`employer_dependent_audit_demo`) is illustrative with made-up rules. Keep `illustrative: true` and the UI label unless it's replaced with real, cited rules.
+- `georgia_pathways` is a real pack built from documents downloaded to `sources_raw/georgia_pathways/` and `sources_raw/georgia_access/` (git-ignored; re-download from the URLs in its `rules.json`). Its 30-day response window is a placeholder (`R-GA-PROC-RESPOND`, `not_found_in_source`). Arkansas Works (2018) and New Hampshire Granite Advantage (2019) were tried as further real packs, but their official sites return HTTP 403 to automated downloads, so they weren't added.
+- Packs can supply `program.screener` (phone-script screening questions, per language), `program.rule_label` (how drafts name the rule, default "federal rule") and `program.always_numbers` (numbers the verifier always accepts). Evaluators take optional generic settings: `enrollment.min_credits`, `combination.credit_tiers` / `min_credits_alone`.
+- `keeper/impact.py` compares every dataset case under two packs with the rules engine (`/api/policy-impact`). Runs are saved per pack in `cache/runs/<pack>/<case>.json`; older default-pack runs at `cache/runs/<case>.json` still load.

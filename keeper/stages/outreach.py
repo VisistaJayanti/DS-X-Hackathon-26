@@ -50,14 +50,12 @@ T = {
     "phone": {
         "en": ["Hello, may I speak with {first}? I'm calling from your health plan's care team about your {agency} letter. Is now a good time?",
                "{agency} sent you a letter called \"{notice}\". It needs an answer by {due}, or your coverage could end - even if you still qualify.",
-               "Many people don't have to meet the new rules. Can I ask a few questions? Do you care for a child 13 or younger, or an adult "
-               "with a disability? Do you have a health condition that makes it hard to work? Do you work, volunteer, or go to school?",
+               "{screener}",
                "We can help you collect the papers and fill everything out, for free. I will never ask for your Social Security number on this call.",
                "You can always call {agency} directly at {contact}. {agency} makes the final decision."],
         "es": ["Hola, ¿puedo hablar con {first}? Le llamo del equipo de atención de su plan de salud por su carta de {agency}. ¿Es buen momento?",
                "{agency} le envió una carta llamada \"{notice}\". Necesita respuesta antes del {due}, o su cobertura podría terminar, aunque usted todavía califique.",
-               "Muchas personas no tienen que cumplir las nuevas reglas. ¿Le puedo hacer unas preguntas? ¿Cuida a un niño de 13 años o menos, o a un adulto "
-               "con discapacidad? ¿Tiene una condición de salud que le dificulta trabajar? ¿Trabaja, hace voluntariado o estudia?",
+               "{screener}",
                "Le podemos ayudar a reunir los papeles y llenar todo, gratis. Nunca le pediré su número de Seguro Social en esta llamada.",
                "Siempre puede llamar directamente a {agency} al {contact}. {agency} toma la decisión final."],
     },
@@ -80,6 +78,8 @@ def _t(key, lang, **kw):
     v = T[key].get(lang)
     fallback = v is None
     v = v if v is not None else T[key]["en"]
+    pick = "en" if fallback else lang  # per-language values (e.g. the pack's screener) follow the template's language
+    kw = {k: (x.get(pick) or x["en"]) if isinstance(x, dict) else x for k, x in kw.items()}
     if isinstance(v, list):
         return [s.format(**kw) for s in v], fallback
     return v.format(**kw), fallback
@@ -106,7 +106,15 @@ def _kw(member, deadline):
     if isinstance(contact, dict):
         contact = contact.get(member.get("language", "en"), contact["en"])
     return {"first": member["name"].split()[0], "agency": prog["agency"], "due": deadline["due"] if deadline else "the date on the letter",
-            "contact": contact, "notice": prog["notice_name"], "conventions": " ".join(prog.get("notice_conventions", []))}
+            "contact": contact, "notice": prog["notice_name"], "conventions": " ".join(prog.get("notice_conventions", [])),
+            "screener": prog.get("screener") or DEFAULT_SCREENER}
+
+
+# The phone script's screening questions depend on the program's pathways, so packs supply their own (program.screener).
+DEFAULT_SCREENER = {
+    "en": "Can I ask a few questions about your work, school, health and caregiving? Some people qualify in more than one way.",
+    "es": "¿Le puedo hacer unas preguntas sobre su trabajo, sus estudios, su salud y si cuida a alguien? Algunas personas califican de más de una forma.",
+}
 
 
 TR_SYSTEM = """Translate this health-plan outreach message into {lang}. Warm, plain, 6th-grade level. Keep dates, numbers,

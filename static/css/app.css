@@ -163,6 +163,10 @@ label.check { flex-direction: row; align-items: center; gap: 8px; color: var(--i
 .run-settings summary { cursor: pointer; }
 .run-settings[open] { background: var(--surface); border: 1px solid var(--rule); border-radius: 4px; padding: 10px 12px; text-align: left; display: grid; gap: 10px; }
 .run-meta { font-size: 13px; color: var(--ink-2); margin: 0; }
+.policy-pick { flex-direction: row; align-items: center; gap: 8px; font-size: 13px; }
+.policy-pick select { max-width: 320px; font-size: 13px; padding: 5px 7px; }
+.impact .table td { font-size: 14px; }
+.impact .table td .pill { margin-left: 4px; }
 .subnav { display: flex; gap: 2px; flex-wrap: wrap; border-bottom: 1px solid var(--rule); margin-bottom: 24px; }
 .case-body { max-width: 1040px; }
 .progress { margin: -10px 0 22px; }

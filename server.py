@@ -13,13 +13,23 @@ from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
-from keeper import config, docs, pipeline, plan, rulebook
+from keeper import config, docs, impact, pipeline, plan, rulebook
 from keeper.llm import LLMUnavailable
 
 ROOT = Path(__file__).resolve().parent
 CASES = ROOT / "data" / "cases"
 CUSTOM = ROOT / "data" / "custom"  # navigator-entered cases; git-ignored
-RUNS = config.CACHE_DIR / "runs"  # last pipeline trace per case, so UI pages survive a refresh; git-ignored
+RUNS = config.CACHE_DIR / "runs"  # last trace per policy pack and case (runs/<pack>/<case>.json), so pages survive a refresh; git-ignored
+
+
+def run_path(pack, cid):
+    return RUNS / (pack or rulebook.DEFAULT) / f"{cid}.json"
+
+
+def save_run(pack, cid, trace):
+    p = run_path(pack, cid)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(json.dumps(trace, ensure_ascii=False, default=str), encoding="utf-8")
 # The Windows registry can map .js to text/plain, which browsers refuse for ES modules.
 mimetypes.add_type("application/javascript", ".js")
 mimetypes.add_type("font/woff2", ".woff2")
@@ -63,7 +73,7 @@ def classic():
 @app.get("/api/status")
 def status():
     return {"mode": config.MODE, "api_key": bool(config.keys_present()), "providers": config.keys_present(),
-            "preset": config.PRESET, "models": config.MODELS,
+            "preset": config.PRESET, "models": config.MODELS, "default_pack": rulebook.DEFAULT,
             "as_of": config.AS_OF.isoformat(), "languages": config.LANGUAGES}
 
 
@@ -140,8 +150,7 @@ def run(cid: str, lang: str = "", verifier: int = 1, engine: str = "auto", pack:
     def work():
         try:
             trace = pipeline.run(c, use_llm=use_llm, use_verifier=bool(verifier), lang=lang or None, on_event=q.put)
-            RUNS.mkdir(parents=True, exist_ok=True)
-            (RUNS / f"{cid}.json").write_text(json.dumps(trace, ensure_ascii=False, default=str), encoding="utf-8")
+            save_run(c.get("pack"), cid, trace)
             q.put({"event": "trace", "trace": trace})
         except Exception as e:  # surface errors to the UI instead of hanging the stream
             q.put({"event": "error", "error": f"{type(e).__name__}: {e}"})
@@ -160,11 +169,30 @@ def run(cid: str, lang: str = "", verifier: int = 1, engine: str = "auto", pack:
 
 
 @app.get("/api/cases/{cid}/last-run")
-def last_run(cid: str):
-    p = RUNS / f"{cid}.json"
+def last_run(cid: str, pack: str = ""):
+    p = run_path(pack, cid)
+    if not p.exists() and (pack or rulebook.DEFAULT) == rulebook.DEFAULT:
+        p = RUNS / f"{cid}.json"  # runs saved before runs were kept per pack
     if not p.exists():
-        raise HTTPException(404, "no saved run for this case")
+        raise HTTPException(404, "no saved run for this case under this policy")
     return json.loads(p.read_text(encoding="utf-8"))
+
+
+_impacts = {}
+
+
+@app.get("/api/policy-impact")
+def policy_impact(pack: str, base: str = ""):
+    """Every dataset case under `base` (default pack) and under `pack`, with the rules engine. Traces under `pack`
+    are saved as the case's run under that pack when it has none, so its case pages open straight away."""
+    base = base or rulebook.DEFAULT
+    if pack not in {p["id"] for p in rulebook.available()} or base not in {p["id"] for p in rulebook.available()}:
+        raise HTTPException(404, "unknown policy pack")
+    if (pack, base) not in _impacts:
+        cases = [json.loads(p.read_text(encoding="utf-8")) for p in sorted(CASES.glob("*.json"))]
+        keep = lambda cid, trace: run_path(pack, cid).exists() or pack == rulebook.DEFAULT or save_run(pack, cid, trace)
+        _impacts[(pack, base)] = impact.compare(cases, pack, base, save=keep)
+    return _impacts[(pack, base)]
 
 
 @app.get("/api/packs")
@@ -182,6 +210,7 @@ def get_pack(pack_id: str):
 
 @app.get("/api/plan")
 def get_plan(top_k: int = 40):
+    rulebook.use(None)  # the plan view is the plan's own (default) policy, whatever ran last on this thread
     return plan.plan(top_k)
 
 

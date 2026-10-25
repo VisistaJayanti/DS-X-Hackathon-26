@@ -1,7 +1,8 @@
-"""Verify every 'fetched_verbatim' rulebook quote appears verbatim in the downloaded source text.
+"""Verify every 'fetched_verbatim' rulebook quote appears verbatim in the downloaded source text, for every pack.
 
-Usage: python scripts/check_rulebook_quotes.py
-Requires sources_raw/fr_full.txt (Federal Register full text) and sources_raw/shvs.html.
+Usage: python scripts/check_rulebook_quotes.py [pack_id ...]
+Sources are read from sources_raw/: fr_full.txt (Federal Register full text), shvs.html, and any file a pack's
+rules.json names under _meta.sources.<key>.file (eCFR renderer output, PDF text, web pages).
 """
 import html
 import json
@@ -22,31 +23,31 @@ def norm(s):
     return re.sub(r"\s+([,.;:)])", r"\1", s).strip()
 
 
-def load_sources():
+def page_text(t):
+    t = re.sub(r"(?s)<script.*?</script>|<style.*?</style>", "", t)
+    return norm(html.unescape(re.sub(r"<[^>]+>", " ", t)))
+
+
+def load_sources(rb):
     src = {}
     fr = ROOT / "sources_raw" / "fr_full.txt"
     if fr.exists():
         src["FR"] = norm(fr.read_bytes().decode("utf-8", "ignore"))
     sh = ROOT / "sources_raw" / "shvs.html"
     if sh.exists():
-        t = sh.read_text(encoding="utf-8", errors="ignore")
-        t = re.sub(r"(?s)<script.*?</script>|<style.*?</style>", "", t)
-        src["SHVS"] = norm(html.unescape(re.sub(r"<[^>]+>", " ", t)))
-    # Any other source that names a downloaded "file" (eCFR renderer output, web pages) under sources_raw/.
-    rb = json.loads((ROOT / "packs" / "masshealth_ce_2027" / "rules.json").read_text(encoding="utf-8"))
+        src["SHVS"] = page_text(sh.read_text(encoding="utf-8", errors="ignore"))
     for key, meta in rb["_meta"]["sources"].items():
         f = ROOT / "sources_raw" / meta.get("file", "")
         if meta.get("file") and f.exists():
-            t = f.read_text(encoding="utf-8", errors="ignore")
-            t = re.sub(r"(?s)<script.*?</script>|<style.*?</style>", "", t)
-            src[key] = norm(html.unescape(re.sub(r"<[^>]+>", " ", t)))
+            src[key] = page_text(f.read_text(encoding="utf-8", errors="ignore"))
     return src
 
 
-def main():
-    rb = json.loads((ROOT / "packs" / "masshealth_ce_2027" / "rules.json").read_text(encoding="utf-8"))
-    src = load_sources()
+def check(pack_dir):
+    rb = json.loads((pack_dir / "rules.json").read_text(encoding="utf-8"))
+    src = load_sources(rb)
     bad = 0
+    print(f"== {pack_dir.name}")
     for r in rb["rules"]:
         if r["source_status"] != "fetched_verbatim":
             print(f"SKIP  {r['id']:<22} ({r['source_status']})")
@@ -61,6 +62,13 @@ def main():
                 ok = norm(r[key]) in text
                 bad += not ok
                 print(f"{'OK  ' if ok else 'FAIL'}  {r['id']:<22} {key}")
+    return bad
+
+
+def main():
+    wanted = set(sys.argv[1:])
+    packs = [d for d in sorted((ROOT / "packs").iterdir()) if (d / "rules.json").exists() and (not wanted or d.name in wanted)]
+    bad = sum(check(d) for d in packs)
     print(f"\n{bad} problem(s)")
     sys.exit(1 if bad else 0)
 
